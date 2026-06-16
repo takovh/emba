@@ -138,6 +138,7 @@ set_p02_default_exports() {
   export DJI_PRAK_DETECTED=0
   export DJI_XV4_DETECTED=0
   export WINDOWS_EXE=0
+  export YAFFS1_DETECTED=0
 }
 
 generate_entropy_graph() {
@@ -336,6 +337,12 @@ fw_bin_detector() {
     lUEFI_CHECK=0
     write_csv_log "EXT4 filesystem" "yes" "NA"
   fi
+  if [[ "${lFILE_BIN_OUT}" == *"YAFFS filesystem root entry (little endian), type root or directory, v1 root directory"* ]]; then
+    print_output "[+] Identified YAFFS filesystem root entry (little endian), type root or directory, v1 root directory - using YAFFS extraction module"
+    export YAFFS1_DETECTED=1
+    lUEFI_CHECK=0
+    write_csv_log "YAFFS v1 filesystem" "yes" "NA"
+  fi
   if [[ "${lQNAP_ENC_CHECK}" == *"QNAP encrypted firmware footer , model"* ]]; then
     print_output "[+] Identified QNAP encrpyted firmware - using QNAP extraction module"
     export QNAP_ENC_DETECTED=1
@@ -471,4 +478,5 @@ backup_p02_vars() {
   backup_var "BUFFALO_ENC_DETECTED" "${BUFFALO_ENC_DETECTED}"
   backup_var "ZYXEL_ZIP" "${ZYXEL_ZIP}"
   backup_var "QCOW_DETECTED" "${QCOW_DETECTED}"
+  backup_var "YAFFS1_DETECTED" "${YAFFS1_DETECTED}"
 }

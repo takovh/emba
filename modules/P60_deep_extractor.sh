@@ -247,6 +247,8 @@ deeper_extractor_threader() {
     qcow_extractor "${lFILE_TMP}" "${lFILE_TMP}_qemu_qcow_extracted"
   elif [[ "${BMC_ENC_DETECTED}" -ne 0 ]]; then
     bmc_extractor "${lFILE_TMP}" "${lFILE_TMP}_bmc_decrypted"
+  elif [[ "${YAFFS1_DETECTED}" -ne 0 ]]; then
+    yaffs1_extractor "${lFILE_TMP}" "${lFILE_TMP}_yaffs1_extracted"
   else
     # configure the extractor to use in the default configuration file
     # or via scanning profile

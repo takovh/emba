@@ -26,6 +26,7 @@ IP00_extractors(){
     print_git_info "payload_dumper" "EMBA-support-repos/payload_dumper" "Android OTA payload.bin extractor"
     print_git_info "smcbmc" "EMBA-support-repos/smcbmc" "Supermicro BMC firmware image decryptor"
     print_git_info "dji-firmware-tools" "EMBA-support-repos/dji-firmware-tools" "Tools for extracting, modding and re-packaging firmwares of DJI multirotor drones."
+    print_git_info "android-rom-extract" "takovh/android-rom-extract" "Android ROM extraction tools (extract yaffs2, etc.)"
     print_tool_info "python3-pycryptodome" 1
     # sometimes the python pip installation is needed - probably this will be solved in the future
     # probably it depends on the venv?!?
@@ -87,6 +88,14 @@ IP00_extractors(){
           cd external/dji-firmware-tools || ( echo "Could not install EMBA component dji-firmware-tools" && exit 1 )
           git pull
           cd "${HOME_PATH}" || ( echo "Could not install EMBA component dji-firmware-tools" && exit 1 )
+        fi
+
+        if ! [[ -d external/android-rom-extract ]]; then
+          git clone https://github.com/takovh/android-rom-extract.git external/android-rom-extract
+        else
+          cd external/android-rom-extract || ( echo "Could not install EMBA component android-rom-extract" && exit 1 )
+          git pull
+          cd "${HOME_PATH}" || ( echo "Could not install EMBA component android-rom-extract" && exit 1 )
         fi
 
         if ! [[ -f "./external/buffalo-enc.elf" ]] ; then
