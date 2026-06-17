@@ -171,7 +171,7 @@ EMBA 是一个基于 Bash（99%+）的固件安全分析器。
 | `${EMBA}/` → `/emba:ro` | 整个项目根目录 |
 | `${EMBA}/external/linux_kernel_sources/` → `/external/linux_kernel_sources:ro` | 内核源码 |
 | `${EMBA}/external/nvd-json-data-feeds/` → `/external/nvd-json-data-feeds:ro` | NVD 数据 |
-| `${EMBA}/external/android-rom-extract/extract_yaffs1.py` → `${EXT_DIR}/android-rom-extract/extract_yaffs1.py` | YAFFS 提取脚本 |
+| `${EMBA}/external/android-rom-extract/` → `${EXT_DIR}/android-rom-extract:ro` | 安卓镜像提取脚本 |
 
 其余自定义的 `external/` 下的文件 **没有被挂载** 到 `/external/`，因此在 Docker 下依赖这些工具的模块会因 `EXT_DIR="/external"` 而找不到文件。
 
@@ -273,12 +273,13 @@ fw_bin_detector() {
 
 以下是一些具体提取器及其功能示例：
 
-- **EXT文件系统解压器（`P14_ext_mounter.sh`）**
-- **Windows 可执行解压器（`P07_windows_exe_extract.sh`）**
-- **Foscam解密器（`P20_foscam_decryptor.sh`）**
-- **Unblob Extractor （`P55_unblob_extractor.sh`）**
-- **Binwalk Extractor（`P50_binwalk_extractor.sh`）**
-- **深度提取器（`P60_deep_extractor.sh`）**
+- EXT文件系统 Extractor（`P14_ext_mounter.sh`）
+- Windows 可执行文件 Extractor（`P07_windows_exe_extract.sh`）
+- Foscam Extractor（`P20_foscam_decryptor.sh`）
+- Android OTA Extractor（`P25_android_ota.sh`）, 支持 Android OTA payload.bin 文件解包
+- Unblob Extractor （`P55_unblob_extractor.sh`）
+- Binwalk Extractor（`P50_binwalk_extractor.sh`）
+- 深度递归 Extractor（`P60_deep_extractor.sh`）
 
 #### 3.取出后组织与分析：
  
