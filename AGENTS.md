@@ -265,7 +265,8 @@ fw_bin_detector() {
 }
 ```
 
-根据（用于识别文件类型的常用 Linux 命令）报告或其他内部检查，EMBA 会设置内部标志（如 或 ）。这些标志作为信号，提示下一步应激活专用的提取模块。EMBA还会生成固件的视觉“熵图”，有时可以揭示隐藏的加密部分。fileEXT_IMAGE=1VMDK_DETECTED=1
+根据 `file`（用于识别文件类型的常用 Linux 命令）报告或其他内部检查，EMBA 会设置内部标志（如 EXT_IMAGE=1 或 VMDK_DETECTED=1）。
+这些标志作为信号，提示下一步应激活专用的提取模块。EMBA还会生成固件的视觉“熵图”，有时可以揭示隐藏的加密部分。
 
 #### 2.专用提取：
 
@@ -285,17 +286,27 @@ fw_bin_detector() {
  
 初次取出后，EMBA尚未完成。接着：
     
-    - **修复权限和符号链接**：固件镜像在解压后常常丢失文件权限或符号链接断裂。辅助脚本修复这些问题，使提取后的文件更易用于后续分析。`helpers/fix_bins_lnk_emulation.sh`
-    - **识别根目录**：EMBA 尝试通过 找到 Linux 文件系统“主”部分在提取数据中的位置。这对于高效操作提取的固件至关重要。`helpers/helpers_emba_prepare.sh`
-    - **分析架构**：它扫描提取的可执行文件，以确定其CPU架构（如ARM、MIPS、x86）和字序值（数据存储在内存中的方式）。这些信息对于后续步骤如模拟至关重要。
+- **修复权限和符号链接**：固件镜像在解压后常常丢失文件权限或符号链接断裂。辅助脚本修复这些问题，使提取后的文件更易用于后续分析。`helpers/fix_bins_lnk_emulation.sh`
+- **识别根目录**：`detect_root_dir_helper()`（`helpers/helpers_emba_prepare.sh:617`）自动识别根文件系统，填充全局数组 `ROOT_PATH` 和标志 `RTOS`。
+
+  **ROOT_PATH** 存所有可能的根目录路径。全失败时以搜索路径自身为根目录并设 `RTOS=1`。
+
+  | 机制 | 说明 | 条件 |
+  |---|---|---|
+  | **二进制解释器** | 从 ELF 的 `interpreter` 字段（如 `/lib/ld-uClibc.so.0`）反推父目录为根目录 | `SBOM_MINIMAL=0` |
+  | **Busybox** | 通过 `bin/busybox` 路径反推根目录 | `SBOM_MINIMAL=0` |
+  | **Shell** | 通过 `bin/bash` / `bin/sh` 路径反推根目录 | `SBOM_MINIMAL=0` |
+  | **目录结构特征** | find 扫描 `sbin`/`bin`/`lib`/`etc`/`proc` 等标准目录，出现 ≥5 次才采纳 | 始终运行 |
+  | **兜底** | 全失败 → `RTOS=1`，以搜索路径本身作为根目录 | 仅无匹配时 |
+- **分析架构**：它扫描提取的可执行文件，以确定其CPU架构（如ARM、MIPS、x86）和字序值（数据存储在内存中的方式）。这些信息对于后续步骤如模拟至关重要。
+- **`binary_architecture_threader()`**（`helpers/helpers_emba_prepare.sh:170`）：各 P 模块在提取到二进制文件时异步调用此函数。它对每个 ELF 计算 MD5 去重，用 `readelf` 提取 Machine 类型、Class（32/64 位）、Data（字节序）、Flags 及 `.comment` 节推断的架构，追写到 `P99_CSV_LOG`。后续 `architecture_check()` 消费该 CSV，通过计数投票决定固件整体架构（`export ARCH`），并为分析后端填充数据。
 
 固件提取层设计为全面，确保 EMBA 能够获得设备内部软件的最完整视图。
 
 整个过程都是自动化的。你给EMBA输入固件文件，它会自动应用“解包”团队来准备分析。
 
-### 常见的固件类型和解压器
+### [常见的固件类型和解压器](https://github.com/e-m-b-a/emba/wiki/The-EMBA-book-%E2%80%90-Chapter-1%3A-Firmware-Extraction-Layer#common-firmware-types-and-extractors)
 
-[](https://github.com/e-m-b-a/emba/wiki/The-EMBA-book-%E2%80%90-Chapter-1%3A-Firmware-Extraction-Layer#common-firmware-types-and-extractors)
 
 这里有一张表格，总结了EMBA可以提取的一些常见固件类型及其使用的模块/工具：
 
@@ -324,6 +335,24 @@ fw_bin_detector() {
 - **`THREAD_PRIO` / `PRE_THREAD_ENA`**: 模块通过 source 时设置这些变量控制调度行为（优先级 / 是否启用线程）。
 - **并发控制**: `max_pids_protection` 限制并行模块数（`MAX_MODS`），默认 `nproc/2 + 1`，最少 2 个。
 
+
+### 预检查→提取器派发机制
+
+Pre-Checker → SpecializedExtractor 的派发采用**去中心化的自检模式**，分为两个层面：
+
+1. **调度引擎** — `emba:86` `run_modules()`  
+   在主流程 `emba:893` 调用 `run_modules "P"` 时，按 `find ... -name "P*_*.sh"` 查找所有 P 模块，依次 `source` 并调用各模块的 main 函数。
+
+2. **标志设定** — `modules/P02_firmware_bin_file_check.sh:158` `fw_bin_detector()`  
+   分析固件文件后设置 `export` 标志（`EXT_IMAGE`、`VMDK_DETECTED`、`UBI_IMAGE`、`DLINK_ENC_DETECTED`、`ENGENIUS_ENC_DETECTED`、`GPG_COMPRESS`、`ANDROID_OTA`、`ZYXEL_ZIP`、`QCOW_DETECTED`、`BSD_UFS`、`YAFFS1_DETECTED`、`OPENSSL_ENC_DETECTED`、`BUFFALO_ENC_DETECTED`、`BMC_ENC_DETECTED`、`QNAP_ENC_DETECTED`、`WINDOWS_EXE`、`AVM_DETECTED` 等）。
+
+3. **自检入口** — 各提取器模块在自己的 main 函数开头检查对应标志，条件不满足则跳过：
+   - `P14_ext_mounter.sh:22` — `if [[ "${EXT_IMAGE:-0}" -eq 1 ]]; then`
+   - `P10_vmdk_extractor.sh:23` — `if [[ "${VMDK_DETECTED:-0}" -eq 1 ]]; then`
+   - `P15_ubi_extractor.sh` — `if [[ "${UBI_IMAGE:-0}" -eq 1 ]]; then`
+   - 其他提取器同理
+
+**无中心化 switch/case**：`run_modules()` 不知道也不关心哪些提取器会被激活，每个提取器模块自己决定是否运行。`P02` 的 `backup_p02_vars()`（`P02_firmware_bin_file_check.sh:463`）在结束前将所有标志备份，供后续模块读取。
 
 ## 扫描配置文件
 `scan-profiles/*.emba`
@@ -359,6 +388,32 @@ fw_bin_detector() {
 | **模块控制** | `MODULE_BLACKLIST` | 黑名单模块（禁用） | 数组 |
 | | `SELECT_MODULES` | 白名单模块（仅启用指定模块） | 数组 |
 
+
+## P50/P55 跳过条件
+
+### P50_binwalk_extractor
+
+| 条件 | 位置 | 说明 |
+|---|---|---|
+| `UEFI_VERIFIED -eq 1` | `P50_binwalk_extractor.sh:34` | UEFI 固件已验证 |
+| `RTOS -eq 0` | `P50_binwalk_extractor.sh:34` | 已检测到 Linux 文件系统 |
+| `DJI_DETECTED -eq 1` | `P50_binwalk_extractor.sh:34` | 大疆固件（有专用 P40 处理） |
+| `WINDOWS_EXE -eq 1` | `P50_binwalk_extractor.sh:34` | Windows PE 固件（有 P07 处理） |
+| `FULL_EMULATION -eq 1` | `P50_binwalk_extractor.sh:46` | 全系统仿真模式下 binwalk 有符号链接问题，主动禁用 |
+| 输入是目录而非文件 | `P50_binwalk_extractor.sh:55-59` | `FIRMWARE_PATH_BAK` 是目录（应由深度提取器处理） |
+
+### P55_unblob_extractor
+
+| 条件 | 位置 | 说明 |
+|---|---|---|
+| `UEFI_VERIFIED -eq 1` | `P55_unblob_extractor.sh:27` | UEFI 固件已验证 |
+| `DISABLE_DEEP -eq 1` | `P55_unblob_extractor.sh:27` | 禁用了深度提取 |
+| `RTOS -eq 0` | `P55_unblob_extractor.sh:38` | 已检测到 Linux 文件系统，无需再解包 |
+| `UNBLOB -eq 0` | `P55_unblob_extractor.sh:49` | 通过 `unblob_disable.cfg` 或配置显式禁用 |
+| 输入是目录而非文件 | `P55_unblob_extractor.sh:61-64` | `FIRMWARE_PATH_BAK` 是目录（由深度提取器处理） |
+| `unblob` 命令未安装 | `P55_unblob_extractor.sh:67-69` | 依赖缺失 |
+
+共同逻辑：**一旦 `RTOS=0`（已识别为 Linux）就跳过**，因为提取阶段已结束。P50 额外在 `FULL_EMULATION` 下禁用，P55 多了 `DISABLE_DEEP` / `UNBLOB` 配置项和命令可用性检查。
 
 ## 其他
 

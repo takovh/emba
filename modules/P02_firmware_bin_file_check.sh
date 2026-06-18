@@ -139,6 +139,7 @@ set_p02_default_exports() {
   export DJI_XV4_DETECTED=0
   export WINDOWS_EXE=0
   export YAFFS1_DETECTED=0
+  export ROCKCHIP_DETECTED=0
 }
 
 generate_entropy_graph() {
@@ -425,6 +426,12 @@ fw_bin_detector() {
     lUEFI_CHECK=0
     write_csv_log "Android OTA update" "yes" "NA"
   fi
+  if [[ "${lFILE_BIN_OUT}" == *"data"* && ("${lHEX_FIRST_LINE}" == *"RKAF"* || "${lHEX_FIRST_LINE}" == *"RKFW"* || "${lHEX_FIRST_LINE}" == *"RKFP"*) ]]; then
+    print_output "[+] Identified Rockchip Android firmware image - using Rockchip extraction module"
+    export ROCKCHIP_DETECTED=1
+    lUEFI_CHECK=0
+    write_csv_log "Rockchip firmware" "yes" "NA"
+  fi
   if [[ "${lFILE_BIN_OUT}" == *"openssl enc'd data with salted password"* ]]; then
     print_output "[+] Identified OpenSSL encrypted file - trying OpenSSL module for Foscam firmware"
     export OPENSSL_ENC_DETECTED=1
@@ -479,4 +486,5 @@ backup_p02_vars() {
   backup_var "ZYXEL_ZIP" "${ZYXEL_ZIP}"
   backup_var "QCOW_DETECTED" "${QCOW_DETECTED}"
   backup_var "YAFFS1_DETECTED" "${YAFFS1_DETECTED}"
+  backup_var "ROCKCHIP_DETECTED" "${ROCKCHIP_DETECTED}"
 }
