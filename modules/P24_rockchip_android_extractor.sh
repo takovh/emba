@@ -58,7 +58,7 @@ rockchip_extractor() {
   print_output "[*] Extracting Rockchip Android firmware image ..."
   print_ln
 
-  python3 "${EXT_DIR}"/android-rom-extract/rkunpack.py -r -o "${lEXTRACTION_DIR_}" "${lFIRMWARE_PATH_}" | tee -a "${LOG_FILE}"
+  python3 "${EXT_DIR}"/android-rom-extract/rkunpack.py -o "${lEXTRACTION_DIR_}" "${lFIRMWARE_PATH_}" | tee -a "${LOG_FILE}"
 
   mapfile -t lFILES_ARR < <(find "${lEXTRACTION_DIR_}" -type f ! -name "*.raw")
 

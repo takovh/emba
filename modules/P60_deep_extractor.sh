@@ -249,6 +249,8 @@ deeper_extractor_threader() {
     bmc_extractor "${lFILE_TMP}" "${lFILE_TMP}_bmc_decrypted"
   elif [[ "${YAFFS1_DETECTED}" -ne 0 ]]; then
     yaffs1_extractor "${lFILE_TMP}" "${lFILE_TMP}_yaffs1_extracted"
+  elif [[ "${ROCKCHIP_DETECTED}" -ne 0 ]]; then
+    rockchip_extractor "${lFILE_TMP}" "${lFILE_TMP}_rockchip_extracted"
   else
     # configure the extractor to use in the default configuration file
     # or via scanning profile
