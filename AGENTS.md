@@ -324,7 +324,7 @@ fw_bin_detector() {
 | Zyxel Encrypted ZIP                               | `.ri` file + specific ELF executable | `P22_Zyxel_zip_decrypt.sh`   | `qemu-user`, `7z`                  |
 | QEMU QCOW2 Image                                  | `file` output contains "QEMU QCOW2"  | `P23_qemu_qcow_mounter.sh`   | `qemu-nbd`                         |
 | Compressed (GPG) Firmware                         | Specific GPG header bytes            | `P17_gpg_decompress.sh`      | `gpg`                              |
-| Package Archives (`.deb`, `.apk`, `.ipk`, `.rpm`) | Filename extension, file type        | `P65_package_extractor.sh`   | `dpkg-deb`, , `unzip``cpio`        |
+| Package Archives (`.deb`, `.apk`, `.ipk`, `.rpm`) | Filename extension, file type        | `P65_package_extractor.sh`   | `dpkg-deb`, `unzip`, `cpio`        |
 
 
 ### 调度

@@ -7,7 +7,8 @@ main() {
   # local firmware="${firmware_base_path}/miui_COROT_V14.0.14.0.TMLCNXM_0c4fddade3_13.0.zip"
   # local firmware="${firmware_base_path}/payload.bin"
   # local firmware="${firmware_base_path}/Xiaomi_Updater_v1012_A10.exe"
-  local firmware="${firmware_base_path}/smdt_3288A_userdebug_20250305_235357.img"
+  # local firmware="${firmware_base_path}/smdt_3288A_userdebug_20250305_235357.img"
+  local firmware="${firmware_base_path}/smdt_6323se_android_20260428_170559.zip"
   local emba_path="/home/gst/yzhang/emba"
   local output_dir="/home/gst/yzhang/emba-log/$(date +%Y%m%d%H%M%S)"
   echo "固件："${firmware}
