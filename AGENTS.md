@@ -415,6 +415,111 @@ Pre-Checker → SpecializedExtractor 的派发采用**去中心化的自检模�
 
 共同逻辑：**一旦 `RTOS=0`（已识别为 Linux）就跳过**，因为提取阶段已结束。P50 额外在 `FULL_EMULATION` 下禁用，P55 多了 `DISABLE_DEEP` / `UNBLOB` 配置项和命令可用性检查。
 
+## SBOM 生成流程
+
+### 数据存储
+
+所有 SBOM 数据写入 `${LOG_DIR}/SBOM/`（`SBOM_LOG_PATH`，定义于 `helpers/helpers_emba_defaults.sh:198`）。每个软件组件一个独立 JSON 文件，命名规则：
+
+```
+{packaging_system}_{app_name}_{bom_ref}.json
+```
+
+最终输出：`EMBA_cyclonedx_sbom.json`（CycloneDX 1.5 格式），由 F15 合并生成。
+
+### 核心辅助库：`helpers/helpers_emba_sbom_helpers.sh`
+
+所有模块通过以下三个函数写入 SBOM，不直接操作 JSON 文件：
+
+| 函数 | 作用 |
+|---|---|
+| `build_sbom_json_hashes_arr()` | 计算 SHA-512/MD5；实时去重（相同哈希跳过；名称+版本相似时合并到已有条目） |
+| `build_sbom_json_properties_arr()` | 构建 properties 数组（来源、置信度、文件路径等元数据） |
+| `build_sbom_json_component_arr()` | 用 `jo` 序列化，写入 `SBOM_LOG_PATH/*.json` |
+
+### 数据收集模块
+
+**`S06_distribution_identification.sh`** — 识别 OS 发行版，写入 OS 级别 SBOM 组件（`packaging_system=os_release`）。
+
+**`S08_main_package_sbom.sh`** — 包管理系统核心入口，并行调度 18 个子模块：
+
+| 子模块 | 数据来源 |
+|---|---|
+| `S08_submodule_debian_pkg_mgmt_parser.sh` | `/var/lib/dpkg/status` |
+| `S08_submodule_rpm_pkg_mgmt_parser.sh` | RPM 数据库 |
+| `S08_submodule_openwrt_pkg_mgmt_parser.sh` | OpenWrt `opkg` |
+| `S08_submodule_alpine_apk_package_parser.sh` | Alpine `*.apk` 归档文件 |
+| `S08_submodule_apk_pkg_mgmt_parser.sh` | Alpine `apk/db/installed`（包管理器数据库） |
+| `S08_submodule_java_archives_parser.sh` | JAR/WAR/AAR |
+| `S08_submodule_nodejs_pcklockparser.sh` | `package-lock.json` |
+| `S08_submodule_python_pip_package_mgmt_parser.sh` | pip installed |
+| `S08_submodule_python_requirements_parser.sh` | `requirements.txt` |
+| `S08_submodule_python_pipfile_lock.sh` | `Pipfile.lock` |
+| `S08_submodule_python_poetry_lock_parser.sh` | `poetry.lock` |
+| `S08_submodule_php_composer_lock.sh` | `composer.lock` |
+| `S08_submodule_perl_cpan_parser.sh` | CPAN 元数据 |
+| `S08_submodule_ruby_gem_archive_parser.sh` | `.gem` 文件 |
+| `S08_submodule_rust_cargo_lock_parser.sh` | `Cargo.lock` |
+| `S08_submodule_c_conanfile_txt_parser.sh` | `conanfile.txt` |
+| `S08_submodule_windows_exifparser.sh` | Windows PE ExifTool |
+| `S08_submodule_sinamics_version_xml_parser.sh` | 西门子 XML |
+
+子模块完成后，`build_dependency_tree()` 构建组件依赖关系图。
+
+**子模块统一工作模式（三步）：**
+
+1. **定位包文件** — 大多数子模块从 `P99_CSV_LOG`（P99 阶段预建的固件文件索引）按关键词过滤，避免重复 `find` 扫描：
+   - `debian_pkg_mgmt`：`grep "dpkg/status" "${P99_CSV_LOG}"`
+   - `nodejs`：`grep "/package.*json;" "${P99_CSV_LOG}"`
+   - `java_archives`：`grep "\.jar;\|\.war;" "${P99_CSV_LOG}"`
+   - `windows_exifparser`：`grep "PE32\|MSI" "${P99_CSV_LOG}"`
+   - 少数例外（如 `python_pip`）直接 `find` 固件目录查 `site-packages`/`dist-packages`
+
+2. **解析包元数据** — 按各自格式提取字段（名称、版本、许可证、维护者、依赖等）：
+   - 文本格式（`dpkg/status`、`METADATA`、`composer.lock` 等）：shell/jq 解析
+   - 数据库格式（RPM）：调用 `rpm -qi/qR --dbpath`
+   - 二进制格式（Windows PE）：调用 `exiftool` 提取
+
+3. **写入 SBOM** — 统一调用辅助函数，先去重再写入：
+   ```bash
+   build_sbom_json_hashes_arr "${lPACKAGE_FILE}" "${lPACKAGE}" "${lVERSION}" "${lPACKAGING_SYSTEM}"
+   build_sbom_json_component_arr "${lPACKAGING_SYSTEM}" "${lAPP_TYPE}" "${lPACKAGE}" \
+     "${lVERSION}" "${lMaintainer}" "${lLicense}" "${lCPE}" "${lPURL}" "${lDesc}"
+   ```
+
+**`S09_firmware_base_version_check.sh`** — 通过 `config/bin_version_identifiers/*.json` 规则匹配二进制版本字符串：
+- 匹配成功 → 写入具名 SBOM 组件
+- 匹配失败 → 根据 `SBOM_UNTRACKED_FILES` 写入 `unhandled_file_*.json`（`1`=仅 ELF，`2`=全部文件）
+
+**`S25_kernel_check.sh`** — 识别内核版本和内核模块，写入 kernel 相关 SBOM 条目。
+
+### 报告模块
+
+| 模块 | 功能 |
+|---|---|
+| `F10_license_summary.sh` | 读取 `SBOM_LOG_PATH/*.json`，汇总许可证清单 |
+| `F15_cyclonedx_sbom.sh` | 核心输出：合并所有组件 JSON → `EMBA_cyclonedx_sbom.json`（CycloneDX 1.5）；`SBOM_UNTRACKED_FILES>0` 时包含 `unhandled_file_*` 条目 |
+| `F17_cve_bin_tool.sh` | 基于 SBOM 组件列表做 CVE 匹配；跳过 `unhandled_file` 来源条目 |
+
+`Q20_dependency_track_connector.sh`：等待 `EMBA_cyclonedx_sbom.json` 就绪后，HTTP POST 上传到 Dependency Track 平台（可选）。
+
+### 流程概要
+
+```
+P 阶段（固件提取）
+    ↓
+S06 → OS 发行版组件
+S08 → 18 个包管理子模块（并行）        ┐
+S09 → 二进制版本字符串 + unhandled_file  ├─ 写入 SBOM_LOG_PATH/*.json（每组件一文件）
+S25 → 内核版本 + 内核模块              ┘
+    ↓（每次写入时实时去重）
+F10 → 许可证汇总
+F15 → 合并 → EMBA_cyclonedx_sbom.json
+F17 → CVE 漏洞匹配
+    ↓
+Q20 → 上传 Dependency Track（可选）
+```
+
 ## 其他
 
 - 无格式化工具、无 pre-commit 钩子、无类型检查器、无 monorepo 工具。
