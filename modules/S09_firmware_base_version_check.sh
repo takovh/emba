@@ -18,14 +18,22 @@
 #               (e.g. busybox:binary:"BusyBox\ v[0-9]\.[0-9][0-9]\.[0-9]\ .*\ multi-call\ binary" ) of all executables and
 #               checks if these fit on a binary in the firmware.
 #               The version configuration files are stored in config/bin_version_identifiers
+#
+# 描述: 遍历包含版本详情正则标识符的列表
+#               (例如 busybox:binary:"BusyBox\ v[0-9]\.[0-9][0-9]\.[0-9]\ .*\ multi-call\ binary" )，对所有可执行文件
+#               检查固件中的二进制文件是否匹配这些标识符。
+#               版本配置文件存储在 config/bin_version_identifiers 目录中
 
 # Threading priority - if set to 1, these modules will be executed first
+# 线程优先级 - 设为 1 时，该模块将优先执行
 export THREAD_PRIO=1
 
 S09_firmware_base_version_check() {
 
   # this module check for version details statically.
   # this module is designed for *x based systems
+  # 本模块静态检查版本详情
+  # 本模块针对基于 *x 的系统设计
 
   module_log_init "${FUNCNAME[0]}"
   module_title "Static binary firmware versions detection"
@@ -52,6 +60,7 @@ S09_firmware_base_version_check() {
 
   local lFILE_ARR_TMP=()
   # P99 csv log is already unique but it has a lot of non binary files in it -> we pre-filter it now
+  # P99 csv 日志已经是唯一的，但包含大量非二进制文件 -> 现在进行预过滤
   export FILE_ARR=()
   mapfile -t FILE_ARR < <(grep -v "\/\.git\|Git\ pack\|image\ data\|ASCII\ text\|Unicode\ text\|\ compressed\ data\|\ archive" "${P99_CSV_LOG}" | cut -d ';' -f2 | sort -u || true)
   local lFILE=""
@@ -63,21 +72,30 @@ S09_firmware_base_version_check() {
   # 2 -> low
   # 3 -> medium
   # 4 -> high
+  # 设置默认置信度级别
+  # 1 -> very-low (极低)
+  # 2 -> low (低)
+  # 3 -> medium (中)
+  # 4 -> high (高)
   export CONFIDENCE_LEVEL=3
 
   if [[ " ${MODULES_EXPORTED[*]} " == *S08* ]]; then
     print_output "[*] Checking for common package manager environments to optimize static version detection"
+    # 检查常见包管理器环境以优化静态版本检测
     # Debian:
     find "${LOG_DIR}"/firmware -path "*dpkg/info/*.list" -type f -print0|xargs -r -0 -P 16 -I % sh -c 'cat "%"' | sort -u > "${LOG_PATH_MODULE}"/debian_known_files.txt || true
     # the extracted packages are used to further limit the static tests
+    # 提取的包信息用于进一步限制静态测试范围
     find "${LOG_DIR}"/firmware -path "*dpkg/status" -type f -exec grep "^Package: " {} \; | awk '{print $2}' | sort -u > "${LOG_PATH_MODULE}"/debian_known_packages.txt || true
     # OpenWRT
     find "${LOG_DIR}"/firmware -path "*opkg/info/*.list" -type f -print0|xargs -r -0 -P 16 -I % sh -c 'cat "%"' | sort -u > "${LOG_PATH_MODULE}"/openwrt_known_files.txt || true
     find "${LOG_DIR}"/firmware -path "*opkg/status" -type f -exec grep "^Package: " {} \; | awk '{print $2}' | sort -u > "${LOG_PATH_MODULE}"/openwrt_known_packages.txt || true
     # Todo: rpm
+    # 待办: rpm 包管理器支持
     # lRPM_DIR=$(find "${LOG_DIR}"/firmware -xdev -path "*rpm/Package" -type f -exec dirname {} \; | sort -u || true)
     # lRPM_DIR=$(find "${LOG_DIR}"/firmware -xdev -path "*rpm/rpmdb.sqlite" -type f -exec dirname {} \; | sort -u || true)
     # get all packages in array and run through them to extract all paths
+    # 获取所有包到数组中并遍历提取所有路径
     # rpm -ql --dbpath "${lRPM_DIR}" "${lPACKAGE_AND_VERSION}"
 
     if [[ -f "${LOG_PATH_MODULE}"/debian_known_files.txt ]]; then
@@ -114,6 +132,9 @@ S09_firmware_base_version_check() {
       # we have now all our filesystem bins in "${P99_CSV_LOG}"
       # we have the matching filesystem bin in "${LOG_PATH_MODULE}"/known_system_files.txt
       # now we just need to do a diff on them and we should have only the non matching files
+      # 我们现在在 "${P99_CSV_LOG}" 中有所有文件系统二进制文件
+      # 在 "${LOG_PATH_MODULE}"/known_system_files.txt 中有匹配的文件系统二进制文件
+      # 现在只需要做差异对比，应该只剩下不匹配的文件
       comm -23 "${LOG_PATH_MODULE}/firmware_binaries_sorted.txt" "${LOG_PATH_MODULE}"/known_system_pkg_files_sorted.txt > "${LOG_PATH_MODULE}"/known_system_files_diffed.txt || true
       mapfile -t lFILE_ARR_TMP < "${LOG_PATH_MODULE}"/known_system_files_diffed.txt
 
@@ -127,9 +148,11 @@ S09_firmware_base_version_check() {
         for lFILE in "${lFILE_ARR_TMP[@]}"; do
           if [[ "${lFILE}" =~ .*\.padding$ || "${lFILE}" =~ .*\.unknown$ || "${lFILE}" =~ .*\.uncompressed$ || "${lFILE}" =~ .*\.raw$ || "${lFILE}" =~ .*\.elf$ || "${lFILE}" =~ .*\.decompressed\.bin$ || "${lFILE}" =~ .*__symbols__.* ]]; then
             # binwalk and unblob are producing multiple files that are not relevant for the SBOM and can skip them here
+            # binwalk 和 unblob 生成的多个文件与 SBOM 无关，可以跳过
             continue
           elif grep -F "${lFILE}" "${P99_CSV_LOG}" | cut -d ';' -f8 | grep -q "text\|compressed\|archive\|empty\|Git\ pack"; then
             # extract the stored file details and match it against some patterns we do not further process:
+            # 提取存储的文件详情并匹配我们不再处理的模式
             continue
           fi
           # print_output "$(indent "$(orange "${lFILE}")")"
@@ -147,6 +170,7 @@ S09_firmware_base_version_check() {
   fi
 
   # lets start generating the strings from all our relevant binaries
+  # 开始从所有相关二进制文件生成字符串
   print_output "[*] Generate strings overview for static version analysis of ${ORANGE}${#FILE_ARR[@]}${NC} files ..."
   if ! [[ -d "${LOG_PATH_MODULE}"/strings_bins ]]; then
     mkdir "${LOG_PATH_MODULE}"/strings_bins || true 2>/dev/null
@@ -193,6 +217,7 @@ S09_firmware_base_version_check() {
 S09_identifier_threadings() {
   local lVERSION_JSON_CFG="${1:-}"
 
+  # 从 JSON 配置文件中解析版本标识符信息
   local lAPP_NAME=""
   local lAPP_VERS=""
   local lAPP_MAINT=""
@@ -216,6 +241,7 @@ S09_identifier_threadings() {
 
   mapfile -t lPARSING_MODE_ARR < <(jq -r .parsing_mode[] "${lVERSION_JSON_CFG}")
   # print_output "[*] Testing json config ${ORANGE}${lVERSION_JSON_CFG}${NC}" "no_log"
+  # 解析模式数组（strict/zgrep/normal/multi_grep 等）
   local lRULE_IDENTIFIER=""
   lRULE_IDENTIFIER=$(jq -r .identifier "${lVERSION_JSON_CFG}" || print_error "[-] Error in parsing ${lVERSION_JSON_CFG}")
   mapfile -t lLICENSES_ARR < <(jq -r .licenses[] "${lVERSION_JSON_CFG}" 2>/dev/null || true)
@@ -225,9 +251,11 @@ S09_identifier_threadings() {
   # shellcheck disable=SC2034
   mapfile -t lCSV_REGEX_ARR < <(jq -r .version_extraction[] "${lVERSION_JSON_CFG}" 2>/dev/null || true)
   if [[ "${lPARSING_MODE_ARR[*]}" == *"strict"* ]]; then
+    # 严格模式: 仅在指定路径的二进制文件上使用正则表达式
     mapfile -t lSTRICT_VERSION_IDENTIFIER_ARR < <(jq -r .strict_grep_commands[] "${lVERSION_JSON_CFG}" 2>/dev/null || true)
   fi
   if [[ "${lPARSING_MODE_ARR[*]}" == *"zgrep"* ]]; then
+    # zgrep 模式: 使用 zgrep 搜索压缩文件中的版本信息
     mapfile -t lZGREP_VERSION_IDENTIFIER_ARR < <(jq -r .zgrep_grep_commands[] "${lVERSION_JSON_CFG}" 2>/dev/null || true)
   fi
   mapfile -t lVERSION_IDENTIFIER_ARR < <(jq -r .grep_commands[] "${lVERSION_JSON_CFG}" 2>/dev/null || true)
@@ -241,9 +269,12 @@ S09_identifier_threadings() {
   # echo "lAFFECTED_PATHS_ARR: ${lAFFECTED_PATHS_ARR[*]}"
 
   # Todo: handle rpm based systems
+  # 待办: 处理基于 rpm 的系统
   if [[ -f "${LOG_PATH_MODULE}"/debian_known_packages.txt || -f "${LOG_PATH_MODULE}"/openwrt_known_packages.txt ]]; then
     # Check all the product names that are configured in our json against the known files
     # if we have a match we can skip this detection and move on with the next json rule file
+    # 检查 json 配置中的所有产品名称是否在已知文件中
+    # 如果匹配，可以跳过此检测，继续下一个 json 规则文件
     for lPRODUCT_NAME in "${lPRODUCT_NAME_ARR[@]}"; do
       if [[ -s "${LOG_PATH_MODULE}"/debian_known_packages.txt ]]; then
         if grep -q "^${lPRODUCT_NAME}" "${LOG_PATH_MODULE}"/debian_known_packages.txt; then
@@ -265,6 +296,7 @@ S09_identifier_threadings() {
   if [[ -f "${S09_CSV_LOG}" ]]; then
     # this should prevent double checking - if a version identifier was already successful we do not need to
     # test the other identifiers. In threaded mode this usually does not decrease testing speed.
+    # 这应该防止重复检查 - 如果版本标识符已成功，我们不需要测试其他标识符。在多线程模式下通常不会降低测试速度。
     if [[ "$(tail -n +2 "${S09_CSV_LOG}" | cut -d\; -f4 | grep -c "^${lRULE_IDENTIFIER}$")" -gt 0 ]]; then
       print_output "[*] Already identified component for identifier ${lRULE_IDENTIFIER} ... skipping further tests" "no_log"
       # continue
@@ -274,7 +306,9 @@ S09_identifier_threadings() {
 
   if [[ "${lPARSING_MODE_ARR[*]}" == *"strict"* ]]; then
     # strict mode
+    # 严格模式
     #   use the defined regex only on a binary with path/name from lAFFECTED_PATHS_ARR
+    #   仅对路径/名称来自 lAFFECTED_PATHS_ARR 的二进制文件使用定义的正则表达式
     local lSTRICT_BINS_ARR=()
     local lBIN_ARCH=""
     local lBINARY_ENTRY=""
@@ -284,6 +318,7 @@ S09_identifier_threadings() {
     [[ "${RTOS}" -eq 1 ]] && return
 
     # we create an array with testing candidates based on the paths from the json configuration
+    # 根据 json 配置中的路径创建测试候选数组
     for lAPP_NAME in "${lAFFECTED_PATHS_ARR[@]}"; do
       local lSTRICT_BINS_ARR_TMP=()
       mapfile -t lSTRICT_BINS_ARR_TMP < <(grep "/${lAPP_NAME#/}" "${P99_CSV_LOG}" | sort -u || true)
@@ -291,11 +326,14 @@ S09_identifier_threadings() {
     done
 
     # before moving on we need to ensure our strings files are generated:
+    # 继续之前需要确保字符串文件已生成
     [[ "${THREADED}" -eq 1 ]] && wait_for_pid "${WAIT_PIDS_S09_1[@]}"
 
     for lBINARY_ENTRY in "${lSTRICT_BINS_ARR[@]}"; do
       # as the STRICT_BINS array could also include other files we have to check for ELF files now
       # This information is already stored in P99_CSV_LOG and in our lBINARY_ENTRY details
+      # 由于 STRICT_BINS 数组可能包含其他文件，现在需要检查 ELF 文件
+      # 此信息已存储在 P99_CSV_LOG 和 lBINARY_ENTRY 详情中
       lBIN_FILE_DETAILS=$(echo "${lBINARY_ENTRY}" | cut -d ';' -f8)
       if [[ "${lBIN_FILE_DETAILS}" == *"ELF"* ]] ; then
         # print_output "[*] Checking for strict bin ${lBINARY_ENTRY} - rule: ${lRULE_IDENTIFIER}" "no_log"
@@ -325,10 +363,14 @@ S09_identifier_threadings() {
 
   if [[ "${lPARSING_MODE_ARR[*]}" == *"zgrep"* ]]; then
     # zgrep mode:
+    # zgrep 模式:
     #   search for files configured in json config
+    #   搜索 json 配置中配置的文件
     #   use zgrep regex via zgrep on these files
+    #   对这些文件使用 zgrep 正则表达式
 
     # we create an array with testing candidates based on the paths from the json configuration
+    # 根据 json 配置中的路径创建测试候选数组
     for lAPP_NAME in "${lAFFECTED_PATHS_ARR[@]}"; do
       local lZGREP_BINS_ARR_TMP=()
       mapfile -t lZGREP_BINS_ARR_TMP < <(grep "/${lAPP_NAME#/}" "${P99_CSV_LOG}" | sort -u || true)
@@ -356,24 +398,30 @@ S09_identifier_threadings() {
   fi
 
   # This is the default mode!
+  # 这是默认模式！
   if [[ "${lPARSING_MODE_ARR[*]}" == *"normal"* ]]; then
     print_dot
     # print_output "[*] FIRMWARE: ${FIRMWARE} / RTOS: ${RTOS} / FIRMWARE_PATH: ${FIRMWARE_PATH} / FIRMWARE_PATH_BAK: ${FIRMWARE_PATH_BAK}" "no_log"
 
     # original firmware file:
+    # 原始固件文件:
     if [[ ${RTOS} -eq 1 && -f "${FIRMWARE_PATH_BAK}" ]]; then
       # in RTOS mode we also test the original firmware file
+      # 在 RTOS 模式下，我们也测试原始固件文件
 
       lMD5_SUM=$(md5sum "${FIRMWARE_PATH_BAK}")
       lMD5_SUM="${lMD5_SUM/\ *}"
       lAPP_NAME="$(basename "${FIRMWARE_PATH_BAK}")"
       local lSTRINGS_OUTPUT="${LOG_PATH_MODULE}"/strings_bins/strings_"${lMD5_SUM}"_"${lAPP_NAME}".txt
       # generate strings output if not already available:
+      # 如果字符串输出不可用，则生成字符串输出
       if ! [[ -f "${lSTRINGS_OUTPUT}" ]]; then
         generate_strings "${FIRMWARE_PATH_BAK}"
       fi
       # if we were able to generate the strings we can now analyse these strings
       # if no strings available ... go ahead and test all the bins against our identifiers
+      # 如果能够生成字符串，我们现在可以分析这些字符串
+      # 如果没有可用的字符串...继续测试所有二进制文件是否匹配我们的标识符
       if [[ -f "${lSTRINGS_OUTPUT}" ]]; then
         for lVERSION_IDENTIFIER in "${lVERSION_IDENTIFIER_ARR[@]}"; do
           # print_output "[*] Testing identifier ${lVERSION_IDENTIFIER} for RTOS firmware" "no_log"
@@ -382,6 +430,7 @@ S09_identifier_threadings() {
             print_ln "no_log"
             print_output "[+] Version information found ${RED}${lVERSION_IDENTIFIED}${NC}${GREEN} in original firmware file (license: ${ORANGE}${lLICENSES_ARR[*]}${GREEN}) (${ORANGE}static - firmware${GREEN})."
             # this is a little hack to get the original firmware look like a typical EMBA P99 entry
+            # 这是一个小技巧，使原始固件看起来像典型的 EMBA P99 条目
             lBIN_FILE_DETAILS=$(file -b "${FIRMWARE_PATH_BAK}")
             lBINARY_ENTRY="S09_tmp_entry_for_RTOS_detection;${FIRMWARE_PATH_BAK};3;4;5;6;7;${lBIN_FILE_DETAILS};${lMD5_SUM}"
             if version_parsing_logging "${S09_CSV_LOG}" "S09_firmware_base_version_check" "${lVERSION_IDENTIFIED}" "${lBINARY_ENTRY}" "${lRULE_IDENTIFIER}" "lVENDOR_NAME_ARR" "lPRODUCT_NAME_ARR" "lLICENSES_ARR" "lCSV_REGEX_ARR"; then
@@ -394,10 +443,13 @@ S09_identifier_threadings() {
     fi
 
     # The following area is responsible to check all binaries against our version database:
+    # 以下区域负责检查所有二进制文件是否匹配我们的版本数据库
 
     [[ "${THREADED}" -eq 1 ]] && wait_for_pid "${WAIT_PIDS_S09_1[@]}"
     # this will burn the CPU but in most cases the time of testing is cut into half
+    # 这会占用大量 CPU，但在大多数情况下测试时间会减半
     # TODO: change to local vars via parameters - this is ugly as hell!
+    # 待办: 通过参数更改为局部变量 - 这太糟糕了！
     local lVERSION_IDENTIFIER=""
     for lVERSION_IDENTIFIER in "${lVERSION_IDENTIFIER_ARR[@]}"; do
       # print_output "[*] Calling with ${lVERSION_IDENTIFIER}" "no_log"
@@ -414,6 +466,7 @@ S09_identifier_threadings() {
 }
 
 version_parsing_logging() {
+  # 版本解析和日志记录函数
   local lCSV_TO_LOG="${1:-}"
   local lSRC_MODULE="${2:-}"
   local lVERSION_IDENTIFIED="${3:-}"
@@ -450,11 +503,13 @@ version_parsing_logging() {
 
     lAPP_MAINT=$(echo "${lCSV_RULE}" | cut -d ':' -f2)
     # lAPP_NAME is the name from the json configuration
+    # lAPP_NAME 是来自 json 配置的名称
     lAPP_NAME=$(echo "${lCSV_RULE}" | cut -d ':' -f3)
     lAPP_VERS=$(echo "${lCSV_RULE}" | cut -d ':' -f4-5)
 
     if [[ "${lCSV_RULE}" != *":"*":"*":"* ]]; then
       # our csv rule not working ... continue with the next rule
+      # 我们的 csv 规则不起作用...继续下一个规则
       print_output "[*] CSV_REGEX (${lCSV_REGEX}) was not working for this version ... testing next regex" "no_log"
       continue
     fi
@@ -474,16 +529,20 @@ version_parsing_logging() {
 
     if [[ -z "${lAPP_MAINT}" ]]; then
       # if we have no vendor/maintainer we are going to set it to the first entry of our config
+      # 如果没有供应商/维护者，我们将设置为配置中的第一个条目
       lAPP_MAINT="${lrVENDOR_NAME_ARR_ref[0]}"
     fi
     if [[ -z "${lAPP_NAME}" ]]; then
       # if we have no product_name we are going to set it to the first entry of our config
+      # 如果没有 product_name，我们将设置为配置中的第一个条目
       # This should not happen but we will need some functionality like this in the future
+      # 这不应该发生，但我们将来需要类似的功能
       lAPP_NAME="${lrPRODUCT_NAME_ARR_ref[0]}"
       lCSV_RULE="::${lAPP_NAME}:${lAPP_VERS}"
     fi
 
     # add source file path information to our properties array:
+    # 将源文件路径信息添加到我们的属性数组
     local lPROP_ARRAY_INIT_ARR=()
     if [[ "${lBINARY_ENTRY}" != "NA" ]]; then
       lPROP_ARRAY_INIT_ARR+=( "source_path:${lBINARY_PATH}" )
@@ -493,9 +552,11 @@ version_parsing_logging() {
     lPROP_ARRAY_INIT_ARR+=( "identifer_detected:${lVERSION_IDENTIFIED}" )
 
     # minimal identifier is deprecated and will be replaced in the future
+    # 最小标识符已弃用，将来会被替换
     lPROP_ARRAY_INIT_ARR+=( "minimal_identifier:${lCSV_RULE}" )
 
     # lets store the vendor names and product names for later vulnerability identification
+    # 存储供应商名称和产品名称，用于后续漏洞识别
     for lPNAME in "${lrPRODUCT_NAME_ARR_ref[@]}"; do
       lPROP_ARRAY_INIT_ARR+=( "product_name:${lPNAME}" )
     done
@@ -505,10 +566,12 @@ version_parsing_logging() {
     lPROP_ARRAY_INIT_ARR+=( "confidence:$(get_confidence_string "${CONFIDENCE_LEVEL:-0}")" )
 
     # build the dependencies based on linker details
+    # 基于链接器详情构建依赖关系
     if [[ "${lBIN_FILE_DETAILS:-NA}" == *"dynamically linked"* ]]; then
       local lBIN_DEPS_ARR=()
       local lBIN_DEPENDENCY=""
       # now we can create the dependencies based on ldd
+      # 现在可以根据 ldd 创建依赖关系
       mapfile -t lBIN_DEPS_ARR < <(ldd "${lBINARY_PATH}" 2>&1 | grep -v "not a dynamic executable" | awk '{print $1}' || true)
       for lBIN_DEPENDENCY in "${lBIN_DEPS_ARR[@]}"; do
         lPROP_ARRAY_INIT_ARR+=( "dependency:${lBIN_DEPENDENCY}" )
@@ -519,32 +582,40 @@ version_parsing_logging() {
 
     if [[ "${lBINARY_ENTRY}" != "NA" ]]; then
       # build_json_hashes_arr sets lHASHES_ARR globally and we unset it afterwards
+      # build_json_hashes_arr 全局设置 lHASHES_ARR，之后我们取消设置
       # final array with all hash values
+      # 包含所有哈希值的最终数组
       if ! build_sbom_json_hashes_arr "${lBINARY_PATH:-NA}" "${lAPP_NAME:-NA}" "${lAPP_VERS:-NA}" "${PACKAGING_SYSTEM:-NA}" "${CONFIDENCE_LEVEL:-0}"; then
         print_output "[*] Already found results for ${lAPP_NAME} / ${lAPP_VERS}" "no_log"
         # we continue with the next binary -> set return value as marker to get the knowledge in the caller
+        # 继续处理下一个二进制文件 -> 设置返回值作为标记，在调用者中获取信息
         return 0
       fi
     fi
 
     # create component entry - this allows adding entries very flexible:
+    # 创建组件条目 - 这允许非常灵活地添加条目
     build_sbom_json_component_arr "${PACKAGING_SYSTEM}" "${lAPP_TYPE:-library}" "${lAPP_NAME:-NA}" "${lAPP_VERS:-NA}" "${lAPP_MAINT:-NA}" "${lrLICENSES_ARR_ref[*]}" "${lCPE_IDENTIFIER:-NA}" "${lPURL_IDENTIFIER:-NA}" "${lAPP_DESC:-NA}"
 
     write_log "${PACKAGING_SYSTEM};${lBINARY_PATH:-NA};${MD5_SUM:-NA}/${lSHA256_CHECKSUM:-NA}/${lSHA512_CHECKSUM:-NA};${lAPP_NAME,,};${lVERSION_IDENTIFIED:-NA};${lCSV_RULE:-NA};${lrLICENSES_ARR_ref[*]};maintainer unknown;${lBIN_ARCH:-NA};${lCPE_IDENTIFIER};${lPURL_IDENTIFIER};${SBOM_COMP_BOM_REF:-NA};DESC" "${S08_CSV_LOG}"
     # we continue with the next binary -> set return as marker to get the knowledge in the caller
+    # 继续处理下一个二进制文件 -> 设置返回值作为标记，在调用者中获取信息
     return 0
   done
   return 1
 }
 
 # we create the final_bins.txt file which includes the binaries for further analysis
+# 我们创建 final_bins.txt 文件，其中包含用于进一步分析的二进制文件
 # Addtionally, it creates the unhandled files SBOM json entries
+# 此外，它还创建未处理文件的 SBOM json 条目
 build_final_bins_threader() {
   local lFILE="${1:-}"
   local lBIN_FILE="${2:-}"
 
   if [[ "${lFILE}" =~ .*\.padding$ || "${lFILE}" =~ .*\.unknown$ || "${lFILE}" =~ .*\.uncompressed$ || "${lFILE}" =~ .*\.raw$ || "${lFILE}" =~ .*\.elf$ || "${lFILE}" =~ .*\.decompressed\.bin$ ]]; then
     # binwalk and unblob are producing multiple files that are not relevant for the SBOM and can skip them here
+    # binwalk 和 unblob 生成的多个文件与 SBOM 无关，可以跳过
     return
   fi
 
@@ -560,7 +631,9 @@ build_final_bins_threader() {
   fi
 
   # lets generate sbom entries for all files that are not handled by package manager
+  # 为所有未被包管理器处理的文件生成 sbom 条目
   # with this in place we can add this information later on to the SBOM (if this is really needed)
+  # 有了这个，我们可以在以后将此信息添加到 SBOM 中（如果确实需要）
 
   lAPP_NAME=$(basename "${lFILE}")
   local lAPP_VERS="Unknown Version"
@@ -586,8 +659,10 @@ build_final_bins_threader() {
   lPROP_ARRAY_INIT_ARR+=( "source_details:${lBIN_FILE}" )
 
   # build the dependencies based on linker details
+  # 基于链接器详情构建依赖关系
   if [[ "${lBIN_FILE}" == "dynamically linked" ]]; then
     # now we can create the dependencies based on ldd
+    # 现在可以根据 ldd 创建依赖关系
     mapfile -t lBIN_DEPS_ARR < <(ldd "${lFILE}" 2>&1 | grep -v "not a dynamic executable" | awk '{print $1}' || true)
     for lBIN_DEPENDENCY in "${lBIN_DEPS_ARR[@]}"; do
       lPROP_ARRAY_INIT_ARR+=( "dependency:${lBIN_DEPENDENCY}" )
@@ -597,9 +672,12 @@ build_final_bins_threader() {
   build_sbom_json_properties_arr "${lPROP_ARRAY_INIT_ARR[@]}"
 
   # build_json_hashes_arr sets lHASHES_ARR globally and we unset it afterwards
+  # build_json_hashes_arr 全局设置 lHASHES_ARR，之后我们取消设置
   # final array with all hash values
+  # 包含所有哈希值的最终数组
   if ! build_sbom_json_hashes_arr "${lFILE}" "${lAPP_NAME:-NA}" "${lAPP_VERS:-NA}" "${lPACKAGING_SYSTEM:-NA}" "${CONFIDENCE_LEVEL:-0}"; then
     # print_output "[*] Already found results for ${lAPP_NAME:-NA} / ${lAPP_VERS:-NA}" "no_log"
+    # 已找到结果，跳过
     return
   fi
 
@@ -608,10 +686,12 @@ build_final_bins_threader() {
 }
 
 check_pkg_files_filesystem() {
+  # 检查包文件是否在文件系统中
   local lPKG_FILE="${1:-}"
   local lFS_FILES="${2:-}"
 
   # if our file from the filesystem is in the package managers array we do not need to test it here
+  # 如果文件系统中的文件在包管理器数组中，我们不需要在此测试它
   if grep -E -q "${lPKG_FILE}$" "${lFS_FILES}"; then
     # print_output "[+] Adding ${ORANGE}${lFILE}${GREEN} to testing array ..." "no_log"
     grep -E "${lPKG_FILE}$" "${lFS_FILES}" >> "${LOG_PATH_MODULE}"/known_system_files.txt
@@ -619,6 +699,7 @@ check_pkg_files_filesystem() {
 }
 
 build_generic_purl() {
+  # 构建通用 PURL 标识符
   local lCSV_RULE="${1:-}"
   local lOS_IDENTIFIED="${2:-NA}"
   local lAPP_ARCH="${3:-}"
@@ -636,6 +717,7 @@ build_generic_purl() {
   lBIN_NAME=$(echo "${lCSV_RULE}" | cut -d ':' -f3)
   if [[ -z "${lBIN_VENDOR}" ]]; then
     # backup mode for setting the vendor in the CPE to the software component
+    # 备用模式: 将 CPE 中的供应商设置为软件组件名称
     lBIN_VENDOR="${lBIN_NAME}"
   fi
   lPURL_IDENTIFIER="pkg:binary/${lOS_IDENTIFIED/-*}/${lBIN_NAME}"
@@ -660,6 +742,7 @@ build_generic_purl() {
 }
 
 build_cpe_identifier() {
+  # 构建 CPE 标识符
   local lCSV_RULE="${1:-}"
   local lBIN_VENDOR=""
   local lBIN_NAME=""
@@ -671,10 +754,12 @@ build_cpe_identifier() {
   lBIN_NAME=$(echo "${lCSV_RULE}" | cut -d ':' -f3)
   if [[ -z "${lBIN_VENDOR}" ]]; then
     # backup mode for setting the vendor in the CPE to the software component
+    # 备用模式: 将 CPE 中的供应商设置为软件组件名称
     lBIN_VENDOR="${lBIN_NAME}"
   fi
   lBIN_VERS=$(echo "${lCSV_RULE}" | cut -d ':' -f4-)
   # our CPE identifier should have 14 fields - sometimes our lBIN_VERS has multiple fields -> we need to count our fields and fill the rest
+  # 我们的 CPE 标识符应该有 14 个字段 - 有时 lBIN_VERS 有多个字段 -> 我们需要计算字段并填充剩余部分
   lCPE_IDENTIFIER="cpe:${CPE_VERSION}:a:${lBIN_VENDOR:-*}:${lBIN_NAME:-*}:${lBIN_VERS:-*}:"
   lCPE_LENGTH=$(echo "${lCPE_IDENTIFIER}" | tr ':' '\n' | wc -l)
 
@@ -688,6 +773,7 @@ build_cpe_identifier() {
 }
 
 generate_strings() {
+  # 为二进制文件生成字符串输出
   local lBINARY_PATH="${1:-}"
 
   local lBIN_DATA_ARR=()
@@ -698,6 +784,7 @@ generate_strings() {
 
   if ! [[ -f "${lBINARY_PATH}" ]]; then
     # print_output "[*] No ${lBINARY_PATH} found ... return"
+    # 未找到二进制文件，返回
     return
   fi
 
@@ -705,14 +792,17 @@ generate_strings() {
 
   if [[ "${#lBIN_DATA_ARR[@]}" -lt 7 ]]; then
     # print_output "[*] No ${lBINARY_PATH} in P99 csv found ... return"
-    # we have no entry in our P99 csv file! Should we create one now?
+    # 我们在 P99 csv 文件中没有条目！现在创建一个吗？
+    # P99 csv 中未找到条目，返回
     return
   fi
   lBIN_FILE="${lBIN_DATA_ARR[7]}"
   # print_output "[*] ${lBIN_FILE} for ${lBINARY_PATH} found .."
 
   # Just in case we need to create SBOM entries for every file
+  # 以防我们需要为每个文件创建 SBOM 条目
   # This is configured via the scanning profiles
+  # 这通过扫描配置文件进行配置
   if [[ "${SBOM_UNTRACKED_FILES:-0}" -gt 0 ]]; then
     build_final_bins_threader "${lBINARY_PATH}" "${lBIN_FILE}" &
     local lTMP_PID="$!"
@@ -733,6 +823,7 @@ generate_strings() {
 }
 
 # bin_string_checker "${lVERSION_IDENTIFIER}" "${lRULE_IDENTIFIER}" "lVENDOR_NAME_ARR" "lPRODUCT_NAME_ARR" "lLICENSES_ARR" "lCSV_REGEX_ARR" "lPARSING_MODE_ARR" &
+# 二进制字符串检查器函数
 bin_string_checker() {
   local lVERSION_IDENTIFIER="${1:-}"
   local lRULE_IDENTIFIER="${2:-}"
@@ -747,8 +838,10 @@ bin_string_checker() {
   local -n lrPARSING_MODE_ARR="${7:-}"
 
   # load lVERSION_IDENTIFIER string into array for multi_grep handling
+  # 将 lVERSION_IDENTIFIER 字符串加载到数组中以处理 multi_grep
   local lVERSION_IDENTIFIERS_ARR=()
   # remove the ' from the multi_grep identifiers:
+  # 从 multi_grep 标识符中移除引号
   lVERSION_IDENTIFIER="${lVERSION_IDENTIFIER%\'}"
   lVERSION_IDENTIFIER="${lVERSION_IDENTIFIER#\'}"
   mapfile -t lVERSION_IDENTIFIERS_ARR < <(echo "${lVERSION_IDENTIFIER//AND/$'\n'}")
@@ -768,6 +861,9 @@ bin_string_checker() {
     # we always check for the first entry (also on multi greps) against all our generated strings.
     # if we have a match we can extract the md5sum from our path and use this to get the complete pathname from p99-csv log
     # this pathname ist finally used for the FILE_ARR which is then used for further analysis
+    # 我们始终检查第一个条目（包括 multi grep）是否与所有生成的字符串匹配
+    # 如果匹配，我们可以从路径中提取 md5sum，并使用它从 p99-csv 日志获取完整路径名
+    # 此路径名最终用于 FILE_ARR，然后用于进一步分析
     local lVERSION_IDENTIFIER_first_elem="${lVERSION_IDENTIFIERS_ARR[0]}"
     if [[ "${lVERSION_IDENTIFIER_first_elem: -1}" == '"' ]]; then
       lVERSION_IDENTIFIER_first_elem="${lVERSION_IDENTIFIER_first_elem#\"}"
@@ -821,6 +917,7 @@ bin_string_checker() {
       local lVERSION_IDENTIFIED=""
       [[ -z "${lVERSION_IDENTIFIER}" ]] && continue
       # this is a workaround to handle the new multi_grep
+    # 这是处理新 multi_grep 的变通方法
       if [[ "${lVERSION_IDENTIFIER: -1}" == '"' ]]; then
         lVERSION_IDENTIFIER="${lVERSION_IDENTIFIER/\"}"
         lVERSION_IDENTIFIER="${lVERSION_IDENTIFIER%\"}"
@@ -831,26 +928,31 @@ bin_string_checker() {
           lVERSION_IDENTIFIED=$(grep -o -a -E "${lVERSION_IDENTIFIER}" "${lSTRINGS_OUTPUT}" | sort -u | head -1 || true)
 
           if [[ -n ${lVERSION_IDENTIFIED} ]]; then
-            if [[ "${#lVERSION_IDENTIFIERS_ARR[@]}" -gt 1 ]] && [[ "$((j+1))" -lt "${#lVERSION_IDENTIFIERS_ARR[@]}" ]]; then
-              # we found the first identifier and now we need to check the other identifiers also
-              print_output "[+] Found sub identifier ${ORANGE}${lVERSION_IDENTIFIER}${GREEN} in binary ${ORANGE}${lBINARY_PATH}${GREEN}" "no_log"
-              continue
-            fi
-            print_ln "no_log"
-            print_output "[+] Version information found ${RED}${lVERSION_IDENTIFIED}${NC}${GREEN} in binary ${ORANGE}$(print_path "${lBINARY_PATH}")${GREEN} (license: ${ORANGE}${lLICENSES_ARR[*]}${GREEN}) (${ORANGE}static${GREEN})."
+          if [[ "${#lVERSION_IDENTIFIERS_ARR[@]}" -gt 1 ]] && [[ "$((j+1))" -lt "${#lVERSION_IDENTIFIERS_ARR[@]}" ]]; then
+            # we found the first identifier and now we need to check the other identifiers also
+            # 我们找到了第一个标识符，现在需要检查其他标识符
+            print_output "[+] Found sub identifier ${ORANGE}${lVERSION_IDENTIFIER}${GREEN} in binary ${ORANGE}${lBINARY_PATH}${GREEN}" "no_log"
+            continue
+          fi
+          print_ln "no_log"
+          print_output "[+] Version information found ${RED}${lVERSION_IDENTIFIED}${NC}${GREEN} in binary ${ORANGE}$(print_path "${lBINARY_PATH}")${GREEN} (license: ${ORANGE}${lLICENSES_ARR[*]}${GREEN}) (${ORANGE}static${GREEN})."
 
-            if version_parsing_logging "${S09_CSV_LOG}" "S09_firmware_base_version_check" "${lVERSION_IDENTIFIED}" "${lBINARY_DATA}" "${lRULE_IDENTIFIER}" "lrVENDOR_NAME_ARR" "lrPRODUCT_NAME_ARR" "lrLICENSES_ARR" "lrCSV_REGEX_ARR"; then
-              # print_output "[*] back from logging for ${lVERSION_IDENTIFIED} -> continue to next binary"
+          if version_parsing_logging "${S09_CSV_LOG}" "S09_firmware_base_version_check" "${lVERSION_IDENTIFIED}" "${lBINARY_DATA}" "${lRULE_IDENTIFIER}" "lrVENDOR_NAME_ARR" "lrPRODUCT_NAME_ARR" "lrLICENSES_ARR" "lrCSV_REGEX_ARR"; then
+            # print_output "[*] back from logging for ${lVERSION_IDENTIFIED} -> continue to next binary"
+            # 返回日志记录，继续处理下一个二进制文件
               continue 2
             fi
           fi
         else
           if [[ "${lrPARSING_MODE_ARR[*]}" == *"multi_grep"* ]]; then
             # we do not test multi_grep on other things then ELF files!
+            # 我们不对 ELF 文件以外的其他内容测试 multi_grep
             continue
           fi
           # this is for all other "non-text" stuff -> this gets a very low confidence rating
           # the false positive rate is higher
+          # 这适用于所有其他"非文本"内容 -> 获得非常低的置信度评级
+          # 误报率更高
           lVERSION_IDENTIFIED=$(grep -o -a -E "${lVERSION_IDENTIFIER}" "${lSTRINGS_OUTPUT}" | sort -u | head -1 || true)
 
           if [[ -n ${lVERSION_IDENTIFIED} ]]; then
@@ -870,12 +972,14 @@ bin_string_checker() {
         fi
       else
         # this is RTOS mode
+        # 这是 RTOS 模式
         # echo "Testing $lBINARY_PATH - $lVERSION_IDENTIFIER"
         lVERSION_IDENTIFIED=$(grep -o -a -E "${lVERSION_IDENTIFIER}" "${lSTRINGS_OUTPUT}" | sort -u | head -1 || true)
 
         if [[ -n ${lVERSION_IDENTIFIED} ]]; then
           if [[ "${#lVERSION_IDENTIFIERS_ARR[@]}" -gt 1 ]] && [[ "$((j+1))" -lt "${#lVERSION_IDENTIFIERS_ARR[@]}" ]]; then
             # we found the first identifier and now we need to check the other identifiers also
+            # 我们找到了第一个标识符，现在需要检查其他标识符
             print_output "[+] Found sub identifier ${ORANGE}${lVERSION_IDENTIFIER}${GREEN} in binary ${ORANGE}${lBINARY_PATH}${GREEN}" "no_log"
             continue
           fi
@@ -884,6 +988,7 @@ bin_string_checker() {
 
           if version_parsing_logging "${S09_CSV_LOG}" "S09_firmware_base_version_check" "${lVERSION_IDENTIFIED}" "${lBINARY_DATA}" "${lRULE_IDENTIFIER}" "lrVENDOR_NAME_ARR" "lrPRODUCT_NAME_ARR" "lrLICENSES_ARR" "lrCSV_REGEX_ARR"; then
             # print_output "[*] back from logging for ${lVERSION_IDENTIFIED} -> continue to next binary"
+            # 返回日志记录，继续处理下一个二进制文件
             continue 2
           fi
         fi

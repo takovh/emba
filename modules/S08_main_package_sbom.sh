@@ -14,8 +14,10 @@
 # Author(s): Michael Messner
 
 # Description:  Searches known locations for package management information
+# 中文描述：搜索已知位置的包管理信息，生成 SBOM（软件物料清单）
 # shellcheck disable=SC2094
 
+# 主函数：初始化并运行包 SBOM 分析模块
 S08_main_package_sbom() {
   module_log_init "${FUNCNAME[0]}"
   module_title "EMBA central package SBOM environment"
@@ -64,6 +66,7 @@ S08_main_package_sbom() {
   module_end_log "${FUNCNAME[0]}" "${lNEG_LOG}"
 }
 
+# 构建依赖树：分析 SBOM 组件间的依赖关系
 build_dependency_tree() {
   if [[ ! -d "${SBOM_LOG_PATH}" ]]; then
     return
@@ -95,8 +98,10 @@ build_dependency_tree() {
   fi
 }
 
+# 创建组件依赖树线程：分析单个组件的依赖关系
 create_comp_dep_tree_threader() {
   # lSBOM_COMP -> current sbom json file under analysis
+  # lSBOM_COMP -> 当前正在分析的 SBOM JSON 文件
   local lSBOM_COMP="${1:-}"
 
   local lSBOM_COMP_DEPS_ARR=()
@@ -112,10 +117,12 @@ create_comp_dep_tree_threader() {
   local lSBOM_INVALID_COM_REF=""
 
   # extract needed metadata (VERS not really needed but nice to show)
+  # 提取所需的元数据（版本号非必需，但便于显示）
   lSBOM_COMP_NAME=$(jq -r .name "${lSBOM_COMP}" || true)
   lSBOM_COMP_REF=$(jq -r '."bom-ref"' "${lSBOM_COMP}" || true)
   lSBOM_COMP_VERS=$(jq -r .version "${lSBOM_COMP}" || true)
   # Source is only used to ensure we check only matching sources (eg. check debian packages against debian sources)
+  # 来源仅用于确保只检查匹配的源（例如：检查 debian 包时只对比 debian 源）
   lSBOM_COMP_SOURCE=$(jq -r .group "${lSBOM_COMP}" || true)
 
   if [[ -z "${lSBOM_COMP_NAME}" || -z "${lSBOM_COMP_REF}" ]]; then
@@ -126,6 +133,7 @@ create_comp_dep_tree_threader() {
   write_log "[*] Component: ${lSBOM_COMP_NAME} / ${lSBOM_COMP_VERS} / ${lSBOM_COMP_SOURCE} / ${lSBOM_COMP_REF}" "${TMP_DIR}/SBOM_dependencies_${lSBOM_COMP_REF}.txt"
 
   # lets search for dependencies in every SBOM component file we have and store it in lSBOM_COMP_DEPS_ARR
+  # 在所有 SBOM 组件文件中搜索依赖，并存储到 lSBOM_COMP_DEPS_ARR 数组
   mapfile -t lSBOM_COMP_DEPS_FILES_ARR < <(jq -rc '.properties[] | select(.name | endswith(":dependency")).value' "${lSBOM_COMP}" || true)
   if [[ "${#lSBOM_COMP_DEPS_FILES_ARR[@]}" -eq 0 ]]; then
     return
@@ -136,17 +144,22 @@ create_comp_dep_tree_threader() {
   fi
 
   # now we check every dependency for the current component
+  # 现在检查当前组件的每个依赖
   for lSBOM_COMP_DEP in "${lSBOM_COMP_DEPS_FILES_ARR[@]}"; do
     # lets extract the name of the dependency
+    # 提取依赖的名称
     lSBOM_COMP_DEP="${lSBOM_COMP_DEP//\'}"
     lSBOM_COMP_DEP="${lSBOM_COMP_DEP/\ *}"
     lSBOM_COMP_DEP="${lSBOM_COMP_DEP/\(*}"
 
     # check all sbom component files from this group (e.g. debian_pkg_mgmt) for the dependency as name:
+    # 检查此组（如 debian_pkg_mgmt）中的所有 SBOM 组件文件，查找匹配的依赖名称
     mapfile -t lSBOM_DEP_SOURCE_FILES_ARR < <(grep -l "name\":\"${lSBOM_COMP_DEP}\"" "${SBOM_LOG_PATH}"/"${lSBOM_COMP_SOURCE}"_* || true)
 
     # if we have the dependency in our components we can log it via the UUID
     # if we do not have the dependency installed and available via a UUID we log an indicator that this component is not available
+    # 如果组件中有该依赖，我们可以通过 UUID 记录它
+    # 如果没有安装该依赖或没有有效的 UUID，我们记录一个指示器表明该组件不可用
     if [[ "${#lSBOM_DEP_SOURCE_FILES_ARR[@]}" -gt 0 ]]; then
       for lSBOM_COMP_SOURCE_FILE in "${lSBOM_DEP_SOURCE_FILES_ARR[@]}"; do
         # get the  bom-ref from the dependency
@@ -171,6 +184,7 @@ create_comp_dep_tree_threader() {
   jo -p ref="${lSBOM_COMP_REF}" dependsOn="$(jo -a -- "${lSBOM_COMP_DEPS_ARR[@]}")" >> "${SBOM_LOG_PATH}/SBOM_deps/SBOM_dependency_${lSBOM_COMP_REF}".json
 }
 
+# 清理包详情：移除特殊字符，统一格式
 clean_package_details() {
   local lCLEAN_ME_UP="${1}"
 
@@ -191,6 +205,7 @@ clean_package_details() {
   echo "${lCLEAN_ME_UP}"
 }
 
+# 清理包版本：移除版本号中的构建信息和发行版标识
 clean_package_versions() {
   local lVERSION="${1:-}"
   local lSTRIPPED_VERSION=""

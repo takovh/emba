@@ -16,6 +16,7 @@
 # Description:  Searches known locations for package management information
 # shellcheck disable=SC2094
 
+# 解析Java归档文件（JAR/WAR）以提取包信息
 S08_submodule_java_archives_parser() {
   local lPACKAGING_SYSTEM="java_archive"
   local lOS_IDENTIFIED="${1:-}"
@@ -46,6 +47,7 @@ S08_submodule_java_archives_parser() {
   local lJ_JAVA_FILE_NAME=""
   local lPOM_CHECKED_ARR=()
 
+  # 从P99_CSV_LOG中提取所有Java归档文件路径（.jar和.war）
   mapfile -t lJAVA_ARCHIVES_ARR < <(grep "\.jar;\|\.war;" "${P99_CSV_LOG}" | cut -d ';' -f2 || true)
 
   if [[ "${#lJAVA_ARCHIVES_ARR[@]}" -gt 0 ]] ; then
@@ -60,13 +62,14 @@ S08_submodule_java_archives_parser() {
     write_log "" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
 
     for lJAVA_ARCHIVE in "${lJAVA_ARCHIVES_ARR[@]}" ; do
+      # 验证文件类型是否为Java归档或ZIP文件
       lJ_FILE=$(file "${lJAVA_ARCHIVE}")
       if [[ ! "${lJ_FILE}" == *"Java archive data"* && ! "${lJ_FILE}" == *"Zip archive"* ]]; then
         continue
       fi
       lJ_JAVA_FILE_NAME=$(basename "${lJAVA_ARCHIVE}")
 
-      # if we have found multiple status files but all are the same -> we do not need to test duplicates
+      # 通过MD5校验和去重，避免重复分析相同的归档文件
       lPKG_MD5="$(md5sum "${lJAVA_ARCHIVE}" | awk '{print $1}')"
       if [[ "${lPKG_CHECKED_ARR[*]}" == *"${lPKG_MD5}"* ]]; then
         print_output "[*] ${ORANGE}${lJAVA_ARCHIVE}${NC} already analyzed" "no_log"
@@ -74,7 +77,7 @@ S08_submodule_java_archives_parser() {
       fi
       lPKG_CHECKED_ARR+=( "${lPKG_MD5}" )
 
-      # Check the MANIFEST file
+      # 检查并解析MANIFEST.MF文件
       if unzip -l "${lJAVA_ARCHIVE}" -- *META-INF/MANIFEST.MF &>/dev/null; then
         local lJAVA_MANIFEST_FILE="${LOG_PATH_MODULE}/Java_${lJ_JAVA_FILE_NAME}_MANIFEST.MF"
         unzip -p "${lJAVA_ARCHIVE}" META-INF/MANIFEST.MF > "${lJAVA_MANIFEST_FILE}"
@@ -83,12 +86,12 @@ S08_submodule_java_archives_parser() {
         fi
       fi
 
-      # check for pom.xml meta files
+      # 检查并解析pom.xml元数据文件
       if unzip -l "${lJAVA_ARCHIVE}" -- *pom.xml &>/dev/null ; then
         local lPOM_XML_ARR=()
         local lPOM_XML=""
         local lPOM_MD5=""
-        # extract all the pom.xml meta files
+        # 提取所有pom.xml文件路径
         mapfile -t lPOM_XML_ARR < <(unzip -l "${lJAVA_ARCHIVE}" | awk '{print $4}' | grep pom.xml || true)
         if [[ "${#lPOM_XML_ARR[@]}" -gt 0 ]]; then
           write_log "[*] Found ${ORANGE}${#lPOM_XML_ARR[@]}${NC} Java pom.xml:" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
@@ -101,12 +104,12 @@ S08_submodule_java_archives_parser() {
           write_log "[*] Analyzing ${ORANGE}${#lPOM_XML_ARR[@]}${NC} Java pom.xml:" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
           write_log "" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
 
-          # lets analyse every pom.xml for versions and names:
+          # 分析每个pom.xml以提取版本和名称信息
           for lPOM_XML in "${lPOM_XML_ARR[@]}"; do
             local lJAVA_POM_XML_FILE="${LOG_PATH_MODULE}/Java_${lJ_JAVA_FILE_NAME}_POM_${RANDOM}.xml"
             unzip -p "${lJAVA_ARCHIVE}" "${lPOM_XML}" > "${lJAVA_POM_XML_FILE}"
 
-            # if we have found multiple status files but all are the same -> we do not need to test duplicates
+            # 通过MD5校验和去重，避免重复分析相同的pom.xml文件
             lPOM_MD5="$(md5sum "${lJAVA_POM_XML_FILE}" | awk '{print $1}')"
             if [[ "${lPOM_CHECKED_ARR[*]}" == *"${lPOM_MD5}"* ]]; then
               print_output "[*] ${ORANGE}${lJAVA_POM_XML_FILE}${NC} already analyzed" "no_log"
@@ -129,8 +132,8 @@ S08_submodule_java_archives_parser() {
     write_log "[-] No JAVA package files found!" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
   fi
 
-  # our first attempt was to extract the pom.xml files directly from the java files
-  # the following approach is using already available pom.xml files (we can see this in source code repos)
+  # 直接处理已存在的pom.xml文件（类似源代码仓库中的结构）
+  # 从P99_CSV_LOG中提取所有pom.xml文件路径
   mapfile -t lJAVA_POM_XML_ARR < <(grep "pom\.xml;" "${P99_CSV_LOG}" | cut -d ';' -f2 || true)
 
   if [[ "${#lJAVA_POM_XML_ARR[@]}" -gt 0 ]] ; then
@@ -144,6 +147,7 @@ S08_submodule_java_archives_parser() {
     write_log "[*] Analyzing ${ORANGE}${#lJAVA_POM_XML_ARR[@]}${NC} Java pom.xml:" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
     write_log "" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
 
+    # 处理每个独立的pom.xml文件
     for lJAVA_POM_XML in "${lJAVA_POM_XML_ARR[@]}" ; do
       S08_java_pom_xml_handling "${lPACKAGING_SYSTEM}" "${lJAVA_POM_XML}" "${lJAVA_POM_XML}"
     done
@@ -161,6 +165,7 @@ S08_submodule_java_archives_parser() {
   fi
 }
 
+# 解析Java MANIFEST.MF文件以提取包信息
 S08_java_manifest_handling() {
   local lPACKAGING_SYSTEM="${1:-}"
   local lJAVA_ARCHIVE="${2:-}"
@@ -176,33 +181,33 @@ S08_java_manifest_handling() {
   local lAPP_VERS=""
   local lAPP_VERS_ALT=""
 
-  # the complete naming in the manifest files is a big mess
-  # probably we need some dictionary to parse the names somehow and generate something
-  # that is usable for CVE queries
+  # MANIFEST文件中的命名规则比较混乱，可能需要字典来解析名称并生成可用于CVE查询的格式
+  # 提取Application-Name字段
   lAPP_NAME=$(grep "Application-Name" "${lJAVA_MANIFEST_FILE}" | head -1 || true)
   lAPP_NAME=${lAPP_NAME/*:\ /}
 
+  # 提取License字段
   lAPP_LIC=$(grep "License" "${lJAVA_MANIFEST_FILE}" | head -1 || true)
   lAPP_LIC=${lAPP_LIC/*:\ /}
   lAPP_LIC=$(clean_package_details "${lAPP_LIC}")
 
+  # 提取Vendor字段
   lAPP_VENDOR_CLEAR=$(grep "Vendor: " "${lJAVA_MANIFEST_FILE}" | sort -u | head -1 || true)
   lAPP_VENDOR_CLEAR=${lAPP_VENDOR_CLEAR#*:\ }
   lAPP_VENDOR_CLEAR=${lAPP_VENDOR_CLEAR//[![:print:]]/}
   lAPP_VENDOR=$(clean_package_details "${lAPP_VENDOR_CLEAR}")
-  # we need some translation:
-  # e.g.: The Apache Software Foundation -> apache
+  # 需要一些翻译，例如：The Apache Software Foundation -> apache
 
-  # we check for the deprecated vendor id:
+  # 检查已弃用的Implementation-Vendor-Id字段
   lAPP_VENDOR_ID=$(grep "Implementation-Vendor-Id: " "${lJAVA_MANIFEST_FILE}" | sort -u | head -1 || true)
   lAPP_VENDOR_ID=${lAPP_VENDOR_ID#*:\ }
-  # we have seen some vendor ids like org.apache.shiro -> should end up in apache:shiro:version
+  # 将org.apache.shiro格式转换为apache:shiro:version格式
   lAPP_VENDOR_ID=${lAPP_VENDOR_ID#org\.}
   lAPP_VENDOR_ID=${lAPP_VENDOR_ID#com\.}
   lAPP_VENDOR_ID=${lAPP_VENDOR_ID//\./:}
   lAPP_VENDOR_ID=$(clean_package_details "${lAPP_VENDOR_ID}")
 
-  # alternative package names
+  # 提取替代包名称（Implementation-Title和Bundle-Name）
   lIMPLEMENT_TITLE=$(grep "Implementation-Title" "${lJAVA_MANIFEST_FILE}" | head -1 || true)
   lIMPLEMENT_TITLE=${lIMPLEMENT_TITLE#*:\ }
   lIMPLEMENT_TITLE=${lIMPLEMENT_TITLE//\ }
@@ -213,6 +218,7 @@ S08_java_manifest_handling() {
   lBUNDLE_NAME=${lBUNDLE_NAME//::/_}
   lBUNDLE_NAME=$(clean_package_details "${lBUNDLE_NAME}")
 
+  # 提取版本信息
   lAPP_VERS=$(grep "Implementation-Version" "${lJAVA_MANIFEST_FILE}" | head -1 || true)
   lAPP_VERS=${lAPP_VERS#*:\ }
   lAPP_VERS=$(clean_package_details "${lAPP_VERS}")
@@ -222,44 +228,42 @@ S08_java_manifest_handling() {
   lAPP_VERS_ALT=$(clean_package_details "${lAPP_VERS_ALT}")
   lAPP_VERS_ALT=$(clean_package_versions "${lAPP_VERS_ALT}")
 
+  # 如果APP_NAME未设置，使用IMPLEMENT_TITLE作为备选
   if [[ -z "${lAPP_NAME}" && -n "${lIMPLEMENT_TITLE}" ]]; then
-    # print_output "[*] Using lIMPLEMENT_TITLE (${lIMPLEMENT_TITLE}) as name for ${lJAVA_ARCHIVE}" "no_log"
-    # in case APP_NAME is not set but we have an lIMPLEMENT_TITLE we use this
     lAPP_NAME="${lIMPLEMENT_TITLE}"
   fi
+  # 如果APP_NAME仍未设置，使用BUNDLE_NAME作为备选
   if [[ -z "${lAPP_NAME}" && -n "${lBUNDLE_NAME}" ]]; then
-    # print_output "[*] Using lBUNDLE_NAME (${lBUNDLE_NAME}) as name for ${lJAVA_ARCHIVE}" "no_log"
-    # in case APP_NAME is not set but we have an lIMPLEMENT_TITLE we use this
     lAPP_NAME="${lBUNDLE_NAME}"
   fi
+  # 如果APP_VERS未设置，使用APP_VERS_ALT作为备选
   if [[ -z "${lAPP_VERS}" && -n "${lAPP_VERS_ALT}" ]]; then
-    # print_output "[*] Using lAPP_VERS_ALT (${lAPP_VERS_ALT}) as version for ${lJAVA_ARCHIVE}" "no_log"
-    # in case APP_NAME is not set but we have an lIMPLEMENT_TITLE we use this
     lAPP_VERS="${lAPP_VERS_ALT}"
   fi
 
+  # 如果仍然没有找到名称，使用归档文件的基本名称（去掉.jar后缀）
   if [[ -z "${lAPP_NAME}" ]]; then
-    # last fallback -> we use the basename of the archive
     lAPP_NAME="$(basename -s .jar "${lJAVA_ARCHIVE}")"
   fi
   lAPP_NAME=$(clean_package_details "${lAPP_NAME}")
   [[ -z "${lAPP_NAME}" ]] && return
 
-  # if we have a vendor id but no app_vendor we are going to use the deprecated id:
+  # 如果有vendor_id但没有app_vendor，使用已弃用的vendor_id
   if [[ -z "${lAPP_VENDOR}" && -n "${lAPP_VENDOR_ID}" ]]; then
-    # print_output "[*] Using lAPP_VENDOR_ID (${lAPP_VENDOR_ID}) as vendor for ${lJAVA_ARCHIVE}" "no_log"
     lAPP_VENDOR="${lAPP_VENDOR_ID}"
   fi
+  # 如果关键信息都为空，则跳过处理
   if [[ -z "${lAPP_NAME}" && -z "${lAPP_LIC}" && -z "${lIMPLEMENT_TITLE}" && -z "${lAPP_VERS}" && -z "${lBUNDLE_NAME}" ]]; then
-    # print_output "[-] skipping ... lJAVA_ARCHIVE: ${lJAVA_ARCHIVE} // lAPP_NAME: ${lAPP_NAME} / lAPP_LIC: ${lAPP_LIC} / lIMPLEMENT_TITLE: ${lIMPLEMENT_TITLE} / lAPP_VERS: ${lAPP_VERS} / lBUNDLE_NAME: ${lBUNDLE_NAME}" "no_log"
     return
   fi
   lAPP_VERS="${lAPP_VERS/\.release}"
   write_log "[*] Java MANIFEST details: ${ORANGE}${lJAVA_ARCHIVE}${NC} - name ${ORANGE}${lAPP_NAME:-NA}${NC} - version ${ORANGE}${lAPP_VERS:-NA}${NC}" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
+  # 生成SBOM条目
   S08_java_generate_sbom_entry "${lJAVA_ARCHIVE}" "${lPACKAGING_SYSTEM}-manifest" "${lAPP_VENDOR}" "${lAPP_NAME}" "${lAPP_VERS}" "${lAPP_DESC:-NA}" "${lAPP_LIC}"
   POS_RES=1
 }
 
+# 解析pom.xml文件以提取Java包信息
 S08_java_pom_xml_handling() {
   local lPACKAGING_SYSTEM="${1:-}"
   local lJAVA_ARCHIVE="${2:-}"
@@ -278,15 +282,19 @@ S08_java_pom_xml_handling() {
   local lAPP_NAME_PROPERTIES_VERSION=""
   local lAPP_NAME_PROPERTIES_NAME=""
 
-  # main version detection in pom.xml -> project->version:
+  # 从pom.xml中提取主要版本信息（project->version）
   lAPP_VERS_POM_XML=$(xpath -e project/version//text\(\) "${lJAVA_POM_XML}" 2>/dev/null)
+  # 提取artifactId作为包名
   lAPP_NAME_POM_XML=$(xpath -e project/artifactId//text\(\) "${lJAVA_POM_XML}" 2>/dev/null)
+  # 提取项目名称
   lAPP_NAME_CLEAR_POM_XML=$(xpath -e project/name//text\(\) "${lJAVA_POM_XML}" 2>/dev/null)
+  # 提取项目描述
   lAPP_NAME_DESC_POM_XML=$(xpath -e project/description//text\(\) "${lJAVA_POM_XML}" 2>/dev/null | tr '\n' ' ')
+  # 提取许可证信息
   lAPP_NAME_LIC_POM_XML=$(xpath -e project/licenses/license/name//text\(\) "${lJAVA_POM_XML}" 2>/dev/null)
   if [[ -n "${lAPP_VERS_POM_XML}" ]]; then
-    # for the dependencies we can check for pom.xml
-    # We could do something like the following to extract the dependencies
+    # 对于依赖项，可以检查pom.xml文件
+    # 可以使用类似以下命令提取依赖信息：
       # unzip -p "${lJAVA_ARCHIVE}" "${lPOM_XML}" | xpath -e project/dependencies
       # unzip -p "${lJAVA_ARCHIVE}" "${lPOM_XML}" | xpath -e project/dependencies/dependency
       # unzip -p "${lJAVA_ARCHIVE}" "${lPOM_XML}" | xpath -e project/dependencies/dependency[1]/version
@@ -296,18 +304,18 @@ S08_java_pom_xml_handling() {
     lAPP_NAME="${lAPP_NAME_POM_XML}"
 
     write_log "[*] Java pom.xml details: ${ORANGE}${lJAVA_ARCHIVE}${NC} - ${lJAVA_POM_XML} - version ${lAPP_VERS} / name ${lAPP_NAME} / ${lAPP_NAME_CLEAR_POM_XML:-NA} / ${lAPP_NAME_DESC_POM_XML:-NA} / license ${lAPP_NAME_LIC_POM_XML:-NA}" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
+    # 生成SBOM条目
     S08_java_generate_sbom_entry "${lJAVA_ARCHIVE}" "${lPACKAGING_SYSTEM}-pom_xml" "${lAPP_VENDOR:-NA}" "${lAPP_NAME}" "${lAPP_VERS}" "${lAPP_NAME_DESC_POM_XML:-NA}" "${lAPP_NAME_LIC_POM_XML}"
     POS_RES=1
   fi
 
-  # lets check also versions in properties:
-  # xpath -e "project/properties/*[contains(name(),'version')]"
+  # 检查properties中的版本信息
   local lAPP_NAME_PROPERTIES_VERS_POM_XML=()
   mapfile -t lAPP_NAME_PROPERTIES_VERS_POM_XML < <(xpath -e "project/properties/*[contains(name(),'.version')]" "${lJAVA_POM_XML}" 2>/dev/null)
   for lAPP_NAME_PROPERTIES_VERSION in "${lAPP_NAME_PROPERTIES_VERS_POM_XML[@]}"; do
-    # e.g.: <spotbugs.version>4.8.6.0</spotbugs.version>
+    # 例如：<spotbugs.version>4.8.6.0</spotbugs.version>
     lAPP_NAME_PROPERTIES_NAME=${lAPP_NAME_PROPERTIES_VERSION/\.version*}
-    # e.g.: <spotbugs
+    # 例如：<spotbugs
     lAPP_NAME_PROPERTIES_NAME=${lAPP_NAME_PROPERTIES_NAME//<}
     lAPP_NAME_PROPERTIES_VERSION=${lAPP_NAME_PROPERTIES_VERSION/<\/*\.version>/}
     lAPP_NAME_PROPERTIES_VERSION=${lAPP_NAME_PROPERTIES_VERSION/*\.version>}
@@ -317,11 +325,13 @@ S08_java_pom_xml_handling() {
     local lAPP_DESC="NA"
 
     write_log "[*] Java pom.xml details: ${ORANGE}${lJAVA_ARCHIVE}${NC} - ${lJAVA_POM_XML} - version ${lAPP_VERS} / name ${lAPP_NAME}" "${LOG_PATH_MODULE}/${lPACKAGING_SYSTEM}.txt"
+    # 生成SBOM条目
     S08_java_generate_sbom_entry "${lJAVA_ARCHIVE}" "${lPACKAGING_SYSTEM}-pom_xml" "${lAPP_VENDOR:-NA}" "${lAPP_NAME}" "${lAPP_VERS}" "${lAPP_DESC}" "${lAPP_LIC}"
     POS_RES=1
   done
 }
 
+# 生成Java包的SBOM条目
 S08_java_generate_sbom_entry() {
   local lJAVA_ARCHIVE="${1:-}"
   local lPACKAGING_SYSTEM="${2:-}"
@@ -335,20 +345,22 @@ S08_java_generate_sbom_entry() {
   local lAPP_MAINT=""
   local lAPP_ARCH=""
 
+  # 计算文件的哈希值
   if [[ -f "${lJAVA_ARCHIVE}" ]]; then
     lMD5_CHECKSUM="$(md5sum "${lJAVA_ARCHIVE}" | awk '{print $1}')"
     lSHA256_CHECKSUM="$(sha256sum "${lJAVA_ARCHIVE}" | awk '{print $1}')"
     lSHA512_CHECKSUM="$(sha512sum "${lJAVA_ARCHIVE}" | awk '{print $1}')"
   fi
 
+  # 构建CPE标识符
   lCPE_IDENTIFIER="cpe:${CPE_VERSION}:a:${lAPP_VENDOR}:${lAPP_NAME}:${lAPP_VERS}:*:*:*:*:*:*"
 
+  # 构建PURL标识符
   lPURL_IDENTIFIER=$(build_purl_identifier "${lOS_IDENTIFIED:-NA}" "java" "${lAPP_NAME:-NA}" "${lAPP_VERS:-NA}" "${lAPP_ARCH:-NA}")
   local lSTRIPPED_VERSION="::${lAPP_NAME}:${lAPP_VERS:-NA}"
 
-  # add the java archive path information to our properties array:
-  # Todo: in the future we should check for the package, package hashes and which files
-  # are in the package
+  # 添加Java归档路径信息到属性数组
+  # 待办事项：未来应检查包、包哈希以及包中包含的文件
   local lPROP_ARRAY_INIT_ARR=()
   if [[ -f "${lJAVA_ARCHIVE}" ]]; then
     lPROP_ARRAY_INIT_ARR+=( "source_path:${lJAVA_ARCHIVE}" )
@@ -358,18 +370,19 @@ S08_java_generate_sbom_entry() {
   lPROP_ARRAY_INIT_ARR+=( "product_name:${lAPP_NAME}" )
   lPROP_ARRAY_INIT_ARR+=( "confidence:high" )
 
+  # 构建SBOM属性数组
   build_sbom_json_properties_arr "${lPROP_ARRAY_INIT_ARR[@]}"
 
-  # build_json_hashes_arr sets lHASHES_ARR globally and we unset it afterwards
-  # final array with all hash values
+  # 构建哈希数组，如果已存在相同结果则跳过
   if ! build_sbom_json_hashes_arr "${lJAVA_ARCHIVE}" "${lAPP_NAME:-NA}" "${lAPP_VERS:-NA}" "${lPACKAGING_SYSTEM}"; then
     write_log "[*] Already found results for ${lAPP_NAME} / ${lAPP_VERS} / ${lPACKAGING_SYSTEM}" "${S08_DUPLICATES_LOG}"
     return
   fi
 
-  # create component entry - this allows adding entries very flexible:
+  # 创建SBOM组件条目
   build_sbom_json_component_arr "${lPACKAGING_SYSTEM}" "${lAPP_TYPE:-library}" "${lAPP_NAME:-NA}" "${lAPP_VERS:-NA}" "${lAPP_VENDOR:-NA}" "${lAPP_LIC:-NA}" "${lCPE_IDENTIFIER:-NA}" "${lPURL_IDENTIFIER:-NA}" "${lAPP_DESC:-NA}"
 
+  # 写入CSV日志
   write_csv_log "${lPACKAGING_SYSTEM}" "${lJAVA_ARCHIVE}" "${lMD5_CHECKSUM:-NA}/${lSHA256_CHECKSUM:-NA}/${lSHA512_CHECKSUM:-NA}" "${lAPP_NAME}" "${lAPP_VERS}" "${lSTRIPPED_VERSION:-NA}" "${lAPP_LIC}" "${lAPP_MAINT}" "${lAPP_ARCH}" "${lCPE_IDENTIFIER}" "${lPURL_IDENTIFIER}" "${SBOM_COMP_BOM_REF:-NA}" "${lAPP_DESC}"
 }
 
