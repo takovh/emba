@@ -329,11 +329,78 @@ fw_bin_detector() {
 
 ### 调度
 
-- **`import_module()`** (`emba:39`): 启动时扫描 `modules/` 加载所有 `*.sh` 脚本，注册模块的 main 函数。
-- **`run_modules()`** (`emba:86`): 核心调度引擎。按模块组字母查找对应脚本（`find ... -name "${MODULE_GROUP^^}""*_*.sh"`），支持多线程/单线程、重启跳过、黑名单过滤、手动模块选择。每个模块调用其 `lMODULE_MAIN` 函数执行。
-- **`sort_modules()`** (`emba:64`): 多线程模式下根据模块内 `THREAD_PRIO` 排序，`PRIO=1` 的模块优先执行。
-- **`THREAD_PRIO` / `PRE_THREAD_ENA`**: 模块通过 source 时设置这些变量控制调度行为（优先级 / 是否启用线程）。
-- **并发控制**: `max_pids_protection` 限制并行模块数（`MAX_MODS`），默认 `nproc/2 + 1`，最少 2 个。
+EMBA **没有显式的依赖图**，模块间依赖通过文件名编号约定 + 运行时 barrier + 强制启用三种机制保证。
+
+#### 核心函数
+
+| 函数 | 位置 | 作用 |
+|---|---|---|
+| `import_module()` | `emba:39` | 启动时扫描 `modules/` 加载所有 `*.sh`，注册模块的 main 函数 |
+| `run_modules()` | `emba:86` | 核心调度引擎。按组字母 `find` 对应脚本，支持多线程/单线程、重启跳过、黑名单、手动选择 |
+| `sort_modules()` | `emba:64` | 多线程模式下按 `THREAD_PRIO` 重排模块数组 |
+| `max_pids_protection()` | - | 并发控制，限制并行模块数（`MAX_MODS`，默认 `nproc/2 + 1`，最少 2） |
+
+#### 组间顺序（硬编码串行）
+
+`main()` 中按以下顺序依次调用 `run_modules()`，每组结束后用 `wait_for_pid` 等待该组所有后台模块完成，再进入下一组：
+
+| 顺序 | 组 | 调用位置 | 线程模式 |
+|---|---|---|---|
+| 1 | **Q** (Quests) | `emba:860/870` | 后台线程 |
+| 2 | **P** (预检查/提取) | `emba:893` | 每模块单独控制 |
+| 3 | **D** (差异对比) | `emba:932` | 每模块单独控制 |
+| 4 | **S** (静态分析) | `emba:959` | 多线程 |
+| 5 | **L** (仿真) | `emba:988` | **强制单线程** |
+| 6 | **F** (报告) | `emba:1009` | **强制单线程** |
+
+#### 组内排序
+
+##### `THREAD_PRIO`（S 组内优先级）
+
+二元优先级：`1` = 先执行，`0` = 后执行。`sort_modules()` 遍历模块文件，source 后读取 `THREAD_PRIO` 值：
+
+- `THREAD_PRIO=1` → **前置**到数组头部
+- `THREAD_PRIO=0` → **追加**到数组尾部
+
+同优先级内保持原始 `sort -V`（文件名数字排序）顺序。
+
+已声明 `THREAD_PRIO=1` 的模块：S09、S12、S24、S26。
+已声明 `THREAD_PRIO=0`（带注释说明依赖）的模块：S13（`"do not prio s13 and s14 as the dependency check during runtime will fail!"`）、S17。
+
+仅在 `THREADING_SET=1` 且非 P 组时调用 `sort_modules()`（`emba:111-113`）。
+
+##### `PRE_THREAD_ENA`（P/D 组串行控制）
+
+当 `PRE_THREAD_ENA=0` 时，`run_modules()` 将该模块设为**同步执行**（`emba:127-134`），阻塞后续模块启动。几乎所有 P/D 模块都设为 `0`，使提取阶段实际逐个串行执行。
+
+#### 显式 barrier
+
+- **P99**（`P99_prepare_analyzer.sh:30`）：P 组最后一个模块，调用 `wait_for_pid "${WAIT_PIDS[@]}"` 等待所有先前提取模块完成，确保提取结束后才进入分析阶段。
+- **组间 barrier**：每组 `run_modules()` 调用后紧跟 `[[ ${THREADED} -eq 1 ]] && wait_for_pid "${WAIT_PIDS[@]}"`。
+
+#### 强制模块启用
+
+手动选模块时（`emba:188-196`），某些模块会自动被强制开启：
+
+- 选了 S26（内核漏洞验证）→ 自动启用 S24（内核二进制识别），因为 S26 依赖 S24 产出的内核信息。
+- `FULL_EMULATION=1` 时自动启用 S24。
+
+#### 调度流程图
+
+```mermaid
+flowchart TD
+   A["main() 启动"] --> B[Q 组 - 后台并行]
+   B -->|wait_for_pid| C[P 组 - 逐个串行]
+   C -->|P99 barrier| D[D 组 - 逐个串行]
+   D -->|wait_for_pid| E[S 组 - 多线程]
+   E -->|sort_modules 按 THREAD_PRIO 排序| F{THREAD_PRIO=1?}
+   F -->|是| G[先执行 S09,S12,S24,S26]
+   F -->|否| H[后执行 S13,S17 等]
+   G -->|wait_for_pid| I[L 组 - 单线程]
+   H -->|wait_for_pid| I
+   I --> J[F 组 - 单线程]
+   J --> K[输出报告]
+```
 
 
 ### 预检查→提取器派发机制
@@ -450,7 +517,7 @@ Pre-Checker → SpecializedExtractor 的派发采用**去中心化的自检模�
 | `S08_submodule_openwrt_pkg_mgmt_parser.sh` | OpenWrt `opkg` |
 | `S08_submodule_alpine_apk_package_parser.sh` | Alpine `*.apk` 归档文件 |
 | `S08_submodule_apk_pkg_mgmt_parser.sh` | Alpine `apk/db/installed`（包管理器数据库） |
-| `S08_submodule_java_archives_parser.sh` | JAR/WAR/AAR |
+| `S08_submodule_java_archives_parser.sh` | JAR/WAR |
 | `S08_submodule_nodejs_pcklockparser.sh` | `package-lock.json` |
 | `S08_submodule_python_pip_package_mgmt_parser.sh` | pip installed |
 | `S08_submodule_python_requirements_parser.sh` | `requirements.txt` |
