@@ -72,7 +72,8 @@ I13_disasm() {
             tar -zxf external/"${BINUTIL_VERSION_NAME}".tar.gz -C external
             cd external/"${BINUTIL_VERSION_NAME}"/ || { echo "Could not install EMBA component binutils"; exit 1; }
             echo -e "${ORANGE}""${BOLD}""Compile objdump""${NC}"
-            ./configure --enable-targets=all
+            # EMBA needs objdump; skip gprofng, which fails with newer glibc headers.
+            ./configure --enable-targets=all --disable-gprofng
             make
             cd "${HOME_PATH}" || { echo "Could not install EMBA component binutils"; exit 1; }
           fi
