@@ -133,7 +133,10 @@ IP61_unblob() {
         cd external/unblob || exit 1
         # ./install-deps.sh
         echo "[*] Building unblob"
-        pip3 install -e . --break-system-packages
+        # Maturin invokes Cargo; pip retries do not cover Rust dependency downloads.
+        CARGO_NET_RETRY="${CARGO_NET_RETRY:-10}" \
+          CARGO_HTTP_TIMEOUT="${CARGO_HTTP_TIMEOUT:-120}" \
+          pip3 install -e . --break-system-packages
 
         echo "[*] Testing unblob installation"
         if command -v unblob > /dev/null; then
