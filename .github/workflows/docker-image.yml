@@ -9,22 +9,43 @@ on:
   #    - '**'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * */2' # do it every 2nd day
+    inputs:
+      branch:
+        description: 'Branch to build'
+        required: true
+        type: string
+      image_tag:
+        description: 'GHCR image tag'
+        required: true
+        type: string
+  # schedule:
+  #   - cron: '0 0 * * */2' # do it every 2nd day
 
-permissions:
-  contents: read
 
 jobs:
   docker-build:
-    if: github.repository_owner == 'e-m-b-a'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_TAG: ${{ inputs.image_tag }}
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2 - https://github.com/actions/checkout/releases/tag/v6.0.2
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Validate image tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! "${IMAGE_TAG}" =~ ^[a-zA-Z0-9_][a-zA-Z0-9_.-]{0,127}$ ]]; then
+            echo '::error::Image tag must be 1-128 characters, start with a letter, digit or underscore, and contain only letters, digits, underscores, periods or hyphens.'
+            exit 1
+          fi
       - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be    # v1.3.1 - https://github.com/jlumbroso/free-disk-space/releases/tag/v1.3.1
+        uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: true
           android: true
@@ -46,3 +67,18 @@ jobs:
             sudo docker-compose build --no-cache --pull
             echo "GH_action:true" > ./config/gh_action
             NO_UPDATE_CHECK=1 sudo -E ./emba -d 2 -y
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.EMBA_ACTION }}
+      - name: Push EMBA image to GitHub Container Registry
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_IMAGE=$(sudo docker-compose config | awk '$1 == "image:" && !found { print $2; found=1 }')
+          [[ -n "${SOURCE_IMAGE}" ]]
+          TARGET_IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}:${IMAGE_TAG}"
+          docker tag "${SOURCE_IMAGE}" "${TARGET_IMAGE}"
+          docker push "${TARGET_IMAGE}"
