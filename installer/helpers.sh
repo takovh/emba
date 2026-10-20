@@ -63,7 +63,11 @@ print_tool_info(){
   if [[ "${RHEL_OS}" -eq 1 ]]; then
     lTOOL_INFO="$(dnf info "${lPKG_NAME}" 2> /dev/null)"
   else
-    lTOOL_INFO="$(apt show "${lPKG_NAME}" 2> /dev/null)"
+    if ! lTOOL_INFO="$(apt show "${lPKG_NAME}" 2>&1)"; then
+      echo "Could not query APT package ${lPKG_NAME}:" >&2
+      echo "${lTOOL_INFO}" >&2
+      exit 1
+    fi
   fi
 
   if [[ -n "${lTOOL_INFO}" ]] ; then
