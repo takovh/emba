@@ -302,14 +302,22 @@ if [[ ${LIST_DEP} -eq 0 ]] ; then
   fi
 
   echo -e "\\n""${ORANGE}""Update package lists.""${NC}"
-  if [[ "${SSL_REPOS}" -eq 1 ]]; then
-    sed -i 's/deb http:\/\//deb https:\/\//g' /etc/apt/sources.list
-    sed -i 's/deb-src http:\/\//deb-src https:\/\//g' /etc/apt/sources.list
-  fi
   if [[ "${RHEL_OS}" -eq 1 ]]; then
     dnf install epel-release -y
     dnf update -y
   else
+    if [[ "${SSL_REPOS}" -eq 1 ]]; then
+      APT_SOURCE_FILE=""
+      # APT supports both legacy .list files and deb822 .sources files.
+      for APT_SOURCE_FILE in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
+        [[ -f "${APT_SOURCE_FILE}" ]] || continue
+        if [[ "${APT_SOURCE_FILE}" == *.sources ]]; then
+          sed -i '/^URIs:/s|http://|https://|g' "${APT_SOURCE_FILE}"
+        else
+          sed -E -i 's|^([[:space:]]*deb(-src)?[[:space:]]+(\[[^]]*\][[:space:]]+)?)http://|\1https://|' "${APT_SOURCE_FILE}"
+        fi
+      done
+    fi
     apt-get -y update
   fi
 fi
