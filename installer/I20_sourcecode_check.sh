@@ -38,6 +38,8 @@ I20_sourcecode_check() {
     print_git_info "zarn" "EMBA-support-repos/zarn" "Zarn static perl analyzer"
     # cpanminus is needed for zarn:
     print_tool_info "cpanminus" 1
+    # Install PPI::Document from the distribution before resolving CPAN dependencies.
+    print_tool_info "libppi-perl" 1
 
     print_file_info "iniscan/composer.phar" "A Dependency Manager for PHP" "https://getcomposer.org/installer" "external/iniscan/composer.phar"
     print_file_info "vineflower-1.11.2.jar" "Java decompiler" "https://github.com/Vineflower/vineflower/releases/download/1.11.2/vineflower-1.11.2.jar" "external/vineflower-1.11.2.jar"
@@ -72,6 +74,7 @@ I20_sourcecode_check() {
           cd external/zarn || ( echo "Could not install EMBA component zarn" && exit 1 )
           # https://github.com/htrgouvea/zarn/issues/3
           git reset --hard 009331c
+          perl -MPPI::Document -e 1
           cpanm --installdeps .
           cd "${HOME_PATH}" || ( echo "Could not install EMBA component zarn" && exit 1 )
         fi
