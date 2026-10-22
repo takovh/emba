@@ -1,0 +1,133 @@
+# EMBA - EMBEDDED LINUX ANALYZER
+#
+# Copyright 2020-2025 Siemens Energy AG
+# Copyright 2020-2023 Siemens AG
+#
+# EMBA comes with ABSOLUTELY NO WARRANTY. This is free software, and you are
+# welcome to redistribute it under the terms of the GNU General Public License.
+# See LICENSE file for usage of this software.
+#
+# EMBA is licensed under GPLv3
+#
+# Author(s): Michael Messner, Pascal Eckmann
+#
+# Description: This is a default EMBA profile. You can Use it as a template for your own profiles
+#              or start emba with "-p default-scan.emba" to use it
+
+export FORMAT_LOG=1
+export THREADED=1
+export SHORT_PATH=1
+export HTML=0
+
+# QEMULATION - for user-mode emulation to generate an optimised SBOM
+export QEMULATION=0
+
+# disable yara tests (s110)
+export YARA=0
+
+# extended binary tests are now only testing non-linux binaries. With this mechanism we can enable
+# it in the default profile.
+export BINARY_EXTENDED=1
+# we test only the first 10 binaries with cwe_checker and extended semgrep rules
+export MAX_EXT_CHECK_BINS=40
+
+# VEX metrics (check for KEV, Exploits, EPSS)
+export VEX_METRICS=0
+
+# the following modules are long running modules which are disabled in the default profile
+export MODULE_BLACKLIST+=( "S10_binaries_basic_check" "S15_radare_decompile_checks" )
+export MODULE_BLACKLIST+=( "S99_grepit" "S110_yara_check" "F20_vul_aggregator" )
+export MODULE_BLACKLIST+=( "S20_shell_check" "S21_python_check" "S22_php_check" "S23_lua_check" "S24_kernel_bin_identifier" "S25_kernel_check" )
+export MODULE_BLACKLIST+=( "S35_http_file_check" "S60_cert_file_check" "S95_interesting_files_check" "S17_cwe_checker" "S106_deep_key_search" )
+export MODULE_BLACKLIST+=( "S108_stacs_password_search" "S109_jtr_local_pw_cracking" "S118_busybox_verifier" "F17_cve_bin_tool")
+export MODULE_BLACKLIST+=( "S27_perl_check" "S90_mail_check" "S13_weak_func_check" "S14_weak_func_radare_check"  "S75_network_check")
+export MODULE_BLACKLIST+=( "S28_java_check" "S36_lighttpd" "S07_bootloader_check" "S80_cronjob_check" "S85_ssh_check" "S100_command_inj_check" "S107_deep_password_search" "S115_usermode_emulator" "S116_qemu_version_detection" "S116_qemu_version_detection")
+export MODULE_BLACKLIST+=( "S19_apk_check" "S18_capa_checker" "S40_weak_perm_check" "S45_pass_file_check" "S50_authentication_check" "S55_history_file_check" "S65_config_file_check")
+# enable silent mode and status bar
+export DISABLE_STATUS_BAR=0
+export SILENT=1
+
+# enable GPT connection:
+export GPT_OPTION=0
+
+# ==================== S16模块增强配置 ====================
+# 启用S16反编译和分析模块
+#export S16_ENABLED=1                    # 启用S16模块
+#export S16_DEEP_ANALYSIS=1              # 启用深度分析
+#export S16_DECOMPILE_ALL=1              # 反编译所有识别的S16文件
+#export S16_SAVE_DECOMPILATIONS=1        # 保存反编译结果
+
+# S16输出配置
+#export S16_OUTPUT_DIR="${LOG_DIR:-./logs}/s16_decompiled"  # 反编译输出目录
+#export S16_OUTPUT_FORMAT="txt,json"     # 输出格式：文本和JSON
+#export S16_KEEP_INTERMEDIATE=1          # 保留中间文件
+
+# S16性能配置
+#export S16_TIMEOUT=300                  # 每个文件超时时间(秒)
+#export S16_MAX_FILES=1000               # 最大处理文件数
+#export S16_MAX_FUNCTIONS=5000           # 最大分析函数数
+
+# S16分析深度配置
+#export S16_DECOMPILE_DEPTH=5            # 反编译深度级别
+#export S16_CALL_GRAPH=1                 # 生成调用图
+#export S16_XREFS=1                      # 启用交叉引用分析
+#export S16_DATA_FLOW=1                  # 启用数据流分析
+
+# S16反编译器配置
+# 如果有多个反编译器，可以指定优先级
+#export S16_DECOMPILER_PRIORITY="ghidra,ida,retdec"
+#export S16_DECOMPILER_OPTIONS="--verbose --no-color"
+
+# ==================== 模块黑白名单调整 ====================
+# 移除S16相关模块的黑名单（如果存在）
+#for module in "S85_s16_detection" "S86_s16_code_analysis" "S87_s16_vulnerability_check"; do
+#  if [[ " ${MODULE_BLACKLIST[@]} " =~ " $module " ]]; then
+#   MODULE_BLACKLIST=("${MODULE_BLACKLIST[@]/$module}")
+# fi
+#done
+
+# 确保S16模块被启用（添加到模块白名单）
+#export MODULE_WHITELIST+=( "S85_s16_detection" "S86_s16_code_analysis" "S87_s16_vulnerability_check" )
+
+# 为了更好的S16分析，启用一些额外的相关模块
+#export P_CODE=1                          # 启用代码分析
+#export P_FUNCTION=1                      # 启用函数分析
+#export P_STRINGS=1                       # 启用字符串分析
+
+# ==================== 配置文件信息输出 ====================
+# 我们只在Docker环境外输出配置文件信息
+if [[ $IN_DOCKER -ne 1 ]] ; then
+  print_output "$(indent "$(orange "EMBA S16增强配置文件")")" "no_log"
+  print_output "$(indent "$(green "添加ANSII颜色代码到日志")")" "no_log"
+  print_output "$(indent "$(green "启用多线程")")" "no_log"
+  print_output "$(indent "$(green "仅打印相对路径")")" "no_log"
+  print_output "$(indent "$(green "在日志路径中创建Web报告")")" "no_log"
+  
+  if [[ "$USE_DOCKER" -ne 1 ]]; then
+    print_output "$(indent "$(green "启用自动化qemu仿真测试（警告：此模块可能损害您的主机！）")")" "no_log"
+  else
+    print_output "$(indent "$(green "启用自动化qemu仿真测试")")" "no_log"
+  fi
+  
+  print_output "$(indent "$(green "在Docker容器中运行EMBA")")" "no_log"
+  print_output "$(indent "$(green "通过配置文件禁用EMBA模块")")" "no_log"
+  
+  for MODULE_ in "${MODULE_BLACKLIST[@]}"; do
+    print_output "$(indent "$(orange "已禁用模块: $MODULE_")")" "no_log"
+  done
+  
+  # S16模块特定信息
+  print_output "$(indent "$(cyan "=== S16模块配置 ===")")" "no_log"
+  print_output "$(indent "$(green "启用S16反编译分析")")" "no_log"
+  print_output "$(indent "$(green "反编译输出目录: $S16_OUTPUT_DIR")")" "no_log"
+  print_output "$(indent "$(green "反编译深度: $S16_DECOMPILE_DEPTH")")" "no_log"
+  print_output "$(indent "$(green "最大处理文件数: $S16_MAX_FILES")")" "no_log"
+  print_output "$(indent "$(green "启用调用图生成")")" "no_log"
+  
+  export USE_DOCKER=1
+fi
+
+# ==================== 模块执行顺序调整 ====================
+# 如果需要在特定模块后运行S16模块，可以调整模块执行顺序
+# export MODULE_SEQUENCE_OVERRIDE=("P05" "P10" "S85" "S86" "S87" "P99")
+

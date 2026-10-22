@@ -43,7 +43,6 @@ ext_extractor() {
   local lEXT_PATH_="${1:-}"
   local lEXTRACTION_DIR_="${2:-}"
   local lTMP_EXT_MOUNT=""
-  lTMP_EXT_MOUNT="$(mktemp -d "${TMP_DIR}/ext_mount_XXXXXX")"
   local lFILES_EXT_ARR=()
   local lBINARY=""
   local lWAIT_PIDS_P99_ARR=()
@@ -55,6 +54,7 @@ ext_extractor() {
 
   sub_module_title "EXT filesystem extractor"
 
+  lTMP_EXT_MOUNT="$(mktemp -d "${TMP_DIR}/ext_mount_XXXXXX")"
   print_output "[*] Trying to mount ${ORANGE}${lEXT_PATH_}${NC} to ${ORANGE}${lTMP_EXT_MOUNT}${NC} directory"
   mount -o ro "${lEXT_PATH_}" "${lTMP_EXT_MOUNT}" || {
     print_output "[-] EXT filesystem mount failed"
@@ -67,8 +67,13 @@ ext_extractor() {
     fi
 
     print_output "[*] Copying ${ORANGE}${lTMP_EXT_MOUNT}${NC} to firmware tmp directory (${lEXTRACTION_DIR_})"
-    mkdir -p "${lEXTRACTION_DIR_}"
-    cp -pri "${lTMP_EXT_MOUNT}"/* "${lEXTRACTION_DIR_}"
+    if ! { mkdir -p "${lEXTRACTION_DIR_}" && cp -a "${lTMP_EXT_MOUNT}/." "${lEXTRACTION_DIR_}/"; }; then
+      print_output "[-] EXT filesystem copy failed"
+      if umount "${lTMP_EXT_MOUNT}"; then
+        rmdir "${lTMP_EXT_MOUNT}"
+      fi
+      return
+    fi
     print_ln
     print_output "[*] Using the following firmware directory (${ORANGE}${lEXTRACTION_DIR_}${NC}) as base directory:"
     find "${lEXTRACTION_DIR_}" -xdev -maxdepth 1 -ls | tee -a "${LOG_FILE}"
@@ -88,7 +93,10 @@ ext_extractor() {
 
     write_csv_log "Extractor module" "Original file" "extracted file/dir" "file counter" "further details"
     write_csv_log "EXT filesystem extractor" "${lEXT_PATH_}" "${lEXTRACTION_DIR_}" "${#lFILES_EXT_ARR[@]}" "NA"
+  else
+    print_output "[*] No mounted files found in ${ORANGE}${lTMP_EXT_MOUNT}${NC}"
   fi
-  umount "${lTMP_EXT_MOUNT}" || true
-  [[ -d "${lTMP_EXT_MOUNT}" ]] && rm -rf "${lTMP_EXT_MOUNT}"
+  if umount "${lTMP_EXT_MOUNT}"; then
+    rmdir "${lTMP_EXT_MOUNT}"
+  fi
 }

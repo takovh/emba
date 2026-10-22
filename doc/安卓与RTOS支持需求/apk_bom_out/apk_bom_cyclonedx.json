@@ -1,0 +1,5457 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:e79daac6-e5b9-4db9-87aa-b60c0aacdac9",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-09-24T10:40:34Z",
+    "tools": [
+      {
+        "vendor": "custom",
+        "name": "apk-bom-analyzer",
+        "version": "1.0"
+      }
+    ],
+    "component": {
+      "type": "firmware",
+      "name": "/home/tako/workspace/emba-log/android_system-deep-20260924174747/firmware"
+    }
+  },
+  "components": [
+    {
+      "type": "application",
+      "name": "com.mainscreentheme",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "0abb0c82-ffc6-58c3-b284-c76633cb3a4d",
+      "purl": "pkg:apk/com.mainscreentheme@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a98b30c1e5f934cc04e9d782bc5153e3056710e640b5277d7e4aa2915555ec3b"
+        },
+        {
+          "alg": "MD5",
+          "content": "2caa4f68cdbe076b8bcf42defaa82135"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Aml2DLauncher_mbx.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Aml2DLauncher_mbx.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-mainscreentheme:com-mainscreentheme:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.neldtv.apkstore",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "fa3efcf8-ef00-5639-9982-15b4b275f626",
+      "purl": "pkg:apk/com.neldtv.apkstore@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6cca31136ad1ad9e3d3347fa6cbee0948f1f728f599b4cddf2a55c4e78f75297"
+        },
+        {
+          "alg": "MD5",
+          "content": "752cdf58ec67734c5099a349d09bf370"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/ApkStore.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "3"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/ApkStore.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INSTALL_PACKAGES"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "android-support-lib"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "neldtv-app"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "org.json"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-neldtv-apkstore:com-neldtv-apkstore:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.gsoft.appinstall",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "d8c24421-7c47-5bf2-ae5e-336603d3aae5",
+      "purl": "pkg:apk/com.gsoft.appinstall@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5e6065d2b01d8256946d37de145db437034326308de93dea3d42dcb17759090b"
+        },
+        {
+          "alg": "MD5",
+          "content": "3ff35bd9734779bdc55c36c73b1c6cbd"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/AppInstaller.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "5"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/AppInstaller.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INSTALL_PACKAGES"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CLEAR_APP_CACHE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CLEAR_APP_USER_DATA"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DELETE_PACKAGES"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-gsoft-appinstall:com-gsoft-appinstall:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.applications",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "9240dd8a-0372-551c-ae8b-492f8fa0fa9e",
+      "purl": "pkg:apk/com.android.providers.applications@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d955425609453117e33e565ced55639401f2a5fa141d7c5acd86a17b2c85fee1"
+        },
+        {
+          "alg": "MD5",
+          "content": "974c7c6b292a1019a25321db2d2d0be4"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/ApplicationsProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/ApplicationsProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.PACKAGE_USAGE_STATS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-applications:com-android-providers-applications:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.backupconfirm",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "6bd7ec32-af9d-5065-be08-99d884e0b555",
+      "purl": "pkg:apk/com.android.backupconfirm@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "82ac10d5f9ee181ff64330c03ffb8417a2abae8750176b42abb8f8bb53363edb"
+        },
+        {
+          "alg": "MD5",
+          "content": "0b14b6c9d76a04b9437554928345989e"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/BackupRestoreConfirmation.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/BackupRestoreConfirmation.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BACKUP"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-backupconfirm:com-android-backupconfirm:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.bluetooth",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "4cf2c7d1-1e9b-5a45-a6d4-3c5d35e013f3",
+      "purl": "pkg:apk/com.android.bluetooth@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4345f255c779e269c05dcee4776e25e8bbe7f1312c84d689032a6a5934edd187"
+        },
+        {
+          "alg": "MD5",
+          "content": "4f260e5000623371b77a67d5be4820af"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Bluetooth.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "10"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Bluetooth.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_BLUETOOTH_SHARE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH_ADMIN"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-bluetooth:com-android-bluetooth:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.browser",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "1f7be099-72a1-55db-85df-8ed9939ca9dc",
+      "purl": "pkg:apk/com.android.browser@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cc8b2e22ca4253832009b97b7b2839330da8a945b2690253e1265e8acdd23aeb"
+        },
+        {
+          "alg": "MD5",
+          "content": "caa9e8e8db79f5ff2a547ccb20b9e660"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Browser.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "20"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Browser.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_WIFI_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.browser.permission.READ_HISTORY_BOOKMARKS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.NFC"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_DOWNLOAD_MANAGER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_FINE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.launcher.permission.INSTALL_SHORTCUT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "android-support-lib"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "org.json"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-browser:com-android-browser:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.calculator2",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "f5d8a965-461a-58e0-af94-dbea6351fec4",
+      "purl": "pkg:apk/com.android.calculator2@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9dbc5b01c45753368c96c5d79997b47962066bc9a29a55da1a62fcbfe3525bb3"
+        },
+        {
+          "alg": "MD5",
+          "content": "8963398f4d329129900881d884d2c2e0"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Calculator.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Calculator.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "android-support-lib"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-calculator2:com-android-calculator2:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.calendar",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "7241a91e-2546-5124-85b5-e40b1a6d4fde",
+      "purl": "pkg:apk/com.android.calendar@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "47ef63325d84eb3b8a6630afd668ab8801c5d8f0585ed62ed337bc21ec5c0ab5"
+        },
+        {
+          "alg": "MD5",
+          "content": "2b372f850c7720f9d0b947447bd8bc9d"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Calendar.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "11"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Calendar.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH.mail"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CALENDAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CALENDAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-calendar:com-android-calendar:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.calendar",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "347ef3e6-96b9-556a-bc46-5c0baa270b2a",
+      "purl": "pkg:apk/com.android.providers.calendar@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "26f810db6fedad695a0398dc459fa3c10180b1bd6b3d27ac5311802943bfecd9"
+        },
+        {
+          "alg": "MD5",
+          "content": "58638f4958045e9052803b990eadb922"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/CalendarProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "16"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/CalendarProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH.cl"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CALENDAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SUBSCRIBED_FEEDS_WRITE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_STATS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CALENDAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SUBSCRIBED_FEEDS_READ"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-calendar:com-android-providers-calendar:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.camera",
+      "group": "android-apk",
+      "version": "1",
+      "bom-ref": "78aa525c-767f-509f-ad6a-ccec013f6bfa",
+      "purl": "pkg:apk/com.android.camera@1",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dd2aa540e251964df630946c114fa8365ddd39c46cd1c79d7950e0f88c2da773"
+        },
+        {
+          "alg": "MD5",
+          "content": "6745fa15825acd8cca63651440a34be6"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Camera.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "7"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Camera.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_FINE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CAMERA"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECORD_AUDIO"
+        },
+        {
+          "name": "apk:bom:native_lib",
+          "value": "lib/armeabi-v7a/libjni_mosaic.so"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-camera:com-android-camera:1:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.certinstaller",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "b0512724-cbaa-50f4-889a-0084cf26d2ab",
+      "purl": "pkg:apk/com.android.certinstaller@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a6792219cd9af1559b891b25092fc7338d775f98d0c73192085cb95c49ce5ece"
+        },
+        {
+          "alg": "MD5",
+          "content": "c13488d39f36fb5efb3ede1c5e946325"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/CertInstaller.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/CertInstaller.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-certinstaller:com-android-certinstaller:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.contacts",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "462f5e44-a4e6-5d0b-af49-035a18896c91",
+      "purl": "pkg:apk/com.android.contacts@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f4d1f6786d6b158ba1e1e692b7ebec49d4a91756ebdd933566294fbd8fb742dc"
+        },
+        {
+          "alg": "MD5",
+          "content": "42641c13af9f313972a0ea0422870510"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Contacts.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "27"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Contacts.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.NFC"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PROFILE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_PROFILE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_AUDIO_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ALLOW_ANY_CODEC_FOR_PLAYBACK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SOCIAL_STREAM"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.voicemail.permission.READ_WRITE_ALL_VOICEMAIL"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_FINE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.REBOOT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH.mail"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.voicemail.permission.ADD_VOICEMAIL"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CALL_PRIVILEGED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "android-support-lib"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-contacts:com-android-contacts:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.contacts",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "95a6da3f-330d-5cf1-9bf7-64939e6fa807",
+      "purl": "pkg:apk/com.android.providers.contacts@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fd396162a204555840ffb9fb50216aae40fa4326333086eb142d680d3b212a2a"
+        },
+        {
+          "alg": "MD5",
+          "content": "4a5a95f8c412908e20073caabe3014fd"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/ContactsProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "12"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/ContactsProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_FINE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SUBSCRIBED_FEEDS_WRITE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH.cp"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_STATS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SUBSCRIBED_FEEDS_READ"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-contacts:com-android-providers-contacts:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.defcontainer",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "d9bfefa2-d7f9-58fe-afbc-9ca09940fff8",
+      "purl": "pkg:apk/com.android.defcontainer@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d2e73cf26dfaf636d53d4f5ed2b22c9b0d175fcce12e1973cdfb37b668c5254d"
+        },
+        {
+          "alg": "MD5",
+          "content": "e075e38280e5118e2cc9ecd11176b31b"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/DefaultContainerService.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/DefaultContainerService.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ASEC_ACCESS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ASEC_DESTROY"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ASEC_MOUNT_UNMOUNT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ASEC_CREATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_DOWNLOAD_MANAGER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_CACHE_FILESYSTEM"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_ALL_DOWNLOADS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-defcontainer:com-android-defcontainer:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.deskclock",
+      "group": "android-apk",
+      "version": "2.0.3",
+      "bom-ref": "133d1d9a-429b-5340-a19d-2341f5a7f1ee",
+      "purl": "pkg:apk/com.android.deskclock@2.0.3",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c956a81e9cf2526386f0b0342690d525672eb1e6c01ecefd697ffd5c8f526d02"
+        },
+        {
+          "alg": "MD5",
+          "content": "026c75bd3fc2a49fafc408b487b13db3"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/DeskClock.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "203"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "7"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/DeskClock.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DEVICE_POWER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DISABLE_KEYGUARD"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-deskclock:com-android-deskclock:2.0.3:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.downloads",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "1f6497eb-0b23-53ee-babe-9e626aa363c1",
+      "purl": "pkg:apk/com.android.providers.downloads@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c23deabdaefa81efd888ef26fa2b68b0d89585dc3b4d50363877dd4fbaab6824"
+        },
+        {
+          "alg": "MD5",
+          "content": "14e535a312f00e9fddce02113ff9065d"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/DownloadProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "11"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/DownloadProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CONNECTIVITY_INTERNAL"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_NETWORK_ACCOUNTING"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_DOWNLOAD_MANAGER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_CACHE_FILESYSTEM"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.UPDATE_DEVICE_STATS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_ALL_DOWNLOADS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-downloads:com-android-providers-downloads:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.downloads.ui",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "aea0bb7b-1ad9-5a49-8985-61cea4860a6c",
+      "purl": "pkg:apk/com.android.providers.downloads.ui@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7c4f28494e15a34418214a34ad012182e3cb7ca38414a34cdd530088e0cb53fb"
+        },
+        {
+          "alg": "MD5",
+          "content": "7991143e914e3c6554b6b7198a065d31"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/DownloadProviderUi.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/DownloadProviderUi.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_ALL_DOWNLOADS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-downloads-ui:com-android-providers-downloads-ui:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.drm",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "f1c66bb9-763f-501d-9295-726422a7573e",
+      "purl": "pkg:apk/com.android.providers.drm@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "07e8b69ec05d32de5a5e229cecb5cc430f8b54f693d4222e4e9e5d8969d0c257"
+        },
+        {
+          "alg": "MD5",
+          "content": "25668db7d97bf75f47dd4dc33b8fe920"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/DrmProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/DrmProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_WAP_PUSH"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-drm:com-android-providers-drm:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.email",
+      "group": "android-apk",
+      "version": "4.1",
+      "bom-ref": "fa77c908-14d4-5f68-8fd2-2a817072aa07",
+      "purl": "pkg:apk/com.android.email@4.1",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5f1b270ac12bc2aa3b7fd71b05d8591c90dff23da1fc5fee7249edd81f1c61c8"
+        },
+        {
+          "alg": "MD5",
+          "content": "8f2db7cdc21d988653c25f145db399a5"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Email.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "410000"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "19"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Email.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.NFC"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PROFILE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.email.permission.READ_ATTACHMENT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.AUTHENTICATE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.email.permission.ACCESS_PROVIDER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-commons"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "org.json"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-email:com-android-email:4.1:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.exchange",
+      "group": "android-apk",
+      "version": "4.1",
+      "bom-ref": "41fca323-9bb3-5d84-a1ff-037cca2d09c9",
+      "purl": "pkg:apk/com.android.exchange@4.1",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cbed187ef874dab997d4fe42b287f58b1f98a75f5b733c417e520a3dd1bcb61b"
+        },
+        {
+          "alg": "MD5",
+          "content": "7074d5c3077c2c1dfa49941e639f8b99"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Exchange.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "410000"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "19"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Exchange.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CALENDAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.email.permission.READ_ATTACHMENT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CALENDAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.AUTHENTICATE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.email.permission.ACCESS_PROVIDER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-commons"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-exchange:com-android-exchange:4.1:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.fb.FileBrower",
+      "group": "android-apk",
+      "version": "4.0",
+      "bom-ref": "921d9ce3-577d-5386-9f1d-5ca182674ae7",
+      "purl": "pkg:apk/com.fb.FileBrower@4.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4645f716364cbbc37e7ba052e733d85c86918cf6c2538ba39ed92889a7584f74"
+        },
+        {
+          "alg": "MD5",
+          "content": "68bf35240557d345ca2be683227007ec"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/FileBrowser.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "14"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "4"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/FileBrowser.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_MEDIA_STORAGE"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-fb-FileBrower:com-fb-FileBrower:4.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.galaxy4",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "6a8f6f19-b781-5778-a843-6fa6d77d865c",
+      "purl": "pkg:apk/com.android.galaxy4@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "466fdeda322742673f256f26205d1852dee831e888490b25a7cd921d29669348"
+        },
+        {
+          "alg": "MD5",
+          "content": "3845338c08dfcb1391cd40a2e751150f"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Galaxy4.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "13"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Galaxy4.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-galaxy4:com-android-galaxy4:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.gallery3d",
+      "group": "android-apk",
+      "version": "1.1.30682",
+      "bom-ref": "469a0b12-4d73-516e-8cc5-800befd62140",
+      "purl": "pkg:apk/com.android.gallery3d@1.1.30682",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fa6a47897ed474ab87da0b14a85a81ebd6c33e1392069b3bab30d15c202e6ed9"
+        },
+        {
+          "alg": "MD5",
+          "content": "e00a823e1fc6215d78a276287fd71c8e"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Gallery2.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "30682"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "14"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Gallery2.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_FINE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_ACCOUNTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-gallery3d:com-android-gallery3d:1.1.30682:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.htmlviewer",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "0be0e483-5929-5635-ab07-f0cbaf12727c",
+      "purl": "pkg:apk/com.android.htmlviewer@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9c31d1a7a54f01d75c6b121fd7c499d4226708eb34f35e91c4010811456242da"
+        },
+        {
+          "alg": "MD5",
+          "content": "54542e453cbcaef1098577c5eb1674b6"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/HTMLViewer.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/HTMLViewer.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-htmlviewer:com-android-htmlviewer:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.wallpaper.holospiral",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "5accd4fd-f681-525d-978a-88f6d6c738bf",
+      "purl": "pkg:apk/com.android.wallpaper.holospiral@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1d00c6ad82db69533e21805e58f49c0fc773f4b1e4da74f99245dc248d273a62"
+        },
+        {
+          "alg": "MD5",
+          "content": "866dc286c001e481bd8d4ecbd938c567"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/HoloSpiralWallpaper.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/HoloSpiralWallpaper.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-wallpaper-holospiral:com-android-wallpaper-holospiral:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.keychain",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "ddc2ade5-a467-5544-b57d-df2d2fe32513",
+      "purl": "pkg:apk/com.android.keychain@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "03d423ea78320a429228f4be928edac0c98bdec8614669abd86200e22a5f4cb7"
+        },
+        {
+          "alg": "MD5",
+          "content": "d2f1ee4285c7d9a1271104ae7b3dddfe"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/KeyChain.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/KeyChain.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-keychain:com-android-keychain:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.inputmethod.latin",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "8450adcf-7dfe-5473-a3a7-d17099ee5ddc",
+      "purl": "pkg:apk/com.android.inputmethod.latin@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "21ca13833c799bbe78f78c081347b404bc5d173b6d15343855d9c8f99403d31c"
+        },
+        {
+          "alg": "MD5",
+          "content": "615d9236477b31f3b9f3f9fe3400065d"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/LatinIME.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "5"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/LatinIME.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_USER_DICTIONARY"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_USER_DICTIONARY"
+        },
+        {
+          "name": "apk:bom:native_lib",
+          "value": "lib/armeabi-v7a/libjni_latinime.so"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-inputmethod-latin:com-android-inputmethod-latin:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.launcher",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "4f77616e-c176-5ca5-9766-4a5fd944e93c",
+      "purl": "pkg:apk/com.android.launcher@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5a65835483f414ffa75fbe475cf65e3ad5bd27e69dffe9b6517fce8a4b10f80e"
+        },
+        {
+          "alg": "MD5",
+          "content": "1204747dd378a958a0c00ac4b2a34f88"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Launcher2.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "7"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Launcher2.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CALL_PHONE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BIND_APPWIDGET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.launcher.permission.READ_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER_HINTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.launcher.permission.WRITE_SETTINGS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-launcher:com-android-launcher:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.wallpaper",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "d757b05a-bc85-56fc-8169-61e5837d646e",
+      "purl": "pkg:apk/com.android.wallpaper@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ec5aec362f2ac53a1dcc84066edc046a1a333a48f72f6cabe14e8165dccf705b"
+        },
+        {
+          "alg": "MD5",
+          "content": "21354c855d0eab262be6a8b015d51884"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/LiveWallpapers.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/LiveWallpapers.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CAMERA"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-wallpaper:com-android-wallpaper:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.wallpaper.livepicker",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "eb4c8f1a-f9f7-5dd4-af62-5920b9d32ce6",
+      "purl": "pkg:apk/com.android.wallpaper.livepicker@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cb07139b7abfd13ab448ba87ef50833e42a7ac688b00d289797a3c19dcb79565"
+        },
+        {
+          "alg": "MD5",
+          "content": "0f13780d611bdb4a47e1d9fc803f8add"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/LiveWallpapersPicker.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/LiveWallpapersPicker.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BIND_WALLPAPER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER_COMPONENT"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-wallpaper-livepicker:com-android-wallpaper-livepicker:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.magicsmoke",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "f769c6fa-65ba-5225-98db-b31b25276206",
+      "purl": "pkg:apk/com.android.magicsmoke@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e385c27c066f011e8b5127567ce79936dc5a00c06ca8a403f39349dc7370b995"
+        },
+        {
+          "alg": "MD5",
+          "content": "fe3d3ffc92860fe8d6d3eff77efa9dc9"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/MagicSmokeWallpapers.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/MagicSmokeWallpapers.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BIND_WALLPAPER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_WALLPAPER_COMPONENT"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-magicsmoke:com-android-magicsmoke:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.media",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "4fb016fc-d774-5617-9381-b59ef947f187",
+      "purl": "pkg:apk/com.android.providers.media@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b06b7ac7c0ec023b1042179694d637a06f893f3c452edf947d4edb95f105833e"
+        },
+        {
+          "alg": "MD5",
+          "content": "13f6d6da650af114a8ea6ed7340b52cc"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/MediaProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "6"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/MediaProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_MEDIA_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_MTP"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-media:com-android-providers-media:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.mms",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "c3bfcbab-53b5-54ef-9b72-7cc785a7cdb0",
+      "purl": "pkg:apk/com.android.mms@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8ffb9d260d2eb89218b57708f4fe67217f6add3e405373205015efdeade40757"
+        },
+        {
+          "alg": "MD5",
+          "content": "1c60f23ae430d170822e6e43748072a5"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Mms.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "18"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Mms.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CALL_PHONE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SEND_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PROFILE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_MMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INSTALL_DRM"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-mms:com-android-mms:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.music",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "9154f09d-49b3-589b-8315-b484d3565967",
+      "purl": "pkg:apk/com.android.music@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e049cb1c33f34088d9aea7b5dde3b8831ad046198e7b2b36c0fd464b6f0c90fa"
+        },
+        {
+          "alg": "MD5",
+          "content": "ad58f91866e05150a37637d727631be1"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Music.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "9"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "7"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Music.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BROADCAST_STICKY"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SYSTEM_ALERT_WINDOW"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-music:com-android-music:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "org.geometerplus.zlibrary.ui.android",
+      "group": "android-apk",
+      "version": "0.7.13",
+      "bom-ref": "8ec04ead-b6d5-5362-92e4-c982a5906dbb",
+      "purl": "pkg:apk/org.geometerplus.zlibrary.ui.android@0.7.13",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0c573c6ce3bf56c1d37f7c513d6672c60d89a04b2daf7915699f841e219ba2cd"
+        },
+        {
+          "alg": "MD5",
+          "content": "e4ab69763aecb885f83657206cc63d15"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/MusicPlayer.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "713"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "10"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "6"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/MusicPlayer.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "amlogic-sdk"
+        }
+      ],
+      "cpe": "cpe:2.3:a:org-geometerplus-zlibrary-ui-android:org-geometerplus-zlibrary-ui-android:0.7.13:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.noisefield",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "c8fd60e5-e5ab-59b5-a2bc-257499c6457d",
+      "purl": "pkg:apk/com.android.noisefield@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "009520021fd754fd4a53f47629214933c618a8a20b6efd8456420e825809e051"
+        },
+        {
+          "alg": "MD5",
+          "content": "40540c5b68d9dae4ae0c14896c903c2c"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/NoiseField.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "13"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/NoiseField.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-noisefield:com-android-noisefield:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.amlogic.OOBE",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "6ce7f28d-c39a-5470-8395-677315dac3a9",
+      "purl": "pkg:apk/com.amlogic.OOBE@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "aedb671b0fe71ab4f3806c22cd7caf43e23b90693cba950ed9055d7aabecd1ca"
+        },
+        {
+          "alg": "MD5",
+          "content": "bdea8435411eaf1be76952996eced464"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/OOBE.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "4"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/OOBE.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.REBOOT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SECURE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "amlogic-sdk"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-amlogic-OOBE:com-amlogic-OOBE:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.packageinstaller",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "0658e6ba-bc74-52f4-bf9f-9157e2735be1",
+      "purl": "pkg:apk/com.android.packageinstaller@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "14f8b7c255738d0df3e0945331bca4d3ba06481a38b648b7346f5abf7b3c445c"
+        },
+        {
+          "alg": "MD5",
+          "content": "7498b991d657c5144fe5cd23f1efea88"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/PackageInstaller.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "5"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/PackageInstaller.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INSTALL_PACKAGES"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CLEAR_APP_CACHE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CLEAR_APP_USER_DATA"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DELETE_PACKAGES"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-packageinstaller:com-android-packageinstaller:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.phasebeam",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "3144cf85-3822-53f3-8fac-ea75647c70a2",
+      "purl": "pkg:apk/com.android.phasebeam@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f4824884e9547f5aee963a8a3cf495a2d1dd7f6c97dda981e304591f059f6b4c"
+        },
+        {
+          "alg": "MD5",
+          "content": "7308eb7a57b72c9c7b7e39eb5dcd02f7"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/PhaseBeam.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "13"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/PhaseBeam.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-phasebeam:com-android-phasebeam:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.phone",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "11f14b07-132b-50be-b1bb-7a59a082a410",
+      "purl": "pkg:apk/com.android.phone@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ffda550e08193a9a223971434a5ec9e3bb9cb4dfa132954576ab3fa63b7890d3"
+        },
+        {
+          "alg": "MD5",
+          "content": "dda20569df0fefa48617ddbc6b4dd330"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Phone.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "45"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Phone.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_WIFI_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.PERFORM_CDMA_PROVISIONING"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SEND_SMS_NO_CONFIRMATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ADD_SYSTEM_SERVICE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH_ADMIN"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BROADCAST_STICKY"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECORD_AUDIO"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_SIP"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_APN_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SECURE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CALL_PHONE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.STOP_APP_SWITCHES"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BROADCAST_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_AUDIO_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SYSTEM_ALERT_WINDOW"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SHUTDOWN"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_CONFIGURATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.REORDER_TASKS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.smspush.WAPPUSH_MANAGER_BIND"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.STATUS_BAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SEND_SMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_TIME_ZONE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_WIFI_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECEIVE_BOOT_COMPLETED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BROADCAST_WAP_PUSH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.REBOOT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DEVICE_POWER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DISABLE_KEYGUARD"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CALL_PRIVILEGED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.PROCESS_OUTGOING_CALLS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNAL_SYSTEM_WINDOW"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-phone:com-android-phone:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.svox.pico",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "33bf2e76-9fa3-564a-96b6-3aca22a7a29f",
+      "purl": "pkg:apk/com.svox.pico@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "49ed6c13a95f609f1d6499a65449f8b713c8525e04e83c28e2e980b91d8e0e50"
+        },
+        {
+          "alg": "MD5",
+          "content": "c10bf2ade1a5ff8f53eef92d44c19eef"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/PicoTts.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/PicoTts.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DELETE_PACKAGES"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-svox-pico:com-svox-pico:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.amlogic.PicturePlayer",
+      "group": "android-apk",
+      "version": "0.7.13",
+      "bom-ref": "2a75cd0d-f7ea-595d-9c62-01a8b6bc7bfc",
+      "purl": "pkg:apk/com.amlogic.PicturePlayer@0.7.13",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d815e3df6f8e8d7deae4ffd75e388368e5d88f8c602fb25a2af136a9ee2ea0e2"
+        },
+        {
+          "alg": "MD5",
+          "content": "4d0fa47ef07ecd4d9b554f31302ab072"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/PicturePlayer.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "713"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "6"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/PicturePlayer.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "amlogic-sdk"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-amlogic-PicturePlayer:com-amlogic-PicturePlayer:0.7.13:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.protips",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "4abc39e3-e337-5e38-97c0-f44d72c6977c",
+      "purl": "pkg:apk/com.android.protips@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "386e3590306d2fe3490cc2fd5d9e211dc2e229c331acb168c370304bba6e3054"
+        },
+        {
+          "alg": "MD5",
+          "content": "6c1b7cee7790a109d034763b780b0b44"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Protips.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "3"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Protips.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-protips:com-android-protips:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.provision",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "77d9abf6-2252-582c-b2e2-5f46546b35f6",
+      "purl": "pkg:apk/com.android.provision@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "eed474379d7af42fba36dc4a3bc9a9009c279e04333284bc886b1ec7bf11309d"
+        },
+        {
+          "alg": "MD5",
+          "content": "5b564c6270a09ef8d0dc0b9ebef52504"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Provision.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Provision.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SECURE_SETTINGS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-provision:com-android-provision:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.quicksearchbox",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "aba1c1bf-b96b-5989-83a6-0c3f6033a444",
+      "purl": "pkg:apk/com.android.quicksearchbox@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "77c0e891533bb1f9cdab10e4385c94af539062ffa99a1b4042a2b21ec7819e08"
+        },
+        {
+          "alg": "MD5",
+          "content": "dfef98abe56ce2edefb34275ec36f082"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/QuickSearchBox.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "6"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/QuickSearchBox.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.browser.permission.READ_HISTORY_BOOKMARKS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GLOBAL_SEARCH"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "org.json"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-quicksearchbox:com-android-quicksearchbox:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.amlogic.inputmethod.remote",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "855b2faf-7163-535e-af43-4e12bca84e88",
+      "purl": "pkg:apk/com.amlogic.inputmethod.remote@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "28f46d6ec92bd13e4835db5f703867b88f5456be9d1e9e191dbc109d503423c0"
+        },
+        {
+          "alg": "MD5",
+          "content": "dcac248510c13b44d5d55ffefcfa4ae9"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/RemoteIME.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/RemoteIME.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "amlogic-sdk"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-amlogic-inputmethod-remote:com-amlogic-inputmethod-remote:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.settings",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "88a66782-0399-5f1a-a99e-96855526b20e",
+      "purl": "pkg:apk/com.android.settings@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "41c578d291929508507ba5e45eac5e35f6c14cf855d68886bd383f7a2586b824"
+        },
+        {
+          "alg": "MD5",
+          "content": "c525b4bd4002159fffb8bd3600c6ea4d"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Settings.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "46"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Settings.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_WIFI_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.PACKAGE_USAGE_STATS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.NFC"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH_ADMIN"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_STATS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_APN_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.google.android.googleapps.permission.GOOGLE_AUTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SECURE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_USER_DICTIONARY"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_USER_DICTIONARY"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CALL_PHONE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MASTER_CLEAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_DOWNLOAD_MANAGER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_AUDIO_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_WIMAX_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOVE_PACKAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_COARSE_LOCATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_CONFIGURATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BACKUP"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.STATUS_BAR"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.FORCE_STOP_PACKAGES"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_WIFI_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CLEAR_APP_USER_DATA"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BATTERY_STATS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DEVICE_POWER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.launcher.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.HARDWARE_TEST"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_CONTACTS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_PHONE_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_WIMAX_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.VIBRATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "com.android.launcher.permission.READ_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_USB"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.READ_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SYNC_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.SET_POINTER_SPEED"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_CHECKIN_PROPERTIES"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.USE_CREDENTIALS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-settings:com-android-settings:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.settings",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "bd33769d-8c48-5299-9acc-0f796f70321b",
+      "purl": "pkg:apk/com.android.providers.settings@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e958973066c982c43ee2941864990fa8e410ce1b2c9779f5fe25ba77b0f92e5d"
+        },
+        {
+          "alg": "MD5",
+          "content": "cada9fa13a0425a58335757b2b601f27"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/SettingsProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/SettingsProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-settings:com-android-providers-settings:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.sharedstoragebackup",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "cd6b940d-bc71-5550-be74-f6b8d908db63",
+      "purl": "pkg:apk/com.android.sharedstoragebackup@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6eb572d5577aec9d645060bef9792f43642dfbc972ff0f29496c27b9db193e05"
+        },
+        {
+          "alg": "MD5",
+          "content": "7efd409b7e1d5ba25ad18498ab5773e7"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/SharedStorageBackup.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/SharedStorageBackup.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_MEDIA_STORAGE"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-sharedstoragebackup:com-android-sharedstoragebackup:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.soundrecorder",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "c89dcd34-477b-542c-bb54-895c5430f0e9",
+      "purl": "pkg:apk/com.android.soundrecorder@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "adecb6422f032e2804676cb657d9e807599c80d0da65427014c2304fa717d5de"
+        },
+        {
+          "alg": "MD5",
+          "content": "a796faca49c6b5a552f069aa755aa607"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/SoundRecorder.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "4"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/SoundRecorder.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECORD_AUDIO"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-soundrecorder:com-android-soundrecorder:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.systemui",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "dec41e74-6ebb-5cd6-aa3d-fde93861fdfb",
+      "purl": "pkg:apk/com.android.systemui@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "37e44504b87eb30c2ba6efc4e45b10b901b71b93cc7e89e7b57363a2d5ca8ab9"
+        },
+        {
+          "alg": "MD5",
+          "content": "4d3b81afd75bd8228c98775598f94c35"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/SystemUI.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "5"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/SystemUI.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.GET_TASKS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MANAGE_USB"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.BLUETOOTH_ADMIN"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.STATUS_BAR_SERVICE"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-systemui:com-android-systemui:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "org.neldtv.tpmsetting",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "8b8ce522-9a2b-5c5e-90b4-c271e2410d60",
+      "purl": "pkg:apk/org.neldtv.tpmsetting@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2a9f51772bfcea2fe951be005a4ecfcba7ff364383dd0b68a368eb023d78948b"
+        },
+        {
+          "alg": "MD5",
+          "content": "b6e3b942d88b735d2c16c91247bb389e"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/TPMSettings.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/TPMSettings.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:org-neldtv-tpmsetting:org-neldtv-tpmsetting:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.telephony",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "17df26f1-458f-5ebe-86de-08a4ac5e60d9",
+      "purl": "pkg:apk/com.android.providers.telephony@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3535080a2f7dcd745f8385f7f37c603965a265d9e40eb30fccd91431bc8b29db"
+        },
+        {
+          "alg": "MD5",
+          "content": "b7acfa233de79338abed1ec4de0cb129"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/TelephonyProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/TelephonyProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-telephony:com-android-providers-telephony:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.example.Upgrade",
+      "group": "android-apk",
+      "version": "1.0",
+      "bom-ref": "fce04f45-42ee-5c26-b028-6794bb8d48a0",
+      "purl": "pkg:apk/com.example.Upgrade@1.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4ed10b721f7beced5337b44770bfbcfc04715dc0a0366c702afb056ca52cbdd0"
+        },
+        {
+          "alg": "MD5",
+          "content": "8459db54ff6c90cdf00fbe62e9e1f45e"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/Update.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "8"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "9"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/Update.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_WIFI_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_NETWORK_STATE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_DOWNLOAD_MANAGER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.INTERNET"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.ACCESS_CACHE_FILESYSTEM"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.REBOOT"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        },
+        {
+          "name": "apk:bom:lib_hint",
+          "value": "apache-httpclient"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-example-Upgrade:com-example-Upgrade:1.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.providers.userdictionary",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "e6305a47-8ce6-5a72-b011-dd0aeec258ba",
+      "purl": "pkg:apk/com.android.providers.userdictionary@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f50701a17fc560f0e80dab2510a7670e8bd19d1f69975a9937c321edb174f716"
+        },
+        {
+          "alg": "MD5",
+          "content": "064d5b9c986ed4437d3ae66542dc5ecb"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/UserDictionaryProvider.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/UserDictionaryProvider.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-providers-userdictionary:com-android-providers-userdictionary:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.farcore.videoplayer",
+      "group": "android-apk",
+      "version": "1.73",
+      "bom-ref": "58872195-097b-5239-bcc5-f0513689df65",
+      "purl": "pkg:apk/com.farcore.videoplayer@1.73",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8cd9c6e6791d4d6b36e9468f4666d6245585ebc0620c4a2f23d58893f26df31c"
+        },
+        {
+          "alg": "MD5",
+          "content": "12174cc50e329840070cc7d462e16080"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/VideoPlayer.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "1"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "14"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "14"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "6"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/VideoPlayer.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CHANGE_CONFIGURATION"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WAKE_LOCK"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.WRITE_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.DEVICE_POWER"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-farcore-videoplayer:com-farcore-videoplayer:1.73:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.musicvis",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "5bdacfbb-cd8a-5570-b043-a8cd640c9ffc",
+      "purl": "pkg:apk/com.android.musicvis@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a84efe191e2a5cf20cec2dc142fe4d4c23ad6df5c43dc219f9736f2e59512160"
+        },
+        {
+          "alg": "MD5",
+          "content": "ffd393c863974ae8a03b52af6fd83eae"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/VisualizationWallpapers.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/VisualizationWallpapers.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.MODIFY_AUDIO_SETTINGS"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.RECORD_AUDIO"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-musicvis:com-android-musicvis:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "com.android.vpndialogs",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "12ba8768-431e-5724-8666-48294682acd0",
+      "purl": "pkg:apk/com.android.vpndialogs@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c88a32d089978ccb68d62857d1f719f1f170366ea5db767d0d53755e290fd735"
+        },
+        {
+          "alg": "MD5",
+          "content": "2f114093ced6366a1c86dccc6db44438"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/app/VpnDialogs.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "0"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": "firmware/yaffs1_extracted/app/VpnDialogs.odex"
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        }
+      ],
+      "cpe": "cpe:2.3:a:com-android-vpndialogs:com-android-vpndialogs:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "application",
+      "name": "android",
+      "group": "android-apk",
+      "version": "4.0.3-eng.xlyu.20160408.194630",
+      "bom-ref": "1e66daca-9fd7-5e46-abab-d7c5a253db20",
+      "purl": "pkg:apk/android@4.0.3-eng.xlyu.20160408.194630",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dc2c55316e054ccd45f0bb6647290fd019eb491d94c070542cca70e1b6162dc8"
+        },
+        {
+          "alg": "MD5",
+          "content": "29855864fb9b82fd0167686432b18f2b"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apk:bom:source_path",
+          "value": "firmware/yaffs1_extracted/framework/framework-res.apk"
+        },
+        {
+          "name": "apk:bom:version_code",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:min_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:target_sdk",
+          "value": "15"
+        },
+        {
+          "name": "apk:bom:permission_count",
+          "value": "2"
+        },
+        {
+          "name": "apk:bom:has_classes_dex",
+          "value": "False"
+        },
+        {
+          "name": "apk:bom:odex_path",
+          "value": ""
+        },
+        {
+          "name": "apk:bom:cert_subject",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:cert_issuer",
+          "value": "Email Address: android@android.com, Common Name: Android, Organizational Unit: Android, Organization: Android, Locality: Mountain View, State/Province: California, Country: US"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.permission.CONFIRM_FULL_BACKUP"
+        },
+        {
+          "name": "apk:bom:permission",
+          "value": "android.intent.category.MASTER_CLEAR.permission.C2D_MESSAGE"
+        }
+      ],
+      "cpe": "cpe:2.3:a:android:android:4.0.3-eng.xlyu.20160408.194630:*:*:*:*:*:*:*"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "0abb0c82-ffc6-58c3-b284-c76633cb3a4d",
+      "dependsOn": []
+    },
+    {
+      "ref": "fa3efcf8-ef00-5639-9982-15b4b275f626",
+      "dependsOn": []
+    },
+    {
+      "ref": "d8c24421-7c47-5bf2-ae5e-336603d3aae5",
+      "dependsOn": []
+    },
+    {
+      "ref": "9240dd8a-0372-551c-ae8b-492f8fa0fa9e",
+      "dependsOn": []
+    },
+    {
+      "ref": "6bd7ec32-af9d-5065-be08-99d884e0b555",
+      "dependsOn": []
+    },
+    {
+      "ref": "4cf2c7d1-1e9b-5a45-a6d4-3c5d35e013f3",
+      "dependsOn": []
+    },
+    {
+      "ref": "1f7be099-72a1-55db-85df-8ed9939ca9dc",
+      "dependsOn": []
+    },
+    {
+      "ref": "f5d8a965-461a-58e0-af94-dbea6351fec4",
+      "dependsOn": []
+    },
+    {
+      "ref": "7241a91e-2546-5124-85b5-e40b1a6d4fde",
+      "dependsOn": []
+    },
+    {
+      "ref": "347ef3e6-96b9-556a-bc46-5c0baa270b2a",
+      "dependsOn": []
+    },
+    {
+      "ref": "78aa525c-767f-509f-ad6a-ccec013f6bfa",
+      "dependsOn": []
+    },
+    {
+      "ref": "b0512724-cbaa-50f4-889a-0084cf26d2ab",
+      "dependsOn": []
+    },
+    {
+      "ref": "462f5e44-a4e6-5d0b-af49-035a18896c91",
+      "dependsOn": []
+    },
+    {
+      "ref": "95a6da3f-330d-5cf1-9bf7-64939e6fa807",
+      "dependsOn": []
+    },
+    {
+      "ref": "d9bfefa2-d7f9-58fe-afbc-9ca09940fff8",
+      "dependsOn": []
+    },
+    {
+      "ref": "133d1d9a-429b-5340-a19d-2341f5a7f1ee",
+      "dependsOn": []
+    },
+    {
+      "ref": "1f6497eb-0b23-53ee-babe-9e626aa363c1",
+      "dependsOn": []
+    },
+    {
+      "ref": "aea0bb7b-1ad9-5a49-8985-61cea4860a6c",
+      "dependsOn": []
+    },
+    {
+      "ref": "f1c66bb9-763f-501d-9295-726422a7573e",
+      "dependsOn": []
+    },
+    {
+      "ref": "fa77c908-14d4-5f68-8fd2-2a817072aa07",
+      "dependsOn": []
+    },
+    {
+      "ref": "41fca323-9bb3-5d84-a1ff-037cca2d09c9",
+      "dependsOn": []
+    },
+    {
+      "ref": "921d9ce3-577d-5386-9f1d-5ca182674ae7",
+      "dependsOn": []
+    },
+    {
+      "ref": "6a8f6f19-b781-5778-a843-6fa6d77d865c",
+      "dependsOn": []
+    },
+    {
+      "ref": "469a0b12-4d73-516e-8cc5-800befd62140",
+      "dependsOn": []
+    },
+    {
+      "ref": "0be0e483-5929-5635-ab07-f0cbaf12727c",
+      "dependsOn": []
+    },
+    {
+      "ref": "5accd4fd-f681-525d-978a-88f6d6c738bf",
+      "dependsOn": []
+    },
+    {
+      "ref": "ddc2ade5-a467-5544-b57d-df2d2fe32513",
+      "dependsOn": []
+    },
+    {
+      "ref": "8450adcf-7dfe-5473-a3a7-d17099ee5ddc",
+      "dependsOn": []
+    },
+    {
+      "ref": "4f77616e-c176-5ca5-9766-4a5fd944e93c",
+      "dependsOn": []
+    },
+    {
+      "ref": "d757b05a-bc85-56fc-8169-61e5837d646e",
+      "dependsOn": []
+    },
+    {
+      "ref": "eb4c8f1a-f9f7-5dd4-af62-5920b9d32ce6",
+      "dependsOn": []
+    },
+    {
+      "ref": "f769c6fa-65ba-5225-98db-b31b25276206",
+      "dependsOn": []
+    },
+    {
+      "ref": "4fb016fc-d774-5617-9381-b59ef947f187",
+      "dependsOn": []
+    },
+    {
+      "ref": "c3bfcbab-53b5-54ef-9b72-7cc785a7cdb0",
+      "dependsOn": []
+    },
+    {
+      "ref": "9154f09d-49b3-589b-8315-b484d3565967",
+      "dependsOn": []
+    },
+    {
+      "ref": "8ec04ead-b6d5-5362-92e4-c982a5906dbb",
+      "dependsOn": []
+    },
+    {
+      "ref": "c8fd60e5-e5ab-59b5-a2bc-257499c6457d",
+      "dependsOn": []
+    },
+    {
+      "ref": "6ce7f28d-c39a-5470-8395-677315dac3a9",
+      "dependsOn": []
+    },
+    {
+      "ref": "0658e6ba-bc74-52f4-bf9f-9157e2735be1",
+      "dependsOn": []
+    },
+    {
+      "ref": "3144cf85-3822-53f3-8fac-ea75647c70a2",
+      "dependsOn": []
+    },
+    {
+      "ref": "11f14b07-132b-50be-b1bb-7a59a082a410",
+      "dependsOn": []
+    },
+    {
+      "ref": "33bf2e76-9fa3-564a-96b6-3aca22a7a29f",
+      "dependsOn": []
+    },
+    {
+      "ref": "2a75cd0d-f7ea-595d-9c62-01a8b6bc7bfc",
+      "dependsOn": []
+    },
+    {
+      "ref": "4abc39e3-e337-5e38-97c0-f44d72c6977c",
+      "dependsOn": []
+    },
+    {
+      "ref": "77d9abf6-2252-582c-b2e2-5f46546b35f6",
+      "dependsOn": []
+    },
+    {
+      "ref": "aba1c1bf-b96b-5989-83a6-0c3f6033a444",
+      "dependsOn": []
+    },
+    {
+      "ref": "855b2faf-7163-535e-af43-4e12bca84e88",
+      "dependsOn": []
+    },
+    {
+      "ref": "88a66782-0399-5f1a-a99e-96855526b20e",
+      "dependsOn": []
+    },
+    {
+      "ref": "bd33769d-8c48-5299-9acc-0f796f70321b",
+      "dependsOn": []
+    },
+    {
+      "ref": "cd6b940d-bc71-5550-be74-f6b8d908db63",
+      "dependsOn": []
+    },
+    {
+      "ref": "c89dcd34-477b-542c-bb54-895c5430f0e9",
+      "dependsOn": []
+    },
+    {
+      "ref": "dec41e74-6ebb-5cd6-aa3d-fde93861fdfb",
+      "dependsOn": []
+    },
+    {
+      "ref": "8b8ce522-9a2b-5c5e-90b4-c271e2410d60",
+      "dependsOn": []
+    },
+    {
+      "ref": "17df26f1-458f-5ebe-86de-08a4ac5e60d9",
+      "dependsOn": []
+    },
+    {
+      "ref": "fce04f45-42ee-5c26-b028-6794bb8d48a0",
+      "dependsOn": []
+    },
+    {
+      "ref": "e6305a47-8ce6-5a72-b011-dd0aeec258ba",
+      "dependsOn": []
+    },
+    {
+      "ref": "58872195-097b-5239-bcc5-f0513689df65",
+      "dependsOn": []
+    },
+    {
+      "ref": "5bdacfbb-cd8a-5570-b043-a8cd640c9ffc",
+      "dependsOn": []
+    },
+    {
+      "ref": "12ba8768-431e-5724-8666-48294682acd0",
+      "dependsOn": []
+    },
+    {
+      "ref": "1e66daca-9fd7-5e46-abab-d7c5a253db20",
+      "dependsOn": []
+    }
+  ]
+}

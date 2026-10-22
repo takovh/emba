@@ -468,8 +468,13 @@ main() {
           print_output "[*] $(print_date) - Loading EMBA scan profile." "no_log"
         fi
         # all profile output and settings are done by the profile file located in ./scan-profiles/
+        local lUSE_DOCKER="${USE_DOCKER}"
         # shellcheck source=/dev/null
         source "${PROFILE}"
+        # Preserve local execution selected by -D or the internal -i parameter.
+        if [[ "${lUSE_DOCKER}" -eq 0 ]]; then
+          export USE_DOCKER=0
+        fi
         print_output "[*] $(print_date) - Profile ${PROFILE} loaded." "no_log"
         print_bar "no_log"
       else

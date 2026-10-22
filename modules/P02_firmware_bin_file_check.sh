@@ -130,6 +130,8 @@ set_p02_default_exports() {
   export GPG_COMPRESS=0
   export BSD_UFS=0
   export ANDROID_OTA=0
+  export ANDROID_SPARSE=0
+  export ANDROID_SUPER=0
   # Note: we do not set UEFI_DETECTED in this function. If so, we are going to reset it and we only need
   #       an indicator if this could be some UEFI firmware for further processing
   export UEFI_AMI_CAPSULE=0
@@ -139,6 +141,8 @@ set_p02_default_exports() {
   export DJI_PRAK_DETECTED=0
   export DJI_XV4_DETECTED=0
   export WINDOWS_EXE=0
+  export YAFFS1_DETECTED=0
+  export ROCKCHIP_DETECTED=0
 }
 
 generate_entropy_graph() {
@@ -159,6 +163,8 @@ generate_entropy_graph() {
 
 fw_bin_detector() {
   local lCHECK_FILE="${1:-}"
+  # Disable input staging when inspecting files already inside the extracted firmware.
+  local lCOPY_INPUT="${2:-1}"
   local lCHECK_FILE_NAME=""
   lCHECK_FILE_NAME="$(basename "${lCHECK_FILE}")"
   local lFILE_BIN_OUT=""
@@ -253,24 +259,30 @@ fw_bin_detector() {
   fi
   if [[ "${lFILE_BIN_OUT}" == *"Debian binary package"* ]]; then
     print_output "[+] Identified Debian package archive file - using package extraction module"
-    cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.deb" || print_error "[-] Deb package copy process failed"
-    write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.deb" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
-    export DISABLE_DEEP=1
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.deb" || print_error "[-] Deb package copy process failed"
+      write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.deb" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
+      export DISABLE_DEEP=1
+    fi
     write_csv_log "DEB" "yes" "NA"
   fi
   if [[ "${lFILE_BIN_OUT}" == *"Java archive data"* ]]; then
     print_output "[+] Identified Java archive package - using package extraction module"
-    cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.jar" || print_error "[-] Java archive copy process failed"
-    write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.jar" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
-    export DISABLE_DEEP=1
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.jar" || print_error "[-] Java archive copy process failed"
+      write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.jar" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
+      export DISABLE_DEEP=1
+    fi
     write_csv_log "JAR" "yes" "NA"
   fi
 
   if [[ "${lFILE_BIN_OUT}" == *"RPM v3.0 bin"* ]]; then
     print_output "[+] Identified RPM package archive file - using package extraction module"
-    cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.rpm" || print_error "[-] RPM package copy process failed"
-    write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.rpm" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
-    export DISABLE_DEEP=1
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.rpm" || print_error "[-] RPM package copy process failed"
+      write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.rpm" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
+      export DISABLE_DEEP=1
+    fi
     write_csv_log "RPM" "yes" "NA"
   fi
   if [[ "${lFILE_BIN_OUT}" == *"VMware4 disk image"* ]]; then
@@ -339,6 +351,12 @@ fw_bin_detector() {
     lUEFI_CHECK=0
     write_csv_log "EXT4 filesystem" "yes" "NA"
   fi
+  if [[ "${lFILE_BIN_OUT}" == *"YAFFS filesystem root entry (little endian), type root or directory, v1 root directory"* ]]; then
+    print_output "[+] Identified YAFFS filesystem root entry (little endian), type root or directory, v1 root directory - using YAFFS extraction module"
+    export YAFFS1_DETECTED=1
+    lUEFI_CHECK=0
+    write_csv_log "YAFFS v1 filesystem" "yes" "NA"
+  fi
   if [[ "${lQNAP_ENC_CHECK}" == *"QNAP encrypted firmware footer , model"* ]]; then
     print_output "[+] Identified QNAP encrpyted firmware - using QNAP extraction module"
     export QNAP_ENC_DETECTED=1
@@ -348,46 +366,54 @@ fw_bin_detector() {
   if [[ "${lFILE_BIN_OUT}" == *"ELF"* ]]; then
     # looks like we have only and ELF file to test
     print_output "[+] Identified ELF file - performing binary tests on this ELF file"
-    if ! [[ -f "${LOG_DIR}"/firmware/firmware ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}"/firmware/firmware ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.elf" || print_error "[-] Binary file copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.elf" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
     fi
   fi
   if [[ "${lFILE_BIN_OUT}" == *"Perl script text executable"* ]]; then
     print_output "[+] Identified Perl script - performing perl checks"
-    export DISABLE_DEEP=1
-    if ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.pl" ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      export DISABLE_DEEP=1
+    fi
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.pl" ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.pl" || print_error "[-] Perl script file copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.pl" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
     fi
   fi
   if [[ "${lFILE_BIN_OUT}" == *"PHP script,"* ]]; then
     print_output "[+] Identified PHP script - performing PHP checks"
-    export DISABLE_DEEP=1
-    if ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.php" ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      export DISABLE_DEEP=1
+    fi
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.php" ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.php" || print_error "[-] PHP script file copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.php" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
     fi
   fi
   if [[ "${lFILE_BIN_OUT}" == *"Python script,"* ]]; then
     print_output "[+] Identified Python script - performing Python checks"
-    export DISABLE_DEEP=1
-    if ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.py" ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      export DISABLE_DEEP=1
+    fi
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.py" ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.py" || print_error "[-] Python script file copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.py" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
     fi
   fi
   if [[ "${lFILE_BIN_OUT}" == *"shell script,"* ]]; then
     print_output "[+] Identified shell script - performing shell checks"
-    export DISABLE_DEEP=1
-    if ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.sh" ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]]; then
+      export DISABLE_DEEP=1
+    fi
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.sh" ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.sh" || print_error "[-] Shell script file copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.sh" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
     fi
   fi
   if [[ "${lFILE_BIN_OUT}" == *"Android package (APK),"* ]]; then
     print_output "[+] Identified Android APK package - performing APK checks"
-    if ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.apk" ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.apk" ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.apk" || print_error "[-] APK file copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.apk" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
       export DISABLE_DEEP=1
@@ -399,7 +425,7 @@ fw_bin_detector() {
     # e.g.: D-Link/dtlwe_r602b_04b0_4706_v1.0.0.1_190801_release_01.04.eu_.exe
     # export DISABLE_DEEP=1
     export WINDOWS_EXE=1
-    if ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.exe" ]]; then
+    if [[ "${lCOPY_INPUT}" -eq 1 ]] && ! [[ -f "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.exe" ]]; then
       cp "${lCHECK_FILE}" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.exe" || print_error "[-] Windows executable copy process failed"
       write_csv_log_to_path "${P99_CSV_LOG}" "P02_firmware_bin_file_check" "${LOG_DIR}/firmware/${lCHECK_FILE_NAME}.exe" "NA" "NA" "NA" "NA" "NA" "${lFILE_BIN_OUT}" "${MD5_CHECKSUM}"
     fi
@@ -420,6 +446,24 @@ fw_bin_detector() {
     export ANDROID_OTA=1
     lUEFI_CHECK=0
     write_csv_log "Android OTA update" "yes" "NA"
+  fi
+  if [[ "$(od -An -tx1 -N4 "${lCHECK_FILE}" | tr -d ' \n')" == "3aff26ed" ]]; then
+    print_output "[+] Identified Android sparse image - using Android image extraction module"
+    export ANDROID_SPARSE=1
+    lUEFI_CHECK=0
+    write_csv_log "Android sparse image" "yes" "NA"
+  elif [[ "$(od -An -tx1 -j4096 -N4 "${lCHECK_FILE}" 2>/dev/null | tr -d ' \n' || true)" == "67446c61" ]] || \
+      [[ "$(od -An -tx1 -j8192 -N4 "${lCHECK_FILE}" 2>/dev/null | tr -d ' \n' || true)" == "67446c61" ]]; then
+    print_output "[+] Identified Android super image - using Android image extraction module"
+    export ANDROID_SUPER=1
+    lUEFI_CHECK=0
+    write_csv_log "Android super image" "yes" "NA"
+  fi
+  if [[ "${lFILE_BIN_OUT}" == *"data"* && ("${lHEX_FIRST_LINE}" == *"RKAF"* || "${lHEX_FIRST_LINE}" == *"RKFW"* || "${lHEX_FIRST_LINE}" == *"RKFP"*) ]]; then
+    print_output "[+] Identified Rockchip Android firmware image - using Rockchip extraction module"
+    export ROCKCHIP_DETECTED=1
+    lUEFI_CHECK=0
+    write_csv_log "Rockchip firmware" "yes" "NA"
   fi
   if [[ "${lFILE_BIN_OUT}" == *"openssl enc'd data with salted password"* ]]; then
     print_output "[+] Identified OpenSSL encrypted file - trying OpenSSL module for Foscam firmware"
@@ -476,9 +520,13 @@ backup_p02_vars() {
   backup_var "QNAP_ENC_DETECTED" "${QNAP_ENC_DETECTED}"
   backup_var "GPG_COMPRESS" "${GPG_COMPRESS}"
   backup_var "ANDROID_OTA" "${ANDROID_OTA}"
+  backup_var "ANDROID_SPARSE" "${ANDROID_SPARSE}"
+  backup_var "ANDROID_SUPER" "${ANDROID_SUPER}"
   backup_var "OPENSSL_ENC_DETECTED" "${OPENSSL_ENC_DETECTED}"
   backup_var "SREC_DETECTED" "${SREC_DETECTED}"
   backup_var "BUFFALO_ENC_DETECTED" "${BUFFALO_ENC_DETECTED}"
   backup_var "ZYXEL_ZIP" "${ZYXEL_ZIP}"
   backup_var "QCOW_DETECTED" "${QCOW_DETECTED}"
+  backup_var "YAFFS1_DETECTED" "${YAFFS1_DETECTED}"
+  backup_var "ROCKCHIP_DETECTED" "${ROCKCHIP_DETECTED}"
 }

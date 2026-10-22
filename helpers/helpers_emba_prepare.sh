@@ -564,7 +564,7 @@ prepare_file_arr_limited() {
   #  -o -iname "*.js" -o -iname "*.info" -o -iname "*.md" -o -iname "*.log" -o -iname "*.yml" -o -iname "*.bmp" -o -path "*/\.git/*" \) \
   #  -exec md5sum {} \; | sort -u -k1,1 | cut -d\  -f3-)
 
-  readarray -t FILE_ARR_LIMITED < <(cut -d ';' -f2 "${P99_CSV_LOG}" | grep -v "\.udeb$\|\.deb$\|\.ipk$\|\.pdf$\\|\.php$\|\.txt$\|\.doc$\|\.rtf$\|\.docx\|\.htm$\|\.md5$\|\..sha1$\|\.torrent$\|\.png$\|\.svg$\|\.js$\|\.info$\|\.md$\|\.log$\|\.yml$\|\.bmp$\|\.git\/" | sort -u || true)
+  readarray -t FILE_ARR_LIMITED < <(cut -d ';' -f2 "${P99_CSV_LOG}" | grep -Eiv '\.(udeb|deb|ipk|pdf|php|txt|doc|rtf|docx|html?|md5|sha1|torrent|png|svg|js|info|md|log|yml|bmp)$|(^|/)\.git/' | sort -u || true)
 
 }
 
