@@ -521,6 +521,10 @@ dependency_check()
   # Python virtual environment in external directory
   check_dep_file "Python virtual environment" "${EXT_DIR}""/emba_venv/bin/activate"
 
+  if [[ "${IN_DOCKER}" -eq 1 || "${USE_DOCKER}" -eq 0 ]]; then
+    check_dep_tool_warning "Blint Android APK SBOM generator" "blint"
+  fi
+
   if ! [[ -f "${CONFIG_DIR}"/gh_action ]]; then
     check_dep_file "NVD CVE database in JSON format" "${EXT_DIR}/nvd-json-data-feeds/README.md"
   fi

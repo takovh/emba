@@ -93,9 +93,9 @@ F阶段: 报告生成
        判定：zip 魔数（PK\x03\x04）且 unzip -l 中存在 AndroidManifest.xml
        （两类归档同名 .apk，若不甄别会与原生子模块互相干扰/误报）
 
-3. 逐个执行 Blint（受 BLINT_ENABLE 控制；失败降级不阻塞）
-   blint sbom -i <apk> -o ${SBOM_LOG_PATH}/blint/<apk>.cdx.json --no-banner [--deep]
-   ├── 加超时保护（单 APK 级超时，可配置）
+3. 逐个执行 Blint（默认开启；失败降级不阻塞）
+   blint --no-banner sbom -i <apk> -o ${SBOM_LOG_PATH}/blint/<apk>.cdx.json
+   ├── 加超时保护（单 APK 级超时，固定 600 秒）
    └── 断言输出文件存在（Blint 对不存在的输入退出码为 0 且不产出文件）
 
 4. 解析输出（jq）
@@ -119,7 +119,6 @@ S08_submodule_android_apk_sbom() {
   module_title "Android APK SBOM generator (blint)"
 
   local lNEG_LOG=0
-  [[ "${BLINT_ENABLE:-0}" == "1" ]] || { module_end_log "${FUNCNAME[0]}" "$lNEG_LOG"; return 0; }
   command -v blint >/dev/null 2>&1 || { print_output "[-] blint not available" "no"; module_end_log "${FUNCNAME[0]}" "$lNEG_LOG"; return 0; }
 
   local lAPK_OUT_DIR="${SBOM_LOG_PATH}/blint"
@@ -129,8 +128,7 @@ S08_submodule_android_apk_sbom() {
     is_android_apk "${lAPK}" || continue          # 排除 Alpine .apk
     local lOUT="${lAPK_OUT_DIR}/$(basename "${lAPK}").cdx.json"
 
-    timeout "${BLINT_TIMEOUT:-600}" blint sbom -i "${lAPK}" -o "${lOUT}" --no-banner \
-      ${BLINT_DEEP:+--deep} || true
+    timeout 600s blint --no-banner sbom -i "${lAPK}" -o "${lOUT}" || true
     [[ -s "${lOUT}" ]] || continue                # Blint 可能退出 0 但无产物
 
     # 解析并写入 EMBA SBOM（APK 根组件 + 子组件 + services）
@@ -153,7 +151,7 @@ S08_submodule_android_apk_sbom() {
 | `components[].purl = pkg:android/classes`（dex）            | DEX 容器组件                                  | 0.2       | 低置信度；默认仅作为 APK 子节点保留，不作为漏洞匹配的叶子依据                                                 |
 | `components[].purl = pkg:maven/<g>/<a>@<v>`                 | Java 归档组件                                 | 1.0 / 0.2 | 来自 APK 内`*.version` 文件；`group` 缺失或版本为 `latest` 时降至 0.2                                   |
 | `components[].purl = pkg:file/<soname>`                     | 归一化为`pkg:generic/<soname>`              | 0.5       | `pkg:file` 非注册 purl 类型；原值保留于 `gst:blint:raw_purl`                                              |
-| `services[]`（SDK/追踪器，仅 `--deep`）                   | 组件属性`gst:blint:service=<name>` 或子组件 | —        | 默认关闭 deep 时不产出；开启后补充                                                                            |
+| `services[]`（SDK/追踪器）                   | 组件属性`gst:blint:service=<name>` 或子组件 | —        | 仅保留实际输出的服务信息；本模块不启用 deep                                                                            |
 | `evidence.identity.methods[].technique`                     | 属性`gst:blint:technique=binary-analysis`   | —        | 保留识别技术供审计                                                                                            |
 | `metadata.tools.components[]`（blint 及版本）               | 合并进最终`metadata.tools`                  | —        | 满足 PRE-7-RQ-06 编制者/工具可追溯                                                                            |
 
@@ -161,7 +159,7 @@ S08_submodule_android_apk_sbom() {
 
 | 选项                         | 默认 | 取舍                                                                                                                  |
 | ---------------------------- | ---- | --------------------------------------------------------------------------------------------------------------------- |
-| `--deep`（`BLINT_DEEP`） | 关   | 解析 DEX 类/方法/字符串 → 产出`services[]`（SDK/追踪器）与行为分析；代价是大 APK 显著耗时、产生 callgraph 边车文件 |
+| `--deep` | 固定关闭 | 不提供启用配置，以控制 DEX 深度分析的耗时和附加产物 |
 | `--use-blintdb`            | 关   | 需下载符号数据库镜像（`blint db --download`），可提升 native 组件版本识别率；作为部署期可选项                       |
 | 单 APK 超时                  | 600s | 超时/失败仅记 warning，该 APK 回落为APK 根组件，不阻塞整体扫描                                                        |
 
@@ -191,7 +189,7 @@ Android 组件信息存在多个来源，按优先级合并：
 | 无 license 检测                                     | 许可证字段缺失              | 许可证由`F14`、源码侧 SBOM、人工补录提供                           |
 | 输入无效时退出码 0 且不产出文件                     | 任务可能假成功              | 子模块断言输出文件存在；平台侧再校验主 SBOM 存在性                   |
 | 无签名证书/导出组件/debuggable 等 Manifest 加固分析 | 不覆盖 APK 安全测试项       | 属安全测试范畴（MobSF/MASTG），不在本模块范围                        |
-| `--deep` 关闭时无 `services[]`                  | SDK/追踪器缺失              | 可配置开启；按 APK 数量与耗时权衡                                    |
+| `--deep` 固定关闭                  | 深度分析才能识别的 SDK/追踪器可能缺失              | 结合源码侧 SBOM 或其他分析结果补充                                    |
 | native so 版本仅来自 ELF notes 或 blintdb           | 版本可能为空                | 版本置空 +`confidence=0.5`，与 S09 结果交叉补充                    |
 
 ### 2.2. RTOS 固件扫描设计
@@ -263,7 +261,7 @@ RTOS 固件（FreeRTOS、RT-Thread、Zephyr、NuttX 等）与 Linux 固件的根
 | APK 组件识别工具   | **Blint**（OWASP dep-scan，MIT），经自定义 S08 子模块在 **EMBA 内**执行，与原生子模块同构写入 SBOM |
 | Android 权威包清单 | 保留`packages.xml`/`build.prop` 解析子模块，与 Blint 结果按优先级合并（6.5）                               |
 | `.apk` 二义性    | 必须以 zip 魔数 +`AndroidManifest.xml` 甄别 Android APK 与 Alpine `.apk`，避免与原生子模块冲突             |
-| 深度模式           | `--deep` 默认关闭（`BLINT_DEEP=0`），按固件类型/性能配置开启                                               |
+| 深度模式           | 固定关闭，不传递 `--deep`，不提供启用配置                                               |
 | Blint 失败策略     | 降级不阻塞：单 APK 失败仅告警，整体扫描继续；结果标记部分识别                                                  |
 | 并发模型           | EMBA 全局串行（`maxConcurrent=1`），日志目录按任务隔离                                                       |
 | 成功判定           | 退出码 + 主 SBOM 存在 + schema 校验 三者同时满足，规避退出码 0 无产物                                          |
@@ -282,6 +280,6 @@ RTOS 固件（FreeRTOS、RT-Thread、Zephyr、NuttX 等）与 Linux 固件的根
 | 无 license 识别             | PRE-7 许可证字段缺口                | `F14` + 源码侧 SBOM + 人工补录                                |
 | RTOS 符号剥离               | 无法精确识别版本                    | 依赖字符串特征与签名库；标注版本精度等级                        |
 | RTOS/SDK 签名库覆盖不足     | 组件漏报                            | 通用签名模式 + 按需扩展，`unknown` 占位                       |
-| 扫描耗时（大固件/多 APK）   | 任务排队时间长                      | profile 裁剪（`SBOM_MINIMAL`）、`BLINT_DEEP` 可控、超时兜底 |
+| 扫描耗时（大固件/多 APK）   | 任务排队时间长                      | profile 裁剪（`SBOM_MINIMAL`）、固定关闭 deep、超时兜底 |
 | 磁盘占用                    | 解包文件系统 + Blint 中间产物占空间 | 任务成功后清理策略、日志目录容量规划                            |
 | 版本精度限制                | 部分组件只能识别大版本              | SBOM 属性中标注置信度与版本精度，供人工复核                     |

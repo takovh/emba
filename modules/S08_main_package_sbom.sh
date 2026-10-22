@@ -78,14 +78,18 @@ build_dependency_tree() {
   local lSBOM_COMP=""
 
   local lWAIT_PIDS_S08_DEP_ARR=()
+  local lTMP_PID=""
 
   mapfile -t lSBOM_COMPONENT_FILES_ARR < <(find "${SBOM_LOG_PATH}" -maxdepth 1 -type f -name "*.json")
 
   for lSBOM_COMP in "${lSBOM_COMPONENT_FILES_ARR[@]}"; do
     [[ ! -f "${lSBOM_COMP}" ]] && continue
+    # Blint dependencies already use exact references; do not replace them by name matching.
+    [[ "${lSBOM_COMP##*/}" == android_apk_* ]] && continue
     # to speed up the dep tree we are working threaded for every componentfile and write into dedicated json files
     # "${SBOM_LOG_PATH}/SBOM_deps/SBOM_dependency_${lSBOM_COMP_REF}".json which we can put together in f15
     create_comp_dep_tree_threader "${lSBOM_COMP}" &
+    lTMP_PID="$!"
     lWAIT_PIDS_S08_DEP_ARR+=( "${lTMP_PID}" )
     max_pids_protection "${MAX_MOD_THREADS}" lWAIT_PIDS_S08_DEP_ARR
   done

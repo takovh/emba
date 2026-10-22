@@ -27,10 +27,8 @@ P60_deep_extractor() {
   # dirty solution to know if have not run the extractor and we just re-created the P99 log
   export NO_EXTRACTED=0
 
-  # If we have not found a linux filesystem we try to do an extraction round on every file multiple times
-  # If we already know it is a linux (RTOS -> 0) or it is UEFI (UEFI_VERIFIED -> 1) we do not need to run
-  # the deep extractor
-  if [[ "${RTOS:-1}" -eq 0 ]] || [[ "${UEFI_VERIFIED:-0}" -eq 1 ]] || [[ "${DJI_DETECTED:-0}" -eq 1 ]] || [[ "${DISABLE_DEEP:-0}" -eq 1 ]]; then
+  # Root detection does not determine whether nested firmware still needs extraction.
+  if [[ "${UEFI_VERIFIED:-0}" -eq 1 ]] || [[ "${DJI_DETECTED:-0}" -eq 1 ]] || [[ "${DISABLE_DEEP:-0}" -eq 1 ]]; then
     module_end_log "${FUNCNAME[0]}" 0
     return
   fi
@@ -130,14 +128,10 @@ deep_extractor() {
     done
     wait_for_pid "${lWAIT_PIDS_P60_ARR[@]}"
     detect_root_dir_helper "${LOG_DIR}/firmware"
-    if [[ ${RTOS} -eq 0 ]]; then
-      export NO_EXTRACTED=1
-      return
-    fi
   fi
 
   # if we run into the deep extraction mode we always do at least one extraction round:
-  if [[ ${RTOS} -eq 1 && "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 0 ]]; then
+  if [[ "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 0 ]]; then
     print_output "[*] Deep extraction - ${ORANGE}1st${NC} round"
     print_output "[*] Walking through all files and try to extract what ever possible"
 
@@ -145,7 +139,7 @@ deep_extractor() {
     detect_root_dir_helper "${FIRMWARE_PATH_CP}"
   fi
 
-  if [[ ${RTOS} -eq 1 && "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 1 ]]; then
+  if [[ "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 1 ]]; then
     print_output "[*] Deep extraction - ${ORANGE}2nd${NC} round"
     print_output "[*] Walking through all files and try to extract what ever possible"
 
@@ -153,7 +147,7 @@ deep_extractor() {
     detect_root_dir_helper "${FIRMWARE_PATH_CP}"
   fi
 
-  if [[ ${RTOS} -eq 1 && "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 2 ]]; then
+  if [[ "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 2 ]]; then
     print_output "[*] Deep extraction - ${ORANGE}3rd${NC} round"
     print_output "[*] Walking through all files and try to extract what ever possible"
 
@@ -161,7 +155,7 @@ deep_extractor() {
     detect_root_dir_helper "${FIRMWARE_PATH_CP}"
   fi
 
-  if [[ ${RTOS} -eq 1 && "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 3 ]]; then
+  if [[ "${DISK_SPACE_CRIT}" -eq 0 && "${DEEP_EXT_DEPTH:-4}" -gt 3 ]]; then
     print_output "[*] Deep extraction - ${ORANGE}4th${NC} round"
     print_output "[*] Walking through all files and try to extract what ever possible with unblob mode"
     print_output "[*] WARNING: This is the last extraction round that is executed."
@@ -176,6 +170,7 @@ deeper_extractor_helper() {
   local lFILE_MD5=""
   local lFILE_DETAILS=""
   local lBIN_PID=""
+  local lLOG_FILES_ARR=()
 
   prepare_file_arr_limited "${FIRMWARE_PATH_CP}"
   print_output "[*] Deep extraction starting ..."
@@ -183,6 +178,7 @@ deeper_extractor_helper() {
     lFILE_MD5="$(md5sum "${lFILE_TMP}")"
     [[ "${MD5_DONE_DEEP[*]}" == *"${lFILE_MD5/\ *}"* ]] && continue
     MD5_DONE_DEEP+=( "${lFILE_MD5/\ *}" )
+    lLOG_FILES_ARR+=( "${LOG_PATH_MODULE}/tmp_out_${lFILE_MD5/\ *}" )
     deeper_extractor_threader "${lFILE_TMP}" "${lFILE_MD5/\ *}" &
     lBIN_PID="$!"
     lWAIT_PIDS_P60_init+=( "${lBIN_PID}" )
@@ -190,7 +186,9 @@ deeper_extractor_helper() {
   done
   wait_for_pid "${lWAIT_PIDS_P60_init[@]}"
 
-  cat "${LOG_PATH_MODULE}/tmp_out_"* >> "${LOG_FILE}" 2>/dev/null || true
+  if [[ "${#lLOG_FILES_ARR[@]}" -gt 0 ]]; then
+    cat "${lLOG_FILES_ARR[@]}" >> "${LOG_FILE}" 2>/dev/null || true
+  fi
 }
 
 deeper_extractor_threader() {
@@ -213,8 +211,8 @@ deeper_extractor_threader() {
   print_output "$(indent "$(orange "$(md5sum "${lFILE_TMP}")")")"
 
   # do a quick check if EMBA should handle the file or we give it to the default extractor (binwalk or unblob):
-  # fw_bin_detector is a function from p02
-  fw_bin_detector "${lFILE_TMP}"
+  # Only identify the nested file; P02 input staging would duplicate it in the firmware root.
+  fw_bin_detector "${lFILE_TMP}" 0
 
   if [[ "${VMDK_DETECTED}" -eq 1 ]]; then
     vmdk_extractor "${lFILE_TMP}" "${lFILE_TMP}_vmdk_extracted"
@@ -237,6 +235,10 @@ deeper_extractor_threader() {
     ufs_extractor "${lFILE_TMP}" "${lFILE_TMP}_bsd_ufs_extracted"
   elif [[ "${ANDROID_OTA}" -ne 0 ]]; then
     android_ota_extractor "${lFILE_TMP}" "${lFILE_TMP}_android_ota_extracted"
+  elif [[ "${ANDROID_SPARSE:-0}" -ne 0 ]]; then
+    android_image_extractor "${lFILE_TMP}" "${lFILE_TMP}_android_image_extracted" "sparse"
+  elif [[ "${ANDROID_SUPER:-0}" -ne 0 ]]; then
+    android_image_extractor "${lFILE_TMP}" "${lFILE_TMP}_android_image_extracted" "super"
   elif [[ "${OPENSSL_ENC_DETECTED}" -ne 0 ]]; then
     foscam_enc_extractor "${lFILE_TMP}" "${lFILE_TMP}_foscam_enc_extracted"
   elif [[ "${BUFFALO_ENC_DETECTED}" -ne 0 ]]; then

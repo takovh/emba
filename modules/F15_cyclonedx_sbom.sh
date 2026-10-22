@@ -85,6 +85,17 @@ F15_cyclonedx_sbom() {
     lTOOL_COMP_ARR+=( version="${lSBOM_TOOL_VERS}" )
     lTOOL_COMP_ARR+=( description="EMBA firmware analyzer - ${lEMBA_URLS_ARR[*]}" )
 
+    local lTOOLS_JSON=""
+    local lTOOL_FILE=""
+    local lTOOL_FILES_ARR=()
+    lTOOLS_JSON=$(jo -a "$(jo -n "${lTOOL_COMP_ARR[@]}")")
+    if [[ -d "${SBOM_LOG_PATH}/SBOM_tools" ]]; then
+      mapfile -t lTOOL_FILES_ARR < <(find "${SBOM_LOG_PATH}/SBOM_tools" -maxdepth 1 -type f -name '*.json' | sort)
+      for lTOOL_FILE in "${lTOOL_FILES_ARR[@]}"; do
+        lTOOLS_JSON=$(jq -c --slurpfile tool "${lTOOL_FILE}" '. + $tool | unique_by([.name, .version])' <<< "${lTOOLS_JSON}")
+      done
+    fi
+
     # the following removes the duplicate untracked files that are handled from an other SBOM entry
     if [[ -s "${SBOM_LOG_PATH}"/duplicates_to_delete.txt ]]; then
       local lDUP_DEL=""
@@ -178,7 +189,7 @@ F15_cyclonedx_sbom() {
       metadata="$(jo \
         timestamp="${lSBOM_TIMESTAMP}" \
         tools="$(jo \
-          components="$(jo -a "$(jo -n "${lTOOL_COMP_ARR[@]}")")")" \
+          components="${lTOOLS_JSON}")" \
         component="$(jo -n \
           "${lFW_COMPONENT_DATA_ARR[@]}")" \
         supplier="$(jo -n \

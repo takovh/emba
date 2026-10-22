@@ -126,33 +126,50 @@ rpm_extractor() {
 }
 
 apk_extractor() {
-  sub_module_title "Android APK archive extraction mode"
+  sub_module_title "Alpine Linux APK archive extraction mode"
 
   local lAPK_ARCHIVES_ARR=()
   local lAPK_NAME=""
   local lFILES_AFTER_APK=0
   local lR_PATH=""
   local lAPK=""
+  local lAPK_METADATA=""
 
-  print_output "[*] Identify apk archives and extracting it to the root directories ..."
+  print_output "[*] Identify Alpine Linux APK archives and extract them to the root directories ..."
   mapfile -t lAPK_ARCHIVES_ARR < <(find "${FIRMWARE_PATH_CP}" -xdev -type f -name "*.apk" -exec md5sum {} \; 2>/dev/null | sort -u -k1,1 | cut -d\  -f3)
 
-  if [[ "${#lAPK_ARCHIVES_ARR[@]}" -gt 0 ]]; then
-    print_output "[*] Found ${ORANGE}${#lAPK_ARCHIVES_ARR[@]}${NC} APK archives - extracting them to the root directories ..."
+  for lAPK in "${lAPK_ARCHIVES_ARR[@]}"; do
+    lAPK_NAME=$(basename "${lAPK}")
+    # Alpine v2 packages contain concatenated gzip/tar streams; Android APKs are ZIP archives.
+    # Read across tar end markers to reach metadata and payload in signed packages.
+    if [[ "$(file -b "${lAPK}")" != *"gzip compressed data"* ]]; then
+      print_output "[-] Skipping ${ORANGE}${lAPK_NAME}${NC}: not an Alpine Linux v2 APK archive."
+      continue
+    fi
+    if ! lAPK_METADATA=$(tar --ignore-zeros -xzOf "${lAPK}" .PKGINFO 2>/dev/null); then
+      if ! lAPK_METADATA=$(tar --ignore-zeros -xzOf "${lAPK}" ./.PKGINFO 2>/dev/null); then
+        print_output "[-] Skipping ${ORANGE}${lAPK_NAME}${NC}: missing or unreadable Alpine .PKGINFO."
+        continue
+      fi
+    fi
+    if ! grep -E '^pkgname = .+' <<< "${lAPK_METADATA}" > /dev/null || ! grep -E '^pkgver = .+' <<< "${lAPK_METADATA}" > /dev/null; then
+      print_output "[-] Skipping ${ORANGE}${lAPK_NAME}${NC}: invalid Alpine .PKGINFO."
+      continue
+    fi
     for lR_PATH in "${ROOT_PATH[@]}"; do
-      for lAPK in "${lAPK_ARCHIVES_ARR[@]}"; do
-        lAPK_NAME=$(basename "${lAPK}")
-        print_output "[*] Extracting ${ORANGE}${lAPK_NAME}${NC} package to the root directory ${ORANGE}${lR_PATH}${NC}."
-        unzip -o -d "${lR_PATH}" "${lAPK}" || true
-      done
+      print_output "[*] Extracting ${ORANGE}${lAPK_NAME}${NC} package to the root directory ${ORANGE}${lR_PATH}${NC}."
+      # Only unpack the payload; package metadata and installation scripts do not belong in the root filesystem.
+      if ! tar --ignore-zeros -xzf "${lAPK}" --directory "${lR_PATH}" \
+          --exclude='.PKGINFO' --exclude='.SIGN.*' --exclude='.INSTALL' \
+          --exclude='.pre-*' --exclude='.post-*' --exclude='.trigger'; then
+        print_output "[-] Extraction of Alpine Linux APK package ${ORANGE}${lAPK_NAME}${NC} failed."
+      fi
     done
+  done
 
-    lFILES_AFTER_APK=$(find "${FIRMWARE_PATH_CP}" -xdev -type f | wc -l )
-    print_ln "no_log"
-    print_output "[*] Before apk extraction we had ${ORANGE}${FILES_PRE_PACKAGE}${NC} files, after deep extraction we have ${ORANGE}${lFILES_AFTER_APK}${NC} files extracted."
-  else
-    print_output "[-] No apk packages extracted."
-  fi
+  lFILES_AFTER_APK=$(find "${FIRMWARE_PATH_CP}" -xdev -type f | wc -l)
+  print_ln "no_log"
+  print_output "[*] Before package extraction we had ${ORANGE}${FILES_PRE_PACKAGE}${NC} files, after Alpine APK extraction we have ${ORANGE}${lFILES_AFTER_APK}${NC} files."
 }
 
 ipk_extractor() {
