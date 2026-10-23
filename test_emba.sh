@@ -2,7 +2,7 @@
 main() {
   local firmware_base_path="/home/tako/workspace/firmware_all"
   # local firmware="${firmware_base_path}/camera.zip"
-  local firmware="${firmware_base_path}/android_system.img"
+  local firmware="${firmware_base_path}/system.img"
   # local firmware="${firmware_base_path}/pinetime-mcuboot-app-image-1.16.1.bin"
   # local firmware="${firmware_base_path}/update_smdt.zip"
   # local firmware="${firmware_base_path}/miui_COROT_V14.0.14.0.TMLCNXM_0c4fddade3_13.0.zip"
@@ -16,9 +16,7 @@ main() {
   echo "固件："${firmware}
   echo "输出目录："${output_dir}
   cd ${emba_path}
-  # sudo ${emba_path}/emba -V
-  # sudo ${emba_path}/emba -f ${firmware} -l ${output_dir} -m p -D
-  sudo ${emba_path}/emba -D -f ${firmware} -l ${output_dir} -p ${profile_path}
+  sudo ${emba_path}/emba -f ${firmware} -l ${output_dir} -p ${profile_path}
 }
 
 main "$@"

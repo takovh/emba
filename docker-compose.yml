@@ -1,7 +1,7 @@
 services:
   # nosemgrep
   emba:
-    image: embeddedanalyzer/emba:2.0.4a
+    image: ghcr.io/takovh/emba:v2.0.4
     container_name: emba
     read_only: false
     # all pre-checker mount modules need privileged mode
@@ -56,7 +56,7 @@ services:
         soft: 0
 
   emba_quest:
-    image: embeddedanalyzer/emba:2.0.4a
+    image: ghcr.io/takovh/emba:v2.0.4
     container_name: emba_quest
     read_only: true
     tmpfs:
