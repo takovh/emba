@@ -166,7 +166,7 @@ check_git_hash() {
 check_docker_image() {
   local lREMOTE_DOCKER_HASH="${1:-}"
   local lLOCAL_DOCKER_HASH=""
-  lLOCAL_DOCKER_HASH="$(docker inspect --format='{{.RepoDigests}}' embeddedanalyzer/emba:latest | tr -d ']' || true)"
+  lLOCAL_DOCKER_HASH="$(docker inspect --format='{{.RepoDigests}}' ghcr.io/takovh/emba:latest | tr -d ']' || true)"
   lLOCAL_DOCKER_HASH=${lLOCAL_DOCKER_HASH/*:/}
 
   if [[ "${lLOCAL_DOCKER_HASH}" == "${lREMOTE_DOCKER_HASH}" ]]; then
@@ -538,7 +538,7 @@ dependency_check() {
   if [[ "${DEP_ERROR}" -gt 0 ]] || [[ "${DEP_EXIT}" -gt 0 ]]; then
     print_output "\\n""${ORANGE}""Some dependencies are missing - please check your installation\\n" "no_log"
     if [[ "${IN_DOCKER}" -eq 1 ]]; then
-      print_output "${ORANGE}""Looks like your docker container is outdated - please update your base image: ""${NC}""sudo docker pull embeddedanalyzer/emba""${ORANGE}""'." "no_log"
+      print_output "${ORANGE}""Looks like your docker container is outdated - please update your base image: ""${NC}""sudo docker pull ghcr.io/takovh/emba""${ORANGE}""'." "no_log"
     else
       print_output "${ORANGE}""To install all needed dependencies, run '""${NC}""sudo ./installer.sh""${ORANGE}""'." "no_log"
       print_output "${ORANGE}""Learn more about the installation on the EMBA wiki: ""${NC}""https://github.com/e-m-b-a/emba/wiki/installation\\n" "no_log"

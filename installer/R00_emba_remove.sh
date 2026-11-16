@@ -61,7 +61,7 @@ R00_emba_remove() {
   apt-get update
   systemctl daemon-reload
   echo -e "\\n""${ORANGE}""Removing EMBA docker image""${NC}"
-  docker image rm embeddedanalyzer/emba -f
+  docker image rm ghcr.io/takovh/emba -f
   if [[ -d ./external ]]; then
     echo -e "\\n""${ORANGE}""Removing external directory""${NC}"
     rm -r ./external
