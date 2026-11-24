@@ -69,21 +69,17 @@ F15_cyclonedx_sbom() {
       lFW_TYPE="data"
     fi
 
-    # EMBA details for the SBOM
-    local lSBOM_TOOL="EMBA binary analysis environment"
+    # Analyzer details for the SBOM
     local lSBOM_TOOL_VERS=""
     lSBOM_TOOL_VERS="$(cat "${CONFIG_DIR}"/VERSION.txt)"
-    local lEMBA_URLS_ARR=("https://github.com/e-m-b-a/emba")
+    local lGST_URL="http://www.polaris-labs.com"
 
     local lTOOL_COMP_ARR=()
     lTOOL_COMP_ARR+=(type="application")
-    lTOOL_COMP_ARR+=(author="EMBA community")
-    lTOOL_COMP_ARR+=(name="${lSBOM_TOOL}")
-    if [[ -f "${INVOCATION_PATH}"/.git/refs/heads/master ]]; then
-      lSBOM_TOOL_VERS+="-$(cat "${INVOCATION_PATH}"/.git/refs/heads/master)"
-    fi
+    lTOOL_COMP_ARR+=(author="GST")
+    lTOOL_COMP_ARR+=(name="GST binary analysis environment")
     lTOOL_COMP_ARR+=(version="${lSBOM_TOOL_VERS}")
-    lTOOL_COMP_ARR+=(description="EMBA firmware analyzer - ${lEMBA_URLS_ARR[*]}")
+    lTOOL_COMP_ARR+=(description="GST firmware analyzer - ${lGST_URL}")
 
     local lTOOLS_JSON=""
     local lTOOL_FILE=""
@@ -193,7 +189,7 @@ F15_cyclonedx_sbom() {
         component="$(jo -n \
           "${lFW_COMPONENT_DATA_ARR[@]}")" \
         supplier="$(jo -n \
-          name="${FW_VENDOR:-EMBA binary analyzer}" url="$(jo -a "${lEMBA_URLS_ARR[@]}")")" \
+          name="GST binary analyzer" url="$(jo -a "${lGST_URL}")")" \
         lifecycles="$(jo -a \
           "$(jo phase="${SBOM_LIFECYCLE_PHASE}")")")" \
       components=:"${lSBOM_LOG_FILE}_components.json" \

@@ -51,10 +51,10 @@ build_sbom_json_properties_arr() {
     fi
 
     # default value
-    lINIT_ELEMENT="EMBA:sbom"
+    lINIT_ELEMENT="GST:sbom"
     # dedicated rules -> path -> location
-    [[ "${lPROPERTIES_ELEMENT_1}" == "path" ]] && lINIT_ELEMENT="EMBA:sbom:location"
-    [[ "${lPROPERTIES_ELEMENT_1}" == "source_path" ]] && lINIT_ELEMENT="EMBA:sbom:source_location"
+    [[ "${lPROPERTIES_ELEMENT_1}" == "path" ]] && lINIT_ELEMENT="GST:sbom:location"
+    [[ "${lPROPERTIES_ELEMENT_1}" == "source_path" ]] && lINIT_ELEMENT="GST:sbom:source_location"
 
     local lPROPERTIES_ARRAY_TMP=()
     lPROPERTIES_ARRAY_TMP+=("-s" "name=${lINIT_ELEMENT}:$((lPROPERTIES_ELEMENT_ID + 1)):${lPROPERTIES_ELEMENT_1}")
@@ -154,7 +154,7 @@ build_sbom_json_hashes_arr() {
         # write_log "[*] Duplicate detected - merge needed for ${lAPP_NAME}-${lAPP_VERS} / ${lDUP_CHECK_FILE}" "${SBOM_LOG_PATH}"/duplicates.txt
         write_log "[*] Duplicate detected - merging ${lAPP_NAME} - ${lAPP_VERS} / ${lDUP_CHECK_VERS}" "${SBOM_LOG_PATH}"/duplicates.txt
         lJQ_ELEMENTS=$(jq '.properties | length' "${lDUP_CHECK_FILE}")
-        jq '.properties[.properties| length] |= . + { "name": "EMBA:sbom:source_location:'"$((lJQ_ELEMENTS + 1))"':additional_source_path", "value": "'"${lBINARY}"'" }' "${lDUP_CHECK_FILE}" >"${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp"
+        jq '.properties[.properties| length] |= . + { "name": "GST:sbom:source_location:'"$((lJQ_ELEMENTS + 1))"':additional_source_path", "value": "'"${lBINARY}"'" }' "${lDUP_CHECK_FILE}" >"${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp"
         if ! [[ -f "${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp" ]]; then
           continue
         fi
@@ -163,7 +163,7 @@ build_sbom_json_hashes_arr() {
         # on the 2nd case we also add this different version to the properties
         if [[ "${lAPP_VERS}" != "${lDUP_CHECK_VERS}" ]]; then
           write_log "[*] Version difference detected - merging ${lAPP_NAME} - ${lAPP_VERS} / ${lDUP_CHECK_VERS}" "${SBOM_LOG_PATH}"/duplicates.txt
-          jq '.properties[.properties| length] |= . + { "name": "EMBA:sbom:version:'"$((lJQ_ELEMENTS + 2))"':additional_version_identified", "value": "'"${lAPP_VERS}"'" }' "${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp" >"${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp1"
+          jq '.properties[.properties| length] |= . + { "name": "GST:sbom:version:'"$((lJQ_ELEMENTS + 2))"':additional_version_identified", "value": "'"${lAPP_VERS}"'" }' "${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp" >"${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp1"
           mv "${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp1" "${lDUP_CHECK_FILE/\.json/}_${lDUP_RAND_ID}.tmp" 2>/dev/null || true
         fi
 
@@ -246,7 +246,7 @@ build_sbom_json_component_arr() {
     lPURL_IDENTIFIER=""
   fi
 
-  local lAPP_DESC_NEW="EMBA SBOM-group: ${lPACKAGING_SYSTEM} - name: ${lAPP_NAME}"
+  local lAPP_DESC_NEW="GST SBOM-group: ${lPACKAGING_SYSTEM} - name: ${lAPP_NAME}"
   if [[ -n "${lAPP_VERS}" ]] && [[ "${lAPP_VERS}" != "NA" ]]; then
     lAPP_DESC_NEW+=" - version: ${lAPP_VERS}"
   fi

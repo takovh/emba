@@ -116,7 +116,7 @@ android_apk_add_source() {
   local lFILE=""
   while IFS= read -r lFILE; do
     [[ -f "${lFILE}" ]] || continue
-    jq --arg path "${lAPK}" '.properties += [{name: "EMBA:sbom:source_location:additional_source_path", value: $path}] |
+    jq --arg path "${lAPK}" '.properties += [{name: "GST:sbom:source_location:additional_source_path", value: $path}] |
       .properties |= unique_by([.name, .value])' "${lFILE}" > "${lFILE}.tmp"
     mv -- "${lFILE}.tmp" "${lFILE}"
   done < "${lRUN_DIR}/component_files.txt"
